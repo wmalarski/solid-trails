@@ -3,6 +3,7 @@ import { css } from "~/styled-system/css";
 import { Link } from "~/ui/link";
 import { useI18n } from "~/utils/i18n";
 import { paths } from "~/utils/paths";
+import { Logo } from "./logo";
 
 export const PageTitle: Component = () => {
   const { t } = useI18n();
@@ -19,6 +20,7 @@ export const PageTitle: Component = () => {
         textTransform: "uppercase",
       })}
     >
+      <Logo class={css({ color: "orangered", h: 32, pr: 4, w: 32 })} />
       <Link href={paths.home}>{t("info.title")}</Link>
     </h1>
   );
