@@ -1,5 +1,1 @@
 @layer reset, base, tokens, recipes, utilities;
-
-:root {
-  --global-font-body: "Courier New", monospace;
-}

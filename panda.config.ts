@@ -1,6 +1,7 @@
 import { defineConfig } from "@pandacss/dev";
 import { createPreset } from "@park-ui/panda-preset";
 import neutral from "@park-ui/panda-preset/colors/neutral";
+import tomato from "@park-ui/panda-preset/colors/tomato";
 
 export default defineConfig({
   conditions: {
@@ -27,7 +28,7 @@ export default defineConfig({
   preflight: true,
 
   presets: [
-    createPreset({ accentColor: neutral, grayColor: neutral, radius: "2xl" }),
+    createPreset({ accentColor: tomato, grayColor: neutral, radius: "xl" }),
   ],
 
   // The CSS Syntax to use to use

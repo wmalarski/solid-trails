@@ -23,6 +23,20 @@ export const getUserServerQuery = query(async () => {
   return user;
 }, "user");
 
+export const getAnonServerQuery = query(async () => {
+  "use server";
+
+  const event = getRequestEventOrThrow();
+
+  const user = event.locals.user;
+
+  if (user) {
+    throw redirect(paths.home);
+  }
+
+  return null;
+}, "anon");
+
 export const signInServerAction = action(async (form: FormData) => {
   "use server";
 
@@ -54,7 +68,10 @@ export const signInServerAction = action(async (form: FormData) => {
     return rpcHandleError(error);
   }
 
-  throw redirect(paths.home, { headers, revalidate: getUserServerQuery.key });
+  throw redirect(paths.home, {
+    headers,
+    revalidate: [getUserServerQuery.key, getAnonServerQuery.key],
+  });
 });
 
 export const signOutServerAction = action(async () => {
@@ -80,5 +97,8 @@ export const signOutServerAction = action(async () => {
     return rpcHandleError(error);
   }
 
-  throw redirect(paths.signIn, { headers, revalidate: getUserServerQuery.key });
+  throw redirect(paths.signIn, {
+    headers,
+    revalidate: [getUserServerQuery.key, getAnonServerQuery.key],
+  });
 });
