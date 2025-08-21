@@ -1,17 +1,11 @@
 import type { RequestMiddleware } from "@solidjs/start/middleware";
-import { initAuth } from "./init";
+import { getRequestSession } from "./services";
 
 export const authMiddleware: RequestMiddleware = async (event) => {
-  const auth = initAuth(event);
-  event.locals.auth = auth;
-
   try {
-    const headers = event.request.headers;
-    const session = await auth.api.getSession({ headers });
-    event.locals.session = session?.session ?? null;
-    event.locals.user = session?.user ?? null;
+    const session = await getRequestSession(event.nativeEvent);
+    event.locals.session = session;
   } catch {
     event.locals.session = null;
-    event.locals.user = null;
   }
 };

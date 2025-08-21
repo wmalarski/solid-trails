@@ -1,7 +1,7 @@
 import { redirect } from "@solidjs/router";
 import type { APIEvent } from "@solidjs/start/server";
 import * as v from "valibot";
-import { getTokens, setSessionCookies } from "~/auth/services";
+import { exchangeCode, setSessionCookies } from "~/auth/services";
 import { paths } from "~/utils/paths";
 
 export async function GET({ request, nativeEvent }: APIEvent) {
@@ -16,9 +16,9 @@ export async function GET({ request, nativeEvent }: APIEvent) {
     throw redirect(paths.notFound, { status: 400 });
   }
 
-  const tokens = await getTokens({ code: parsed.output.code });
+  const tokens = await exchangeCode({ code: parsed.output.code });
 
-  setSessionCookies({ event: nativeEvent, tokens });
+  setSessionCookies(nativeEvent, tokens);
 
   return redirect(paths.home);
 }
