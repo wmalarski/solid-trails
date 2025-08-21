@@ -1,4 +1,3 @@
-import type { User } from "better-auth";
 import {
   type Accessor,
   type Component,
@@ -7,17 +6,20 @@ import {
   type ParentProps,
   useContext,
 } from "solid-js";
+import type { Session } from "./services";
 
-const SessionContext = createContext<Accessor<null | User | undefined>>(() => {
-  throw new Error("SessionContext not defined");
-});
+const SessionContext = createContext<Accessor<null | Session | undefined>>(
+  () => {
+    throw new Error("SessionContext not defined");
+  },
+);
 
 type SessionProviderProps = ParentProps<{
-  user?: null | User;
+  session?: null | Session;
 }>;
 
 export const SessionProvider: Component<SessionProviderProps> = (props) => {
-  const value = createMemo(() => props.user);
+  const value = createMemo(() => props.session);
 
   return (
     <SessionContext.Provider value={value}>

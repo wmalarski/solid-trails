@@ -1,4 +1,10 @@
-import { getCookie, type HTTPEvent, setCookie } from "vinxi/http";
+import {
+  type CookieSerializeOptions,
+  deleteCookie,
+  getCookie,
+  type HTTPEvent,
+  setCookie,
+} from "vinxi/http";
 import { fetchStrava } from "~/utils/strava";
 
 export type Athlete = unknown;
@@ -70,6 +76,11 @@ const REFRESH_TOKEN_COOKIE_NAME = "strava-refresh-token";
 const AUTH_SESSION_COOKIE_NAME = "strava-auth-session";
 const REFRESH_TOKEN_MAX_AGE = 24 * 60 * 60 * 90;
 
+const COMMON_COOKIE_OPTIONS: CookieSerializeOptions = {
+  httpOnly: true,
+  sameSite: "strict",
+};
+
 export const setSessionCookies = (
   event: HTTPEvent,
   tokens: AuthTokenResponse,
@@ -77,18 +88,16 @@ export const setSessionCookies = (
   "use server";
 
   setCookie(event, REFRESH_TOKEN_COOKIE_NAME, tokens.refresh_token, {
-    httpOnly: true,
+    ...COMMON_COOKIE_OPTIONS,
     maxAge: REFRESH_TOKEN_MAX_AGE,
-    sameSite: "strict",
   });
 
   const session = getSessionFromTokens(tokens);
 
   setCookie(event, AUTH_SESSION_COOKIE_NAME, JSON.stringify(session), {
+    ...COMMON_COOKIE_OPTIONS,
     expires: new Date(tokens.expires_at),
-    httpOnly: true,
     maxAge: tokens.expires_in,
-    sameSite: "strict",
   });
 };
 
@@ -130,4 +139,25 @@ export const getRequestSession = async (event: HTTPEvent) => {
   } catch {
     return null;
   }
+};
+
+export const removeSessionCookies = async (event: HTTPEvent) => {
+  deleteCookie(event, REFRESH_TOKEN_COOKIE_NAME, COMMON_COOKIE_OPTIONS);
+  deleteCookie(event, AUTH_SESSION_COOKIE_NAME, COMMON_COOKIE_OPTIONS);
+};
+
+type DeauthorizeTokensArgs = {
+  accessToken: string;
+};
+
+export const deauthorizeTokens = async ({
+  accessToken,
+}: DeauthorizeTokensArgs) => {
+  const formData = new FormData();
+
+  await fetchStrava<AuthTokenResponse>({
+    init: { body: formData, method: "POST" },
+    path: "oauth/deauthorize",
+    query: { access_token: accessToken },
+  });
 };
