@@ -109,6 +109,8 @@ const getSessionCookies = (event: HTTPEvent) => {
 };
 
 export const getRequestSession = async (event: HTTPEvent) => {
+  "use server";
+
   const { session, refreshToken } = getSessionCookies(event);
 
   if (session) {
