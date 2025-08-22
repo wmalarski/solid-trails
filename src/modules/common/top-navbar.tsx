@@ -1,7 +1,7 @@
 import { A } from "@solidjs/router";
 import { Bookmark } from "lucide-solid";
 import { type Component, Show } from "solid-js";
-import { useSessionContext } from "~/auth/session-context";
+import { useAthleteContext } from "~/auth/athlete-context";
 import { Button } from "~/ui/button";
 import { Link } from "~/ui/link";
 import { useI18n } from "~/utils/i18n";
@@ -11,7 +11,7 @@ import { SignOutButton } from "../auth/sign-out-button";
 export const TopNavbar: Component = () => {
   const { t } = useI18n();
 
-  const session = useSessionContext();
+  const athlete = useAthleteContext();
 
   return (
     <div>
@@ -34,7 +34,7 @@ export const TopNavbar: Component = () => {
               )}
             />
           }
-          when={session()}
+          when={athlete()}
         >
           <SignOutButton />
         </Show>

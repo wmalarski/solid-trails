@@ -3,33 +3,19 @@ import { deauthorizeTokens, removeSessionCookies } from "~/auth/services";
 import { getRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
 import { paths } from "~/utils/paths";
 
-export const getUserServerQuery = query(async () => {
+export const getAthleteServerQuery = query(async () => {
   "use server";
 
   const event = getRequestEventOrThrow();
 
-  const user = event.locals.user;
+  const athlete = event.locals.session?.athlete;
 
-  if (!user) {
+  if (!athlete) {
     throw redirect(paths.signIn);
   }
 
-  return user;
-}, "user");
-
-export const getAnonServerQuery = query(async () => {
-  "use server";
-
-  const event = getRequestEventOrThrow();
-
-  const user = event.locals.user;
-
-  if (user) {
-    throw redirect(paths.home);
-  }
-
-  return null;
-}, "anon");
+  return athlete;
+}, "athlete");
 
 export const signOutServerAction = action(async () => {
   "use server";
@@ -46,6 +32,6 @@ export const signOutServerAction = action(async () => {
   }
 
   throw redirect(paths.signIn, {
-    revalidate: [getUserServerQuery.key, getAnonServerQuery.key],
+    revalidate: getAthleteServerQuery.key,
   });
 });
