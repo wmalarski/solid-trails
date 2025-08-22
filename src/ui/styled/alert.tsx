@@ -1,4 +1,4 @@
-import { ark, type Assign, type PolymorphicProps } from "@ark-ui/solid";
+import { type Assign, ark, type PolymorphicProps } from "@ark-ui/solid";
 import type { ComponentProps } from "solid-js";
 import { alert } from "~/styled-system/recipes";
 import type { HTMLStyledProps } from "~/styled-system/types";
