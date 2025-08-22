@@ -40,7 +40,7 @@ export const exchangeCode = ({ code }: ExchangeCodeArgs) => {
 
   return fetchStrava<AuthTokenResponse>({
     init: { body: formData, method: "POST" },
-    path: "api/v3/oauth/token",
+    path: "oauth/token",
   });
 };
 

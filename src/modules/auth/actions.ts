@@ -15,7 +15,7 @@ export const getAthleteServerQuery = query(async () => {
   }
 
   return athlete;
-}, "athlete");
+}, "getAthlete");
 
 export const signOutServerAction = action(async () => {
   "use server";
