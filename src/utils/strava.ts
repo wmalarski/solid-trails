@@ -27,8 +27,6 @@ export const fetchStrava = async <T = unknown>({
   const response = await fetch(url, init);
 
   if (!response.ok) {
-    console.log("[fetchStrava]", { response });
-
     throw new Error(response.statusText);
   }
 

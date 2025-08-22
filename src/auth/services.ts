@@ -31,25 +31,17 @@ const getStravaClientSecret = () => {
   return process.env.STRAVA_CLIENT_SECRET as string;
 };
 
-export const exchangeCode = async ({ code }: ExchangeCodeArgs) => {
+export const exchangeCode = ({ code }: ExchangeCodeArgs) => {
   const formData = new FormData();
   formData.set("client_id", import.meta.env.VITE_STRAVA_CLIENT_ID);
   formData.set("client_secret", getStravaClientSecret());
   formData.set("grant_type", "authorization_code");
   formData.set("code", code);
 
-  console.log(
-    "[exchangeCode]",
-    formData,
-    Object.fromEntries(formData.entries()),
-  );
-
-  const tokens = await fetchStrava<AuthTokenResponse>({
+  return fetchStrava<AuthTokenResponse>({
     init: { body: formData, method: "POST" },
     path: "api/v3/oauth/token",
   });
-
-  return tokens;
 };
 
 type RefreshTokensArgs = {
@@ -63,12 +55,10 @@ const refreshTokens = async ({ refreshToken }: RefreshTokensArgs) => {
   formData.set("grant_type", "refresh_token");
   formData.set("refresh_token", refreshToken);
 
-  const tokens = await fetchStrava<AuthTokenResponse>({
+  return fetchStrava<AuthTokenResponse>({
     init: { body: formData, method: "POST" },
     path: "oauth/token",
   });
-
-  return tokens;
 };
 
 const getSessionFromTokens = (tokens: AuthTokenResponse): Session => {
@@ -104,23 +94,12 @@ export const setSessionCookies = (
     maxAge: tokens.expires_in,
   });
 
-  // setCookie
-
   return session;
 };
 
 const getSessionCookies = (event: HTTPEvent) => {
   const refreshToken = getCookie(event, REFRESH_TOKEN_COOKIE_NAME);
   const serializedSession = getCookie(event, AUTH_SESSION_COOKIE_NAME);
-
-  console.log("[getSessionCookies]", {
-    event,
-    headers: event.headers,
-    refreshToken,
-    res: event.res,
-    serializedSession,
-    session: getRequestEvent()?.locals.session,
-  });
 
   try {
     const session = serializedSession
@@ -135,13 +114,11 @@ const getSessionCookies = (event: HTTPEvent) => {
 export const getRequestSession = async (event: HTTPEvent) => {
   const localsSession = getRequestEvent()?.locals.session;
 
-  if (localsSession) {
+  if (localsSession !== undefined) {
     return localsSession;
   }
 
   const { session, refreshToken } = getSessionCookies(event);
-
-  console.log("[getRequestSession]", { refreshToken, session });
 
   if (session) {
     return session;
@@ -153,13 +130,7 @@ export const getRequestSession = async (event: HTTPEvent) => {
 
   try {
     const tokens = await refreshTokens({ refreshToken });
-
-    console.log("[getRequestSession]", { tokens });
-
     const session = setSessionCookies(event, tokens);
-
-    console.log("[getRequestSession]", { session });
-
     return session;
   } catch {
     return null;
@@ -169,18 +140,4 @@ export const getRequestSession = async (event: HTTPEvent) => {
 export const removeSessionCookies = (event: HTTPEvent) => {
   deleteCookie(event, REFRESH_TOKEN_COOKIE_NAME, COMMON_COOKIE_OPTIONS);
   deleteCookie(event, AUTH_SESSION_COOKIE_NAME, COMMON_COOKIE_OPTIONS);
-};
-
-type DeauthorizeTokensArgs = {
-  accessToken: string;
-};
-
-export const deauthorizeTokens = ({ accessToken }: DeauthorizeTokensArgs) => {
-  const formData = new FormData();
-
-  return fetchStrava<AuthTokenResponse>({
-    init: { body: formData, method: "POST" },
-    path: "oauth/deauthorize",
-    query: { access_token: accessToken },
-  });
 };

@@ -10,11 +10,6 @@ export const getAthleteServerQuery = query(async () => {
 
   const athlete = event.locals.session?.athlete;
 
-  console.log("[getAthleteServerQuery]", {
-    athlete,
-    session: event.locals.session,
-  });
-
   if (!athlete) {
     throw redirect(paths.signIn);
   }
@@ -26,15 +21,6 @@ export const signOutServerAction = action(async () => {
   "use server";
 
   const event = getRequestEventOrThrow();
-
-  const accessToken = event.locals.session?.accessToken;
-
-  console.log("[accessToken]", { accessToken });
-
-  // if (accessToken) {
-  //   // const response = await deauthorizeTokens({ accessToken });
-  //   console.log("[accessToken]");
-  // }
 
   removeSessionCookies(event.nativeEvent);
   event.locals.session = null;
