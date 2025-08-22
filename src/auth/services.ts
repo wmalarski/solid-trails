@@ -1,3 +1,4 @@
+import { getRequestEvent } from "solid-js/web";
 import {
   type CookieSerializeOptions,
   deleteCookie,
@@ -6,8 +7,7 @@ import {
   setCookie,
 } from "vinxi/http";
 import { fetchStrava } from "~/utils/strava";
-
-export type Athlete = unknown;
+import type { Athlete } from "./types";
 
 export type Session = {
   accessToken: string;
@@ -27,18 +27,26 @@ type ExchangeCodeArgs = {
   code: string;
 };
 
-export const exchangeCode = async ({ code }: ExchangeCodeArgs) => {
-  "use server";
+const getStravaClientSecret = () => {
+  return process.env.STRAVA_CLIENT_SECRET as string;
+};
 
+export const exchangeCode = async ({ code }: ExchangeCodeArgs) => {
   const formData = new FormData();
-  formData.set("client_secret", import.meta.env.STRAVA_CLIENT_SECRET);
   formData.set("client_id", import.meta.env.VITE_STRAVA_CLIENT_ID);
+  formData.set("client_secret", getStravaClientSecret());
   formData.set("grant_type", "authorization_code");
   formData.set("code", code);
 
+  console.log(
+    "[exchangeCode]",
+    formData,
+    Object.fromEntries(formData.entries()),
+  );
+
   const tokens = await fetchStrava<AuthTokenResponse>({
     init: { body: formData, method: "POST" },
-    path: "oauth/token",
+    path: "api/v3/oauth/token",
   });
 
   return tokens;
@@ -49,11 +57,9 @@ type RefreshTokensArgs = {
 };
 
 const refreshTokens = async ({ refreshToken }: RefreshTokensArgs) => {
-  "use server";
-
   const formData = new FormData();
-  formData.set("client_secret", import.meta.env.STRAVA_CLIENT_SECRET);
   formData.set("client_id", import.meta.env.VITE_STRAVA_CLIENT_ID);
+  formData.set("client_secret", getStravaClientSecret());
   formData.set("grant_type", "refresh_token");
   formData.set("refresh_token", refreshToken);
 
@@ -85,8 +91,6 @@ export const setSessionCookies = (
   event: HTTPEvent,
   tokens: AuthTokenResponse,
 ) => {
-  "use server";
-
   setCookie(event, REFRESH_TOKEN_COOKIE_NAME, tokens.refresh_token, {
     ...COMMON_COOKIE_OPTIONS,
     maxAge: REFRESH_TOKEN_MAX_AGE,
@@ -99,13 +103,24 @@ export const setSessionCookies = (
     expires: new Date(tokens.expires_at),
     maxAge: tokens.expires_in,
   });
+
+  // setCookie
+
+  return session;
 };
 
 const getSessionCookies = (event: HTTPEvent) => {
-  "use server";
-
   const refreshToken = getCookie(event, REFRESH_TOKEN_COOKIE_NAME);
   const serializedSession = getCookie(event, AUTH_SESSION_COOKIE_NAME);
+
+  console.log("[getSessionCookies]", {
+    event,
+    headers: event.headers,
+    refreshToken,
+    res: event.res,
+    serializedSession,
+    session: getRequestEvent()?.locals.session,
+  });
 
   try {
     const session = serializedSession
@@ -118,9 +133,15 @@ const getSessionCookies = (event: HTTPEvent) => {
 };
 
 export const getRequestSession = async (event: HTTPEvent) => {
-  "use server";
+  const localsSession = getRequestEvent()?.locals.session;
+
+  if (localsSession) {
+    return localsSession;
+  }
 
   const { session, refreshToken } = getSessionCookies(event);
+
+  console.log("[getRequestSession]", { refreshToken, session });
 
   if (session) {
     return session;
@@ -133,15 +154,19 @@ export const getRequestSession = async (event: HTTPEvent) => {
   try {
     const tokens = await refreshTokens({ refreshToken });
 
-    setSessionCookies(event, tokens);
+    console.log("[getRequestSession]", { tokens });
 
-    return getSessionFromTokens(tokens);
+    const session = setSessionCookies(event, tokens);
+
+    console.log("[getRequestSession]", { session });
+
+    return session;
   } catch {
     return null;
   }
 };
 
-export const removeSessionCookies = async (event: HTTPEvent) => {
+export const removeSessionCookies = (event: HTTPEvent) => {
   deleteCookie(event, REFRESH_TOKEN_COOKIE_NAME, COMMON_COOKIE_OPTIONS);
   deleteCookie(event, AUTH_SESSION_COOKIE_NAME, COMMON_COOKIE_OPTIONS);
 };
@@ -150,12 +175,10 @@ type DeauthorizeTokensArgs = {
   accessToken: string;
 };
 
-export const deauthorizeTokens = async ({
-  accessToken,
-}: DeauthorizeTokensArgs) => {
+export const deauthorizeTokens = ({ accessToken }: DeauthorizeTokensArgs) => {
   const formData = new FormData();
 
-  await fetchStrava<AuthTokenResponse>({
+  return fetchStrava<AuthTokenResponse>({
     init: { body: formData, method: "POST" },
     path: "oauth/deauthorize",
     query: { access_token: accessToken },

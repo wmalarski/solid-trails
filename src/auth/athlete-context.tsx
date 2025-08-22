@@ -6,7 +6,7 @@ import {
   type ParentProps,
   useContext,
 } from "solid-js";
-import type { Athlete } from "./services";
+import type { Athlete } from "./types";
 
 const AthleteContext = createContext<Accessor<Athlete | null>>(() => {
   throw new Error("AthleteContext not defined");
