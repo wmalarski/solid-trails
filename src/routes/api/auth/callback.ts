@@ -14,11 +14,18 @@ export async function GET(event: APIEvent) {
   );
 
   if (!parsed.success) {
+    // error page
     return redirect(paths.notFound, { status: 400 });
   }
 
-  const tokens = await exchangeCode(parsed.output);
-  const session = setSessionCookies(event.nativeEvent, tokens);
+  const tokensResponse = await exchangeCode(parsed.output);
+
+  if (!tokensResponse.success) {
+    // error page
+    return redirect(paths.notFound, { status: 400 });
+  }
+
+  const session = setSessionCookies(event.nativeEvent, tokensResponse.data);
 
   event.locals.session = session;
 

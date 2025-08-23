@@ -128,13 +128,13 @@ export const getRequestSession = async (event: HTTPEvent) => {
     return null;
   }
 
-  try {
-    const tokens = await refreshTokens({ refreshToken });
-    const session = setSessionCookies(event, tokens);
-    return session;
-  } catch {
+  const tokensResponse = await refreshTokens({ refreshToken });
+
+  if (!tokensResponse.success) {
     return null;
   }
+
+  return setSessionCookies(event, tokensResponse.data);
 };
 
 export const removeSessionCookies = (event: HTTPEvent) => {
