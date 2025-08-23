@@ -12,11 +12,15 @@ export const SignOutButton: Component = () => {
   const submission = useSubmission(signOutServerAction);
 
   return (
-    <form action={signOutServerAction} method="post">
+    <form
+      action={signOutServerAction}
+      class={css({ display: "flex", flexDirection: "column", w: "full" })}
+      method="post"
+    >
       <Button
         disabled={submission.pending}
         isLoading={submission.pending}
-        size="sm"
+        variant="outline"
       >
         <LogOut class={css({ h: 4, w: 4 })} />
         {t("auth.signOut")}

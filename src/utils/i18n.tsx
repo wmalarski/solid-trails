@@ -20,7 +20,8 @@ const enDict = {
   },
   common: {
     cancel: "Cancel",
-    closeDialog: "Close",
+    closeDialog: "Close dialog",
+    closePopover: "Close popover",
     delete: "Delete",
     edit: "Edit",
     nextSlide: "Next slide",
@@ -37,6 +38,12 @@ const enDict = {
   info: {
     madeBy: "Made by wmalarski",
     title: "Solid Trails",
+  },
+  layout: {
+    profile: {
+      open: "Open profile popover",
+      title: "Athlete",
+    },
   },
   notFound: {
     title: "Not Found",

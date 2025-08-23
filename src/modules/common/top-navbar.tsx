@@ -1,12 +1,13 @@
-import { A } from "@solidjs/router";
-import { Bookmark } from "lucide-solid";
 import { type Component, Show } from "solid-js";
 import { useAthleteContext } from "~/auth/athlete-context";
-import { Button } from "~/ui/button";
+import { css } from "~/styled-system/css";
+import { HStack } from "~/styled-system/jsx";
+import { Heading } from "~/ui/heading";
 import { Link } from "~/ui/link";
 import { useI18n } from "~/utils/i18n";
 import { paths } from "~/utils/paths";
-import { SignOutButton } from "../auth/sign-out-button";
+import { Logo } from "./logo";
+import { ProfilePopover } from "./profile-popover";
 
 export const TopNavbar: Component = () => {
   const { t } = useI18n();
@@ -14,31 +15,16 @@ export const TopNavbar: Component = () => {
   const athlete = useAthleteContext();
 
   return (
-    <div>
-      <div>
-        <h1>
-          <Link href={paths.home}>
-            <Bookmark />
-            {t("info.title")}
-          </Link>
-        </h1>
-      </div>
-      <div>
-        <Show
-          fallback={
-            <Button
-              asChild={(buttonProps) => (
-                <A {...buttonProps()} href={paths.signIn}>
-                  {t("auth.signIn")}
-                </A>
-              )}
-            />
-          }
-          when={athlete()}
-        >
-          <SignOutButton />
-        </Show>
-      </div>
-    </div>
+    <HStack justifyContent="space-between" px={4} py={2} w="full">
+      <Heading as="h1">
+        <Link href={paths.home}>
+          <Logo class={css({ h: 8, w: 8 })} />
+          {t("info.title")}
+        </Link>
+      </Heading>
+      <Show when={athlete()}>
+        <ProfilePopover />
+      </Show>
+    </HStack>
   );
 };
