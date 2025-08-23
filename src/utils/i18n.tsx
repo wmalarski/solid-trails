@@ -10,10 +10,13 @@ import {
 } from "solid-js";
 
 const enDict = {
+  activity: {
+    loadMore: "Load More",
+    title: "Activities",
+  },
   auth: {
     signIn: "Sign In",
     signOut: "Sign Out",
-    success: "Success",
   },
   common: {
     cancel: "Cancel",
