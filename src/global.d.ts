@@ -2,6 +2,6 @@
 
 declare namespace App {
   interface RequestEventLocals {
-    session: import("./auth/services").Session | null;
+    auth: import("./auth/cookies").AuthState | null;
   }
 }

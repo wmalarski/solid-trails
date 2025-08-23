@@ -14,11 +14,11 @@ export const getRequestEventOrThrow = () => {
 
 export const getAuthorizedRequestEventOrThrow = () => {
   const event = getRequestEventOrThrow();
-  const session = event.locals.session;
+  const auth = event.locals.auth;
 
-  if (!session) {
+  if (!auth?.authorized) {
     throw redirect(paths.signIn, { status: 401 });
   }
 
-  return { event, session };
+  return { auth, event };
 };

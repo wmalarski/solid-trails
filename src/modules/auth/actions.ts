@@ -1,5 +1,5 @@
 import { action, query, redirect } from "@solidjs/router";
-import { removeSessionCookies } from "~/auth/services";
+import { removeSessionCookies } from "~/auth/cookies";
 import { getRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
 import { paths } from "~/utils/paths";
 
@@ -8,13 +8,13 @@ export const getAthleteServerQuery = query(async () => {
 
   const event = getRequestEventOrThrow();
 
-  const athlete = event.locals.session?.athlete;
+  const auth = event.locals.auth;
 
-  if (!athlete) {
+  if (!auth?.authorized) {
     throw redirect(paths.signIn);
   }
 
-  return athlete;
+  return auth.athlete;
 }, "getAthlete");
 
 export const signOutServerAction = action(async () => {
@@ -23,7 +23,8 @@ export const signOutServerAction = action(async () => {
   const event = getRequestEventOrThrow();
 
   removeSessionCookies(event.nativeEvent);
-  event.locals.session = null;
+
+  event.locals.auth = null;
 
   throw redirect(paths.signIn, {
     revalidate: getAthleteServerQuery.key,

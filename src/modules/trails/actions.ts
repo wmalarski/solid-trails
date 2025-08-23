@@ -16,12 +16,12 @@ export const listAthleteActivitiesServerQuery = query(
   async (args: ListAthleteActivitiesArgs) => {
     "use server";
 
-    const { session } = getAuthorizedRequestEventOrThrow();
+    const { auth } = getAuthorizedRequestEventOrThrow();
 
     const { perPage: per_page = LIST_ATHLETE_PER_PAGE, ...rest } = args;
 
     return fetchAuthorizedStrava<Activity[]>({
-      accessToken: session.accessToken,
+      accessToken: auth.accessToken,
       init: { method: "GET" },
       path: "athlete/activities",
       query: { ...rest, per_page },

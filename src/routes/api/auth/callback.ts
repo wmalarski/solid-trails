@@ -2,7 +2,8 @@ import { redirect } from "@solidjs/router";
 import type { APIEvent } from "@solidjs/start/server";
 import * as v from "valibot";
 import { STRAVA_SCOPE } from "~/auth/constants";
-import { exchangeCode, setSessionCookies } from "~/auth/services";
+import { getAuthStateFromTokens, setAuthCookies } from "~/auth/cookies";
+import { exchangeCode } from "~/auth/services";
 import { paths } from "~/utils/paths";
 
 export async function GET(event: APIEvent) {
@@ -23,9 +24,9 @@ export async function GET(event: APIEvent) {
     return redirect(paths.error, { status: 400 });
   }
 
-  const session = setSessionCookies(event.nativeEvent, tokensResponse.data);
-
-  event.locals.session = session;
+  const authState = getAuthStateFromTokens(tokensResponse.data);
+  setAuthCookies(event.nativeEvent, { authState, tokens: tokensResponse.data });
+  event.locals.auth = authState;
 
   return redirect(paths.home);
 }
