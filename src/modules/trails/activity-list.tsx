@@ -11,6 +11,7 @@ import { Button } from "~/ui/button";
 import { Skeleton } from "~/ui/skeleton";
 import { useI18n } from "~/utils/i18n";
 import { RpcShow } from "~/utils/rpc-show";
+import { ActivityPolyline, ActivityPolyline2 } from "../map/activity-polyline";
 import { listAthleteActivitiesServerQuery } from "./actions";
 import { ActivityCard } from "./activity-card";
 import type { Activity } from "./types";
@@ -33,6 +34,7 @@ export const ActivityList: Component = () => {
       <div class="flex w-full justify-between gap-2">
         <h2 class="text-xl">{t("activity.title")}</h2>
       </div>
+      <ActivityPolyline2 />
       <ActivityListContainer>
         <For each={pagesArray()}>
           {(page) => <ActivitiesLazy page={page} />}
@@ -75,6 +77,7 @@ export const ActivitiesListPart: Component<ActivitiesListPartProps> = (
       {(activity) => (
         <li>
           <ActivityCard activity={activity} />
+          <ActivityPolyline activity={activity} />
         </li>
       )}
     </For>

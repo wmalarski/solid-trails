@@ -3,7 +3,7 @@ import { getAuthorizedRequestEventOrThrow } from "~/utils/get-request-event-or-t
 import { fetchAuthorizedStrava } from "~/utils/strava";
 import type { Activity } from "./types";
 
-const LIST_ATHLETE_PER_PAGE = 10;
+const LIST_ATHLETE_PER_PAGE = 30;
 
 type ListAthleteActivitiesArgs = {
   before?: number;

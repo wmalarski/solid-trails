@@ -5,18 +5,29 @@ import { OpenLayerProvider } from "./open-layer-context";
 import { OpenLayerView } from "./open-layer-view";
 
 export const TrailsMap: Component = () => {
+  // c_dkHmjzzBy
+  // gwaiHiltsBp
+
   return (
     <OpenLayerProvider>
       <div
         class={css({
           display: "grid",
-          h: "screen",
+          h: "full",
           position: "relative",
-          w: "screen",
+          w: "full",
         })}
       >
         <OpenLayerView />
-        <div class={css({ left: 10, position: "absolute", top: 10 })}>
+        <div
+          class={css({
+            backgroundColor: "bg.default",
+            left: 10,
+            maxH: "full",
+            overflowY: "scroll",
+            position: "absolute",
+          })}
+        >
           <ActivityList />
         </div>
       </div>
