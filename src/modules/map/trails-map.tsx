@@ -1,12 +1,24 @@
 import type { Component } from "solid-js";
+import { css } from "~/styled-system/css";
+import { ActivityList } from "../trails/activity-list";
 import { OpenLayerProvider } from "./open-layer-context";
 import { OpenLayerView } from "./open-layer-view";
 
 export const TrailsMap: Component = () => {
   return (
     <OpenLayerProvider>
-      <div class="relative grid h-screen w-screen">
+      <div
+        class={css({
+          display: "grid",
+          h: "screen",
+          position: "relative",
+          w: "screen",
+        })}
+      >
         <OpenLayerView />
+        <div class={css({ left: 10, position: "absolute", top: 10 })}>
+          <ActivityList />
+        </div>
       </div>
       {/* <MapFeatureSelector onSelected={props.onSelected} />
       <ResultsMarkers />

@@ -1,5 +1,4 @@
 import type { Component } from "solid-js";
-import "~/styles/open-layers.css";
 import { useOpenLayer } from "./open-layer-context";
 
 export const OpenLayerView: Component = () => {

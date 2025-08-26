@@ -1,5 +1,6 @@
 import type { Component, ParentProps } from "solid-js";
 import { css } from "~/styled-system/css";
+import { Grid } from "~/styled-system/jsx";
 import { Link } from "~/ui/link";
 import { useI18n } from "~/utils/i18n";
 import { paths } from "~/utils/paths";
@@ -54,15 +55,12 @@ export const FormLayout: Component<ParentProps> = (props) => {
 
 export const PageLayout: Component<ParentProps> = (props) => {
   return (
-    <main
-      class={css({
-        alignItems: "center",
-        display: "flex",
-        flexDir: "column",
-        mx: "auto",
-      })}
-    >
+    <Grid gridTemplateRows="auto 1fr" h="screen" w="full">
       {props.children}
-    </main>
+    </Grid>
   );
+};
+
+export const PageContent: Component<ParentProps> = (props) => {
+  return <main class={css({ h: "full", w: "full" })}>{props.children}</main>;
 };

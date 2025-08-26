@@ -5,7 +5,7 @@ import {
 } from "@solidjs/router";
 import { AthleteProvider } from "~/auth/athlete-context";
 import { getAthleteServerQuery } from "~/modules/auth/actions";
-import { PageLayout } from "~/modules/common/layout";
+import { PageContent, PageLayout } from "~/modules/common/layout";
 import { TopNavbar } from "~/modules/common/top-navbar";
 
 export const route = {
@@ -21,7 +21,7 @@ export default function ProtectedLayout(props: RouteSectionProps) {
     <AthleteProvider athlete={athlete()}>
       <PageLayout>
         <TopNavbar />
-        {props.children}
+        <PageContent>{props.children}</PageContent>
       </PageLayout>
     </AthleteProvider>
   );
