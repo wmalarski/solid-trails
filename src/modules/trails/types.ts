@@ -27,7 +27,7 @@ export type Activity = {
   comment_count: number;
   athlete_count: number;
   photo_count: number;
-  map: ActivityMap;
+  map?: ActivityMap;
   trainer: boolean;
   commute: boolean;
   manual: boolean;
@@ -59,6 +59,6 @@ export type ActivityAthlete = {
 
 export type ActivityMap = {
   id: string;
-  summary_polyline: any;
+  summary_polyline: string;
   resource_state: number;
 };
