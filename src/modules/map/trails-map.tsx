@@ -1,8 +1,9 @@
 import { type Component, createSignal } from "solid-js";
 import { css } from "~/styled-system/css";
 import { ActivityList } from "../trails/activity-list";
+import { SelectedActivityDialog } from "../trails/selected-activity-dialog";
 import type { Activity } from "../trails/types";
-import { FeatureSelectionListener } from "./feature-selection-listener";
+import { ActivitySelectionListener } from "./activity-selection-listener";
 import { OpenLayerProvider } from "./open-layer-context";
 import { OpenLayerView } from "./open-layer-view";
 
@@ -14,6 +15,10 @@ export const TrailsMap: Component = () => {
   const [selectedActivity, setSelectedActivity] = createSignal<
     Activity | undefined
   >();
+
+  const onSelectedActivityClose = () => {
+    setSelectedActivity(undefined);
+  };
 
   return (
     <OpenLayerProvider>
@@ -39,11 +44,10 @@ export const TrailsMap: Component = () => {
           <ActivityList />
         </div>
       </div>
-      <FeatureSelectionListener
-        onSelected={(feature) => {
-          const activity = feature?.getProperties().activity;
-          setSelectedActivity(activity as Activity);
-        }}
+      <ActivitySelectionListener onSelected={setSelectedActivity} />
+      <SelectedActivityDialog
+        onClose={onSelectedActivityClose}
+        selectedActivity={selectedActivity()}
       />
       {/* <MapFeatureSelector onSelected={props.onSelected} />
       <ResultsMarkers />

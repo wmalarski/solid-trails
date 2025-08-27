@@ -1,15 +1,14 @@
-import type Feature from "ol/Feature";
-import type Geometry from "ol/geom/Geometry";
 import Select from "ol/interaction/Select";
 import { type Component, onCleanup, onMount } from "solid-js";
+import type { Activity } from "../trails/types";
 import { useOpenLayer } from "./open-layer-context";
 
-type FeatureSelectionListenerProps = {
-  onSelected: (feature?: Feature<Geometry> | undefined) => void;
+type ActivitySelectionListenerProps = {
+  onSelected: (activity?: Activity | undefined) => void;
 };
 
-export const FeatureSelectionListener: Component<
-  FeatureSelectionListenerProps
+export const ActivitySelectionListener: Component<
+  ActivitySelectionListenerProps
 > = (props) => {
   const openLayer = useOpenLayer();
 
@@ -20,7 +19,8 @@ export const FeatureSelectionListener: Component<
 
     select.on("select", (event) => {
       const selectedFeature = event.selected.at(0);
-      props.onSelected(selectedFeature);
+      const activity = selectedFeature?.getProperties()?.activity;
+      props.onSelected(activity);
     });
 
     map.addInteraction(select);
