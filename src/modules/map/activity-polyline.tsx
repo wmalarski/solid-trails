@@ -27,9 +27,11 @@ export const ActivityPolyline: Component<ActivityPolylineProps> = (props) => {
     }
 
     const feature = new Feature({ geometry: getPolylineGeometry(polyline) });
-    const stroke = new Stroke({ color: "black", width: 2 });
+    const stroke = new Stroke({ color: "black", width: 5 });
     const style = new Style({ stroke });
     feature.setStyle(style);
+    feature.setId(props.activity.id);
+    feature.setProperties({ activity: props.activity });
 
     source.addFeature(feature);
     onCleanup(() => {

@@ -1,12 +1,19 @@
-import type { Component } from "solid-js";
+import { type Component, createSignal } from "solid-js";
 import { css } from "~/styled-system/css";
 import { ActivityList } from "../trails/activity-list";
+import type { Activity } from "../trails/types";
+import { FeatureSelectionListener } from "./feature-selection-listener";
 import { OpenLayerProvider } from "./open-layer-context";
 import { OpenLayerView } from "./open-layer-view";
 
 export const TrailsMap: Component = () => {
-  // c_dkHmjzzBy
-  // gwaiHiltsBp
+  // const [selectedFeature, setSelectedFeature] = createSignal<
+  //   Feature<Geometry> | undefined
+  // >(undefined);
+
+  const [selectedActivity, setSelectedActivity] = createSignal<
+    Activity | undefined
+  >();
 
   return (
     <OpenLayerProvider>
@@ -28,9 +35,16 @@ export const TrailsMap: Component = () => {
             position: "absolute",
           })}
         >
+          <pre>{JSON.stringify(selectedActivity(), null, 2)}</pre>
           <ActivityList />
         </div>
       </div>
+      <FeatureSelectionListener
+        onSelected={(feature) => {
+          const activity = feature?.getProperties().activity;
+          setSelectedActivity(activity as Activity);
+        }}
+      />
       {/* <MapFeatureSelector onSelected={props.onSelected} />
       <ResultsMarkers />
       <StopsMarkers />
@@ -38,43 +52,6 @@ export const TrailsMap: Component = () => {
     </OpenLayerProvider>
   );
 };
-
-// type MapFeatureSelectorProps = {
-//   onSelected: (selection: SearchSelection) => void;
-// };
-
-// const MapFeatureSelector: Component<MapFeatureSelectorProps> = (props) => {
-//   const openLayer = useOpenLayer();
-//   const data = useDataStore();
-
-//   onMount(() => {
-//     const { map, source } = openLayer();
-
-//     const draw = new Draw({
-//       geometryFunction: createBox(),
-//       source,
-//       type: "Circle",
-//     });
-
-//     map.addInteraction(draw);
-//     draw.once("drawend", (event: DrawEvent) => {
-//       map.removeInteraction(draw);
-//       const stops = data().stops;
-
-//       const feature = event.feature;
-//       const geometry = feature.getGeometry() as Geometry;
-//       const coordinates = getCoordinates(geometry);
-
-//       const stopIds = Object.values(stops)
-//         .filter((stop) => geometry?.containsXY(stop.long, stop.lat))
-//         .map((stop) => stop.id);
-
-//       props.onSelected({ coordinates, kind: "feature", stopIds });
-//     });
-//   });
-
-//   return null;
-// };
 
 // type CurrentSelectionMarkerProps = {
 //   selection: SearchSelection;
