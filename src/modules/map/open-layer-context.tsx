@@ -1,4 +1,4 @@
-import { Map as OlMap, View } from "ol";
+import { Map as OlMap } from "ol";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
 import OSM from "ol/source/OSM";
@@ -11,6 +11,7 @@ import {
   type ParentProps,
   useContext,
 } from "solid-js";
+import { createPeristedView } from "./create-persisted-view";
 import "./open-layers.css";
 
 const OSM_SOURCE = "https://outdoor.tiles.freemap.sk/{z}/{x}/{y}@{s}";
@@ -23,13 +24,12 @@ const createOpenLayer = () => {
   const source = new VectorSource({ wrapX: false });
   const vector = new VectorLayer({ source });
 
+  const view = createPeristedView();
+
   const map = new OlMap({
     layers: [raster, vector],
     target: "map",
-    view: new View({
-      center: [0, 0],
-      zoom: 2,
-    }),
+    view,
   });
 
   return { map, raster, source, vector };
