@@ -24,8 +24,23 @@ export const ActivitySelectionListener: Component<
     });
 
     map.addInteraction(select);
+
+    // select.setActive()
+
     onCleanup(() => map.removeInteraction(select));
   });
 
   return null;
 };
+
+// export const createActivitySelect = () => {
+
+//   const select = new Select();
+
+//     select.on("select", (event) => {
+//       const selectedFeature = event.selected.at(0);
+//       const activity = selectedFeature?.getProperties()?.activity;
+//       props.onSelected(activity);
+//     });
+
+// }
