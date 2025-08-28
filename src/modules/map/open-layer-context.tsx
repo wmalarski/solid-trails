@@ -13,18 +13,15 @@ import {
 } from "solid-js";
 import "./open-layers.css";
 
+const OSM_SOURCE = "https://outdoor.tiles.freemap.sk/{z}/{x}/{y}@{s}";
+
 const createOpenLayer = () => {
   const raster = new TileLayer({
-    source: new OSM(),
+    source: new OSM({ url: OSM_SOURCE }),
   });
 
-  const source = new VectorSource({
-    wrapX: false,
-  });
-
-  const vector = new VectorLayer({
-    source,
-  });
+  const source = new VectorSource({ wrapX: false });
+  const vector = new VectorLayer({ source });
 
   const map = new OlMap({
     layers: [raster, vector],
