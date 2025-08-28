@@ -1,4 +1,4 @@
-export const STRAVA_BASE_URL = "https://www.strava.com/api/v3";
+const STRAVA_BASE_URL = "https://www.strava.com/api/v3";
 
 const buildSearchParams = (
   query?: Record<string, unknown>,
@@ -94,13 +94,13 @@ export const fetchAuthorizedStrava = async <T = unknown>({
   });
 };
 
-export type StravaApiErrorDetails = {
+type StravaApiErrorDetails = {
   resource: string;
   field: string;
   code: string;
 };
 
-export class StravaApiError extends Error {
+class StravaApiError extends Error {
   errors: StravaApiErrorDetails[];
 
   constructor(

@@ -1,11 +1,10 @@
 {
   "dependencies": {
-    "@ark-ui/solid": "^5.21.0",
+    "@ark-ui/solid": "^5.22.0",
     "@solid-primitives/i18n": "^2.2.1",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.3",
     "@solidjs/start": "^1.1.7",
-    "decode-formdata": "^0.9.0",
     "lucide-solid": "^0.542.0",
     "ol": "^10.6.1",
     "solid-js": "^1.9.9",
@@ -14,7 +13,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.2",
-    "@pandacss/dev": "^1.1.0",
+    "@pandacss/dev": "^1.2.0",
     "@park-ui/panda-preset": "^0.43.1",
     "@types/node": "^24.3.0",
     "knip": "^5.63.0",
@@ -33,6 +32,7 @@
     "lint:fix": "biome check . --write",
     "prepare": "panda codegen",
     "start": "vinxi start",
+    "tsc": "tsc --noEmit",
     "version": "vinxi version"
   },
   "type": "module"

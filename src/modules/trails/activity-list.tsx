@@ -68,9 +68,7 @@ type ActivitiesListPartProps = {
   activities: Activity[];
 };
 
-export const ActivitiesListPart: Component<ActivitiesListPartProps> = (
-  props,
-) => {
+const ActivitiesListPart: Component<ActivitiesListPartProps> = (props) => {
   return (
     <For each={props.activities}>
       {(activity) => (
@@ -83,16 +81,8 @@ export const ActivitiesListPart: Component<ActivitiesListPartProps> = (
   );
 };
 
-export const ActivityListContainer: Component<ParentProps> = (props) => {
+const ActivityListContainer: Component<ParentProps> = (props) => {
   return <ul class="flex flex-col gap-4">{props.children}</ul>;
-};
-
-export const ActivityListPlaceholder: Component = () => {
-  return (
-    <ul class="flex w-full max-w-xl flex-col gap-2 px-2 py-4">
-      <ActivityListLoadingPlaceholder />
-    </ul>
-  );
 };
 
 const ActivityListLoadingPlaceholder: Component = () => {

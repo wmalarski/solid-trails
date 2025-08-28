@@ -52,12 +52,12 @@ export type Activity = {
   suffer_score: number;
 };
 
-export type ActivityAthlete = {
+type ActivityAthlete = {
   id: number;
   resource_state: number;
 };
 
-export type ActivityMap = {
+type ActivityMap = {
   id: string;
   summary_polyline: string;
   resource_state: number;

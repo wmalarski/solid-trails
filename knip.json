@@ -6,7 +6,9 @@
     "src/entry-server.tsx",
     "src/middleware/index.ts",
     "src/routes/**/*.tsx",
-    "src/routes/**/*.ts"
+    "src/routes/**/*.ts",
+    "panda.config.ts",
+    "app.config.ts"
   ],
   "postcss": true,
   "project": ["src/**/*.{ts,tsx}"],
