@@ -1,13 +1,11 @@
 import { createAsync } from "@solidjs/router";
 import {
   type Component,
-  createMemo,
-  createSignal,
   For,
   type ParentProps,
+  Show,
   Suspense,
 } from "solid-js";
-import { Button } from "~/ui/button";
 import { Skeleton } from "~/ui/skeleton";
 import { useI18n } from "~/utils/i18n";
 import { RpcShow } from "~/utils/rpc-show";
@@ -16,32 +14,19 @@ import { listAthleteActivitiesServerQuery } from "./actions";
 import { ActivityCard } from "./activity-card";
 import type { Activity } from "./types";
 
+const LIST_ATHLETE_PER_PAGE = 10;
+
 export const ActivityList: Component = () => {
   const { t } = useI18n();
 
-  const [pages, setPages] = createSignal<number>(1);
-
-  const pagesArray = createMemo(() => {
-    return Array.from({ length: pages() }, (_, index) => index);
-  });
-
-  const onLoadMoreClick = () => {
-    setPages((current) => current + 1);
-  };
-
   return (
-    <div class="flex w-full max-w-xl flex-col gap-2 px-2 py-4">
-      <div class="flex w-full justify-between gap-2">
-        <h2 class="text-xl">{t("activity.title")}</h2>
+    <div>
+      <div>
+        <h2>{t("activity.title")}</h2>
       </div>
       <ActivityListContainer>
-        <For each={pagesArray()}>
-          {(page) => <ActivitiesLazy page={page} />}
-        </For>
+        <ActivitiesLazy page={0} />
       </ActivityListContainer>
-      <Button color="secondary" onClick={onLoadMoreClick} size="sm">
-        {t("activity.loadMore")}
-      </Button>
     </div>
   );
 };
@@ -52,13 +37,18 @@ type ActivitiesLazyProps = {
 
 const ActivitiesLazy: Component<ActivitiesLazyProps> = (props) => {
   const activities = createAsync(() =>
-    listAthleteActivitiesServerQuery({ page: props.page }),
+    listAthleteActivitiesServerQuery({
+      page: props.page,
+      perPage: LIST_ATHLETE_PER_PAGE,
+    }),
   );
 
   return (
     <Suspense fallback={<ActivityListLoadingPlaceholder />}>
       <RpcShow result={activities()}>
-        {(activities) => <ActivitiesListPart activities={activities() ?? []} />}
+        {(activities) => (
+          <ActivitiesListPart activities={activities()} page={props.page} />
+        )}
       </RpcShow>
     </Suspense>
   );
@@ -66,23 +56,29 @@ const ActivitiesLazy: Component<ActivitiesLazyProps> = (props) => {
 
 type ActivitiesListPartProps = {
   activities: Activity[];
+  page: number;
 };
 
 const ActivitiesListPart: Component<ActivitiesListPartProps> = (props) => {
   return (
-    <For each={props.activities}>
-      {(activity) => (
-        <li>
-          <ActivityCard activity={activity} />
-          <ActivityPolyline activity={activity} />
-        </li>
-      )}
-    </For>
+    <>
+      <For each={props.activities}>
+        {(activity) => (
+          <li>
+            <ActivityCard activity={activity} />
+            <ActivityPolyline activity={activity} />
+          </li>
+        )}
+      </For>
+      <Show when={props.activities.length === LIST_ATHLETE_PER_PAGE}>
+        <ActivitiesLazy page={props.page + 1} />
+      </Show>
+    </>
   );
 };
 
 const ActivityListContainer: Component<ParentProps> = (props) => {
-  return <ul class="flex flex-col gap-4">{props.children}</ul>;
+  return <ul>{props.children}</ul>;
 };
 
 const ActivityListLoadingPlaceholder: Component = () => {
@@ -92,7 +88,7 @@ const ActivityListLoadingPlaceholder: Component = () => {
     <For each={list}>
       {() => (
         <li>
-          <Skeleton class="h-48 w-full" />
+          <Skeleton />
         </li>
       )}
     </For>

@@ -1,4 +1,5 @@
 import type { Component } from "solid-js";
+import { css } from "~/styled-system/css";
 import { useOpenLayer } from "./open-layer-context";
 
 export const OpenLayerView: Component = () => {
@@ -9,5 +10,5 @@ export const OpenLayerView: Component = () => {
     map.setTarget(element);
   };
 
-  return <div class="h-full grow" ref={onRef} />;
+  return <div class={css({ h: "full" })} ref={onRef} />;
 };
