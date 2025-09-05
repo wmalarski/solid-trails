@@ -52,7 +52,7 @@ const getPolylineGeometry = (polyline: string) => {
   return geometry;
 };
 
-const stackArray = <T,>(array: T[]): [T, T][] => {
+const stackArray = <T>(array: T[]): [T, T][] => {
   return Array.from({ length: Math.ceil(array.length / 2) }, (_, index) => [
     array[2 * index + 1],
     array[2 * index],
