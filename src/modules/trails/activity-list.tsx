@@ -1,6 +1,7 @@
 import { createAsync } from "@solidjs/router";
 import {
   type Component,
+  createEffect,
   For,
   type ParentProps,
   Show,
@@ -14,7 +15,7 @@ import { listAthleteActivitiesServerQuery } from "./actions";
 import { ActivityCard } from "./activity-card";
 import type { Activity } from "./types";
 
-const LIST_ATHLETE_PER_PAGE = 10;
+const LIST_ATHLETE_PER_PAGE = 40;
 
 export const ActivityList: Component = () => {
   const { t } = useI18n();
@@ -25,7 +26,7 @@ export const ActivityList: Component = () => {
         <h2>{t("activity.title")}</h2>
       </div>
       <ActivityListContainer>
-        <ActivitiesLazy page={0} />
+        <ActivitiesLazy page={1} />
       </ActivityListContainer>
     </div>
   );
@@ -42,6 +43,10 @@ const ActivitiesLazy: Component<ActivitiesLazyProps> = (props) => {
       perPage: LIST_ATHLETE_PER_PAGE,
     }),
   );
+
+  createEffect(() => {
+    console.log("[ActivitiesLazy]", {page: props.page, activities: activities()})
+  })
 
   return (
     <Suspense fallback={<ActivityListLoadingPlaceholder />}>
