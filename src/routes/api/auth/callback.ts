@@ -4,6 +4,7 @@ import * as v from "valibot";
 import { STRAVA_SCOPE } from "~/auth/constants";
 import { getAuthStateFromTokens, setAuthCookies } from "~/auth/cookies";
 import { exchangeCode } from "~/auth/services";
+import { getRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
 import { paths } from "~/utils/paths";
 
 export async function GET(event: APIEvent) {
@@ -25,8 +26,8 @@ export async function GET(event: APIEvent) {
   }
 
   const authState = getAuthStateFromTokens(tokensResponse.data);
-  setAuthCookies(event.nativeEvent, { authState, tokens: tokensResponse.data });
-  event.locals.auth = authState;
+  setAuthCookies({ authState, tokens: tokensResponse.data });
+  getRequestEventOrThrow().locals.auth = authState;
 
   return redirect(paths.home);
 }

@@ -1,4 +1,3 @@
-import { getRequestEvent } from "solid-js/web";
 import {
   type CookieSerializeOptions,
   deleteCookie,
@@ -6,6 +5,7 @@ import {
   type HTTPEvent,
   setCookie,
 } from "vinxi/http";
+import { getRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
 import { type AuthTokenResponse, refreshTokens } from "./services";
 import type { Athlete } from "./types";
 
@@ -28,6 +28,8 @@ export type AuthState =
       athlete: Athlete;
     };
 
+export const UNAUTHORIZED_STATE: AuthState = { authorized: false };
+
 export const getAuthStateFromTokens = (
   tokens: AuthTokenResponse,
 ): AuthState => {
@@ -43,22 +45,36 @@ type SetAuthCookiesArgs = {
   tokens: AuthTokenResponse;
 };
 
-export const setAuthCookies = (event: HTTPEvent, args: SetAuthCookiesArgs) => {
-  setCookie(event, REFRESH_TOKEN_COOKIE_NAME, args.tokens.refresh_token, {
-    ...COMMON_COOKIE_OPTIONS,
-    maxAge: REFRESH_TOKEN_MAX_AGE,
-  });
+export const setAuthCookies = (args: SetAuthCookiesArgs) => {
+  const event = getRequestEventOrThrow();
 
-  setCookie(event, AUTH_SESSION_COOKIE_NAME, JSON.stringify(args.authState), {
-    ...COMMON_COOKIE_OPTIONS,
-    expires: new Date(args.tokens.expires_at),
-    maxAge: args.tokens.expires_in,
-  });
+  setCookie(
+    event.nativeEvent,
+    REFRESH_TOKEN_COOKIE_NAME,
+    args.tokens.refresh_token,
+    {
+      ...COMMON_COOKIE_OPTIONS,
+      maxAge: REFRESH_TOKEN_MAX_AGE,
+    },
+  );
+
+  setCookie(
+    event.nativeEvent,
+    AUTH_SESSION_COOKIE_NAME,
+    JSON.stringify(args.authState),
+    {
+      ...COMMON_COOKIE_OPTIONS,
+      expires: new Date(args.tokens.expires_at),
+      maxAge: args.tokens.expires_in,
+    },
+  );
 };
 
-const getAuthCookies = (event: HTTPEvent) => {
-  const refreshToken = getCookie(event, REFRESH_TOKEN_COOKIE_NAME);
-  const serializedAuth = getCookie(event, AUTH_SESSION_COOKIE_NAME);
+const getAuthCookies = () => {
+  const event = getRequestEventOrThrow();
+
+  const refreshToken = getCookie(event.nativeEvent, REFRESH_TOKEN_COOKIE_NAME);
+  const serializedAuth = getCookie(event.nativeEvent, AUTH_SESSION_COOKIE_NAME);
 
   try {
     const authState = serializedAuth
@@ -70,35 +86,33 @@ const getAuthCookies = (event: HTTPEvent) => {
   }
 };
 
-export const getRequestAuth = async (event: HTTPEvent) => {
-  const localsAuth = getRequestEvent()?.locals.auth;
+export const getRequestAuth = async (): Promise<AuthState> => {
+  const event = getRequestEventOrThrow();
+  const localsAuth = event.locals.auth;
 
   if (localsAuth) {
     return localsAuth;
   }
 
-  const { authState, refreshToken } = getAuthCookies(event);
+  const { authState, refreshToken } = getAuthCookies();
 
   if (authState) {
     return authState;
   }
 
   if (!refreshToken) {
-    return null;
+    return UNAUTHORIZED_STATE;
   }
 
   const tokensResponse = await refreshTokens({ refreshToken });
 
   if (!tokensResponse.success) {
-    return null;
+    return UNAUTHORIZED_STATE;
   }
 
   const updatedAuthState = getAuthStateFromTokens(tokensResponse.data);
 
-  setAuthCookies(event, {
-    authState: updatedAuthState,
-    tokens: tokensResponse.data,
-  });
+  setAuthCookies({ authState: updatedAuthState, tokens: tokensResponse.data });
 
   return updatedAuthState;
 };
