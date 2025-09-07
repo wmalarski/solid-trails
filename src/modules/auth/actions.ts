@@ -10,7 +10,9 @@ export const getAthleteServerQuery = query(async () => {
 
   const auth = event.locals.auth;
 
-  if (!auth?.authorized) {
+  console.log("[getAthleteServerQuery]", { auth });
+
+  if (!auth?.authorized || !auth.athlete) {
     throw redirect(paths.signIn);
   }
 

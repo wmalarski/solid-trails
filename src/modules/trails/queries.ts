@@ -1,9 +1,8 @@
 import {
-  queryOptions,
-  experimental_streamedQuery as streamedQuery,
+    queryOptions,
+    experimental_streamedQuery as streamedQuery,
 } from "@tanstack/solid-query";
 import { listAthleteActivitiesServerQuery } from "./actions";
-import type { Activity } from "./types";
 
 const LIST_ATHLETE_PER_PAGE = 10;
 
@@ -13,11 +12,16 @@ const fetchDataInChunks = () => {
       let page = 1;
       let isFinished = false;
 
+      
       while (!isFinished) {
-        const response = await listAthleteActivitiesServerQuery({
+          console.log("[fetchDataInChunks]", {page, isFinished})
+
+          const response = await listAthleteActivitiesServerQuery({
           page,
           perPage: LIST_ATHLETE_PER_PAGE,
         });
+
+                  console.log("[fetchDataInChunks]", {response})
 
         if (!response.success) {
           return;
@@ -39,7 +43,6 @@ const fetchDataInChunks = () => {
 export const listAthleteActivitiesQueryOptions = () => {
   return queryOptions({
     gcTime: Number.POSITIVE_INFINITY,
-    initialData: [] as Activity[],
     queryFn: streamedQuery({
       streamFn: fetchDataInChunks,
     }),

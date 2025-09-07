@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/solid-query";
 import {
   type Component,
+  createEffect,
   For,
   type ParentProps
 } from "solid-js";
@@ -18,13 +19,22 @@ export const ActivityList: Component = () => {
 
   const query = useQuery(() => listAthleteActivitiesQueryOptions())
 
+  createEffect(() => {
+    console.log("[query]", query.data, query.data, query.status)
+    console.log(JSON.stringify(query.data, null, 2))
+  })
+
   return (
     <div>
       <div>
         <h2>{t("activity.title")}</h2>
       </div>
       <ActivityListContainer>
-        <ActivitiesListPart activities={query.data} />
+        <For each={query.data}>
+          {activities => (
+            <ActivitiesListPart activities={activities} />
+          )}
+        </For>
         {/* <ActivitiesLazy page={1} /> */}
       </ActivityListContainer>
     </div>

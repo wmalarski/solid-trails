@@ -110,7 +110,11 @@ export const getRequestAuth = async (): Promise<AuthState> => {
     return UNAUTHORIZED_STATE;
   }
 
+  console.log("[getRequestAuth]", { tokensResponse });
+
   const updatedAuthState = getAuthStateFromTokens(tokensResponse.data);
+
+  console.log("[getRequestAuth]", { updatedAuthState });
 
   setAuthCookies({ authState: updatedAuthState, tokens: tokensResponse.data });
 
