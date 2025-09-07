@@ -1,11 +1,10 @@
 import { createAsync } from "@solidjs/router";
 import {
   type Component,
-  createEffect,
   For,
   type ParentProps,
   Show,
-  Suspense,
+  Suspense
 } from "solid-js";
 import { Skeleton } from "~/ui/skeleton";
 import { useI18n } from "~/utils/i18n";
@@ -43,10 +42,6 @@ const ActivitiesLazy: Component<ActivitiesLazyProps> = (props) => {
       perPage: LIST_ATHLETE_PER_PAGE,
     }),
   );
-
-  createEffect(() => {
-    console.log("[ActivitiesLazy]", {page: props.page, activities: activities()})
-  })
 
   return (
     <Suspense fallback={<ActivityListLoadingPlaceholder />}>
