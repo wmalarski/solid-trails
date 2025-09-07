@@ -11,7 +11,7 @@ import {
 
 const enDict = {
   activity: {
-    loadMore: "Load More",
+    description: "List of your activities",
     title: "Activities",
   },
   auth: {

@@ -18,30 +18,20 @@ export const ActivityListDrawer: Component<ActivityListDrawerProps> = (
     <Drawer.Root>
       <Drawer.Trigger
         asChild={(triggerProps) => (
-          <Button {...triggerProps()}>Open Drawer</Button>
+          <Button {...triggerProps()}>{t("activity.title")}</Button>
         )}
       />
       <Drawer.Backdrop />
       <Drawer.Positioner>
         <Drawer.Content>
-          <Drawer.Header>
-            <Drawer.Title>Title</Drawer.Title>
-            <Drawer.Description>Description</Drawer.Description>
+          <Drawer.Header position="relative">
+            <Drawer.Title>{t("activity.title")}</Drawer.Title>
+            <Drawer.Description>{t("activity.description")}</Drawer.Description>
             <Drawer.CloseX />
           </Drawer.Header>
           <Drawer.Body>
             <ActivityList activities={props.activities} />
           </Drawer.Body>
-          <Drawer.Footer gap="3">
-            <Drawer.CloseTrigger
-              asChild={(closeProps) => (
-                <Button {...closeProps()} variant="outline">
-                  {t("common.cancel")}
-                </Button>
-              )}
-            />
-            <Button>Primary</Button>
-          </Drawer.Footer>
         </Drawer.Content>
       </Drawer.Positioner>
     </Drawer.Root>

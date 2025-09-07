@@ -5,7 +5,6 @@ import {
 } from "@solidjs/router";
 import { AthleteProvider } from "~/auth/athlete-context";
 import { getAthleteServerQuery } from "~/modules/auth/actions";
-import { PageContent, PageLayout } from "~/modules/common/layout";
 
 export const route = {
   load: async () => {
@@ -17,10 +16,8 @@ export default function ProtectedLayout(props: RouteSectionProps) {
   const athlete = createAsync(() => getAthleteServerQuery());
 
   return (
-    <AthleteProvider athlete={athlete()}>
-      <PageLayout>
-        <PageContent>{props.children}</PageContent>
-      </PageLayout>
+    <AthleteProvider athlete={athlete()}>        
+      {props.children}
     </AthleteProvider>
   );
 }
