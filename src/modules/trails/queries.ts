@@ -1,8 +1,11 @@
 import {
-  queryOptions,
-  experimental_streamedQuery as streamedQuery,
+    queryOptions,
+    experimental_streamedQuery as streamedQuery,
 } from "@tanstack/solid-query";
-import { listAthleteActivitiesServerQuery } from "./actions";
+import {
+    getActivityPhotosServerQuery,
+    listAthleteActivitiesServerQuery,
+} from "./actions";
 import type { Activity } from "./types";
 
 const LIST_ATHLETE_PER_PAGE = 30;
@@ -44,6 +47,21 @@ export const listAthleteActivitiesQueryOptions = () => {
     }),
     queryKey: ["listAthleteActivities"],
     select: (data: Activity[][]) => data.flat(),
+    staleTime: Number.POSITIVE_INFINITY,
+  });
+};
+
+type GetActivityPhotosQueryOptionsArgs = {
+  activityId: number;
+  size: number;
+};
+
+export const getActivityPhotosQueryOptions = (args: GetActivityPhotosQueryOptionsArgs) => {
+  return queryOptions({
+    gcTime: Number.POSITIVE_INFINITY,
+    queryFn: (queryArgs) =>
+      getActivityPhotosServerQuery(queryArgs.queryKey[1]),
+    queryKey: ["getActivityPhotos", args] as const,
     staleTime: Number.POSITIVE_INFINITY,
   });
 };

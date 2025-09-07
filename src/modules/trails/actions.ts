@@ -1,7 +1,7 @@
 import { query } from "@solidjs/router";
 import { getAuthorizedRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
 import { fetchAuthorizedStrava } from "~/utils/strava";
-import type { Activity } from "./types";
+import type { Activity, Photo } from "./types";
 
 type ListAthleteActivitiesArgs = {
   before?: number;
@@ -27,3 +27,21 @@ export const listAthleteActivitiesServerQuery = query(
   },
   "listAthleteActivities",
 );
+
+type GetActivityPhotosArgs = {
+  activityId: number;
+  size: number;
+};
+
+export const getActivityPhotosServerQuery = query(async (args: GetActivityPhotosArgs) => {
+  "use server";
+
+  const { auth } = getAuthorizedRequestEventOrThrow();
+
+  return fetchAuthorizedStrava<Photo[]>({
+    accessToken: auth.accessToken,
+    init: { method: "GET" },
+    path: `activities/${args.activityId}/photos`,
+    query: { size: args.size }
+  });
+}, "getActivityPhotos");

@@ -64,3 +64,32 @@ type ActivityMap = {
   summary_polyline: string;
   resource_state: number;
 };
+
+export type Photo = {
+  unique_id: string
+  athlete_id: number
+  activity_id: number
+  activity_name: string
+  post_id: any
+  resource_state: number
+  caption: string
+  type: number
+  source: number
+  status: number
+  uploaded_at: string
+  created_at: string
+  created_at_local: string
+  urls: Urls
+  placeholder_image: any
+  sizes: Sizes
+  default_photo: boolean
+  cursor: any
+}
+
+export type Urls = {
+  [size: string]: string
+}
+
+export type Sizes = {
+  [size: string]: number[]
+}
