@@ -3,8 +3,9 @@ import {
     experimental_streamedQuery as streamedQuery,
 } from "@tanstack/solid-query";
 import { listAthleteActivitiesServerQuery } from "./actions";
+import { Activity } from "./types";
 
-const LIST_ATHLETE_PER_PAGE = 10;
+const LIST_ATHLETE_PER_PAGE = 30;
 
 const fetchDataInChunks = () => {
   return {
@@ -12,16 +13,11 @@ const fetchDataInChunks = () => {
       let page = 1;
       let isFinished = false;
 
-      
       while (!isFinished) {
-          console.log("[fetchDataInChunks]", {page, isFinished})
-
-          const response = await listAthleteActivitiesServerQuery({
+        const response = await listAthleteActivitiesServerQuery({
           page,
           perPage: LIST_ATHLETE_PER_PAGE,
         });
-
-                  console.log("[fetchDataInChunks]", {response})
 
         if (!response.success) {
           return;
@@ -48,5 +44,6 @@ export const listAthleteActivitiesQueryOptions = () => {
     }),
     queryKey: ["listAthleteActivities"],
     staleTime: Number.POSITIVE_INFINITY,
+    select: (data: Activity[][]) => data.flat() 
   });
 };

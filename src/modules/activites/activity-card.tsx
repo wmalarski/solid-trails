@@ -1,6 +1,6 @@
 import type { Component } from "solid-js";
 import { css } from "~/styled-system/css";
-import type { Activity } from "./types";
+import type { Activity } from "../trails/types";
 
 type ActivityCardProps = {
   activity: Activity;

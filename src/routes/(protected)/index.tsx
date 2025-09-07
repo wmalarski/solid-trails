@@ -1,7 +1,7 @@
 import { clientOnly } from "@solidjs/start";
 
 const TrailsMap = clientOnly(() =>
-  import("~/modules/map/trails-map").then((module) => ({
+  import("~/modules/trails/trails-map").then((module) => ({
     default: module.TrailsMap,
   })),
 );

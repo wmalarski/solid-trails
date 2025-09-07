@@ -1,7 +1,7 @@
 import { type Component, Show } from "solid-js";
 import { Dialog } from "~/ui/dialog";
+import type { Activity } from "../trails/types";
 import { ActivityCard } from "./activity-card";
-import type { Activity } from "./types";
 
 type SelectedActivityDialogProps = {
   selectedActivity?: Activity;
