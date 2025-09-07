@@ -50,6 +50,8 @@ export type Activity = {
   total_photo_count: number;
   has_kudoed: boolean;
   suffer_score: number;
+  elev_low: number;
+  elev_high: number;
 };
 
 type ActivityAthlete = {

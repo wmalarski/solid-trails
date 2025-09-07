@@ -20,14 +20,14 @@ export const TrailsTopContainer: Component<TrailsTopContainerProps> = (
   return (
     <HStack
       backgroundColor="bg.default"
-      gap={2}
       borderRadius="l2"
+      gap={2}
+      padding={2}
       position="absolute"
       right={2}
       top={2}
-      padding={2}
     >
-      <Heading as="h1" display="flex" gap="2" alignItems="center">
+      <Heading alignItems="center" as="h1" display="flex" gap="2">
         <Logo class={css({ h: 8, w: 8 })} />
         {t("info.title")}
       </Heading>

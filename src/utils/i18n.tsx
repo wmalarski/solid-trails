@@ -11,8 +11,16 @@ import {
 
 const enDict = {
   activity: {
+    averageSpeed: "Average Speed",
     description: "List of your activities",
+    distance: "Distance",
+    elapsedTime: "Elapsed Time",
+    elevHigh: "Max Elevation",
+    elevLow: "Min Elevation",
+    maxSpeed: "Max Speed",
+    movingTime: "Moving Time",
     title: "Activities",
+    totalElevationGain: "Total Elevation Gain",
   },
   auth: {
     signIn: "Sign In",

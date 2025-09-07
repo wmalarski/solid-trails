@@ -11,19 +11,14 @@ export const ActivityList: Component<ActivityListProps> = (props) => {
   const { t } = useI18n();
 
   return (
-    <div>
-      <div>
-        <h2>{t("activity.title")}</h2>
-      </div>
-      <ul>
-        <For each={props.activities}>
-          {(activity) => (
-            <li>
-              <ActivityCard activity={activity} />
-            </li>
-          )}
-        </For>
-      </ul>
-    </div>
+    <ul>
+      <For each={props.activities}>
+        {(activity) => (
+          <li>
+            <ActivityCard activity={activity} />
+          </li>
+        )}
+      </For>
+    </ul>
   );
 };

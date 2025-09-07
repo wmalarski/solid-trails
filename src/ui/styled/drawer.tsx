@@ -1,4 +1,4 @@
-import { type Assign, Dialog, type PolymorphicProps, ark } from "@ark-ui/solid";
+import { type Assign, ark, Dialog, type PolymorphicProps } from "@ark-ui/solid";
 import { XIcon } from "lucide-solid";
 import type { ComponentProps } from "solid-js";
 import { css } from "~/styled-system/css";
@@ -88,6 +88,5 @@ export const CloseX = () => {
 
 export {
   DialogContext as Context,
-  type DialogContextProps as ContextProps
+  type DialogContextProps as ContextProps,
 } from "@ark-ui/solid";
-

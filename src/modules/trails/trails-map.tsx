@@ -26,7 +26,7 @@ export const TrailsMap: Component = () => {
       <For each={query.data}>
         {(activity) => <ActivityPolyline activity={activity} />}
       </For>
-      <main class={grid({h: "screen", w: "screen", position: "relative"})}>
+      <main class={grid({ h: "screen", position: "relative", w: "screen" })}>
         <OpenLayerView />
         <TrailsTopContainer activities={query.data ?? []} />
       </main>

@@ -16,8 +16,6 @@ export default function ProtectedLayout(props: RouteSectionProps) {
   const athlete = createAsync(() => getAthleteServerQuery());
 
   return (
-    <AthleteProvider athlete={athlete()}>        
-      {props.children}
-    </AthleteProvider>
+    <AthleteProvider athlete={athlete()}>{props.children}</AthleteProvider>
   );
 }
