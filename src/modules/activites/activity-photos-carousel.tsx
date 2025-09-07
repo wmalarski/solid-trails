@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/solid-query";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-solid";
 import { type Component, For, Suspense } from "solid-js";
+import { css } from "~/styled-system/css";
 import { Carousel } from "~/ui/carousel";
 import { IconButton } from "~/ui/icon-button";
+import { useI18n } from "~/utils/i18n";
 import { getActivityPhotosQueryOptions } from "../trails/queries";
 import type { Photo } from "../trails/types";
 
@@ -34,6 +36,8 @@ type PhotosCarouselProps = {
 };
 
 const PhotosCarousel: Component<PhotosCarouselProps> = (props) => {
+  const { t } = useI18n();
+
   return (
     <Carousel.Root slideCount={props.photos.length}>
       <Carousel.ItemGroup>
@@ -41,13 +45,9 @@ const PhotosCarousel: Component<PhotosCarouselProps> = (props) => {
           {(photo, index) => (
             <Carousel.Item index={index()}>
               <img
-                alt={`Slide ${index()}`}
+                alt={t("common.slide", { index: index() })}
+                class={css({ aspectRatio: 1, objectFit: "contain", w: "full" })}
                 src={photo.urls[PHOTOS_SIZE]}
-                style={{
-                  height: "398px",
-                  "object-fit": "cover",
-                  width: "100%",
-                }}
               />
             </Carousel.Item>
           )}
@@ -58,7 +58,7 @@ const PhotosCarousel: Component<PhotosCarouselProps> = (props) => {
           asChild={(triggerProps) => (
             <IconButton
               {...triggerProps()}
-              aria-label="Previous Slide"
+              aria-label={t("common.previousSlide")}
               size="sm"
               variant="link"
             >
@@ -70,7 +70,7 @@ const PhotosCarousel: Component<PhotosCarouselProps> = (props) => {
           <For each={props.photos}>
             {(_, index) => (
               <Carousel.Indicator
-                aria-label={`Goto slide ${index() + 1}`}
+                aria-label={t("common.gotoSlide", { index: index() + 1 })}
                 index={index()}
               />
             )}
@@ -80,7 +80,7 @@ const PhotosCarousel: Component<PhotosCarouselProps> = (props) => {
           asChild={(triggerProps) => (
             <IconButton
               {...triggerProps()}
-              aria-label="Next Slide"
+              aria-label={t("common.nextSlide")}
               size="sm"
               variant="link"
             >

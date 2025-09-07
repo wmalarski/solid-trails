@@ -24,7 +24,7 @@ export const SelectedActivityDialog: Component<SelectedActivityDialogProps> = (
     >
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content p={6}>
+        <Dialog.Content w="xl" p={6}>
           <Dialog.CloseX />
           <Show when={props.selectedActivity}>
             {(activity) => (

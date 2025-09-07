@@ -36,9 +36,11 @@ const enDict = {
     closePopover: "Close popover",
     delete: "Delete",
     edit: "Edit",
+    gotoSlide: "Goto slide {{index}}",
     nextSlide: "Next slide",
     previousSlide: "Previous slide",
     save: "Save",
+    slide: "Slide {{index}}",
     update: "Update",
   },
   error: {
