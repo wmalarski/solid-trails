@@ -19,12 +19,10 @@ export const ActivitySelectionListener: Component<
     select.on("select", (event) => {
       const selectedFeature = event.selected.at(0);
       const activity = selectedFeature?.getProperties()?.activity;
-      props.onSelected(activity.id);
+      props.onSelected(activity?.id);
     });
 
     map.addInteraction(select);
-
-    // select.setActive()
 
     onCleanup(() => map.removeInteraction(select));
   });

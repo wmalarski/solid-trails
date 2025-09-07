@@ -22,8 +22,12 @@ export const ActivityListDrawer: Component<ActivityListDrawerProps> = (
     props.onSelect(activityId);
   };
 
+  const onOpenChange: Drawer.RootProps["onOpenChange"] = (details) => {
+    setIsOpen(details.open);
+  };
+
   return (
-    <Drawer.Root onOpenChange={setIsOpen} open={isOpen()}>
+    <Drawer.Root onOpenChange={onOpenChange} open={isOpen()}>
       <Drawer.Trigger
         asChild={(triggerProps) => (
           <Button {...triggerProps()}>{t("activity.title")}</Button>
