@@ -10,6 +10,7 @@ import type { Activity } from "./types";
 
 type TrailsTopContainerProps = {
   activities: Activity[];
+  onSelect: (activityId: number) => void;
 };
 
 export const TrailsTopContainer: Component<TrailsTopContainerProps> = (
@@ -31,7 +32,10 @@ export const TrailsTopContainer: Component<TrailsTopContainerProps> = (
         <Logo class={css({ h: 8, w: 8 })} />
         {t("info.title")}
       </Heading>
-      <ActivityListDrawer activities={props.activities} />
+      <ActivityListDrawer
+        activities={props.activities}
+        onSelect={props.onSelect}
+      />
       <ProfilePopover />
     </HStack>
   );

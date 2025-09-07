@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/solid-query";
-import { type Component, createSignal, For } from "solid-js";
+import { type Component, createMemo, createSignal, For } from "solid-js";
 import { grid } from "~/styled-system/patterns";
 import { SelectedActivityDialog } from "../activites/selected-activity-dialog";
 import { ActivityPolyline } from "../map/activity-polyline";
@@ -8,17 +8,21 @@ import { OpenLayerProvider } from "../map/open-layer-context";
 import { OpenLayerView } from "../map/open-layer-view";
 import { listAthleteActivitiesQueryOptions } from "./queries";
 import { TrailsTopContainer } from "./trails-top-container";
-import type { Activity } from "./types";
 
 export const TrailsMap: Component = () => {
   const query = useQuery(() => listAthleteActivitiesQueryOptions());
 
-  const [selectedActivity, setSelectedActivity] = createSignal<
-    Activity | undefined
+  const [selectedActivityId, setSelectedActivityId] = createSignal<
+    number | undefined
   >();
 
+  const selectedActivity = createMemo(() => {
+    const activityId = selectedActivityId();
+    return query.data?.find((activity) => activity.id === activityId);
+  });
+
   const onSelectedActivityClose = () => {
-    setSelectedActivity(undefined);
+    setSelectedActivityId(undefined);
   };
 
   return (
@@ -28,9 +32,12 @@ export const TrailsMap: Component = () => {
       </For>
       <main class={grid({ h: "screen", position: "relative", w: "screen" })}>
         <OpenLayerView />
-        <TrailsTopContainer activities={query.data ?? []} />
+        <TrailsTopContainer
+          activities={query.data ?? []}
+          onSelect={setSelectedActivityId}
+        />
       </main>
-      <ActivitySelectionListener onSelected={setSelectedActivity} />
+      <ActivitySelectionListener onSelected={setSelectedActivityId} />
       <SelectedActivityDialog
         onClose={onSelectedActivityClose}
         selectedActivity={selectedActivity()}

@@ -21,6 +21,7 @@ const enDict = {
     endDate: "End time",
     maxSpeed: "Maximum Speed",
     movingTime: "Moving Time",
+    select: "Select",
     startDate: "Start time",
     title: "Activities",
     totalElevationGain: "Total Elevation Gain",

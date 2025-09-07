@@ -1,10 +1,9 @@
 import Select from "ol/interaction/Select";
 import { type Component, onCleanup, onMount } from "solid-js";
-import type { Activity } from "../trails/types";
 import { useOpenLayer } from "./open-layer-context";
 
 type ActivitySelectionListenerProps = {
-  onSelected: (activity?: Activity | undefined) => void;
+  onSelected: (activityId?: number) => void;
 };
 
 export const ActivitySelectionListener: Component<
@@ -20,7 +19,7 @@ export const ActivitySelectionListener: Component<
     select.on("select", (event) => {
       const selectedFeature = event.selected.at(0);
       const activity = selectedFeature?.getProperties()?.activity;
-      props.onSelected(activity);
+      props.onSelected(activity.id);
     });
 
     map.addInteraction(select);

@@ -3,9 +3,9 @@ import { css } from "~/styled-system/css";
 import { Flex, VStack } from "~/styled-system/jsx";
 import { createDateFormatter } from "~/utils/formatters/create-date-formatter";
 import { createDurationFormatter } from "~/utils/formatters/create-duration-formatter";
+import { createSpeedFormatter } from "~/utils/formatters/create-speed-formatter";
 import { createTimeFormatter } from "~/utils/formatters/create-time-formatter";
 import { formatElevation } from "~/utils/formatters/format-elevation";
-import { formatSpeed } from "~/utils/formatters/format-speed";
 import { useI18n } from "~/utils/i18n";
 import type { Activity } from "../trails/types";
 
@@ -19,6 +19,7 @@ export const ActivityStats: Component<ActivityStatsProps> = (props) => {
   const durationFormatter = createDurationFormatter();
   const dateFormatter = createDateFormatter();
   const timeFormatter = createTimeFormatter();
+  const speedFormatter = createSpeedFormatter();
 
   const endDate = () => {
     const startDate = new Date(props.activity.start_date_local);
@@ -59,11 +60,11 @@ export const ActivityStats: Component<ActivityStatsProps> = (props) => {
       />
       <DataPair
         label={t("activity.averageSpeed")}
-        value={formatSpeed(props.activity.average_speed)}
+        value={speedFormatter(props.activity.average_speed)}
       />
       <DataPair
         label={t("activity.maxSpeed")}
-        value={formatSpeed(props.activity.max_speed)}
+        value={speedFormatter(props.activity.max_speed)}
       />
       <DataPair
         label={t("activity.elevHigh")}
