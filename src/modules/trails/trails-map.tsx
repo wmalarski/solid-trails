@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/solid-query";
-import { type Component, createSignal } from "solid-js";
+import { type Component, createSignal, For } from "solid-js";
 import { css } from "~/styled-system/css";
 import { ActivityList } from "../activites/activity-list";
 import { SelectedActivityDialog } from "../activites/selected-activity-dialog";
+import { ActivityPolyline } from "../map/activity-polyline";
 import { ActivitySelectionListener } from "../map/activity-selection-listener";
 import { OpenLayerProvider } from "../map/open-layer-context";
 import { OpenLayerView } from "../map/open-layer-view";
@@ -22,6 +23,9 @@ export const TrailsMap: Component = () => {
 
   return (
     <OpenLayerProvider>
+      <For each={query.data}>
+        {(activity) => <ActivityPolyline activity={activity} />}
+      </For>
       <div
         class={css({
           display: "grid",
@@ -40,7 +44,6 @@ export const TrailsMap: Component = () => {
             position: "absolute",
           })}
         >
-          <pre>{JSON.stringify(selectedActivity(), null, 2)}</pre>
           <ActivityList activities={query.data ?? []} />
         </div>
       </div>

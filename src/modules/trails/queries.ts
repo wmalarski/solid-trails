@@ -1,9 +1,9 @@
 import {
-    queryOptions,
-    experimental_streamedQuery as streamedQuery,
+  queryOptions,
+  experimental_streamedQuery as streamedQuery,
 } from "@tanstack/solid-query";
 import { listAthleteActivitiesServerQuery } from "./actions";
-import { Activity } from "./types";
+import type { Activity } from "./types";
 
 const LIST_ATHLETE_PER_PAGE = 30;
 
@@ -43,7 +43,7 @@ export const listAthleteActivitiesQueryOptions = () => {
       streamFn: fetchDataInChunks,
     }),
     queryKey: ["listAthleteActivities"],
+    select: (data: Activity[][]) => data.flat(),
     staleTime: Number.POSITIVE_INFINITY,
-    select: (data: Activity[][]) => data.flat() 
   });
 };
