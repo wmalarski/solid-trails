@@ -4,6 +4,7 @@ import { Card } from "~/ui/card";
 import { useI18n } from "~/utils/i18n";
 import type { Activity } from "../trails/types";
 import { ActivityStats } from "./activity-stats";
+import { createActivityDescription } from "./create-activity-description";
 
 type ActivityCardProps = {
   activity: Activity;
@@ -17,13 +18,16 @@ export const ActivityCard: Component<ActivityCardProps> = (props) => {
     props.onSelect(props.activity.id);
   };
 
+  const description = createActivityDescription(() => props.activity);
+
   return (
     <Card.Root asChild={(props) => <li {...props()} />}>
       <Card.Header>
         <Card.Title>{props.activity.name}</Card.Title>
+        <Card.Description>{description()}</Card.Description>
       </Card.Header>
       <Card.Body>
-        <ActivityStats activity={props.activity} />
+        <ActivityStats activity={props.activity} isExtended />
       </Card.Body>
       <Card.Footer>
         <Button onClick={onSelectButtonClick} variant="subtle">

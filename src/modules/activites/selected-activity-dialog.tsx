@@ -4,6 +4,7 @@ import { Dialog } from "~/ui/dialog";
 import type { Activity } from "../trails/types";
 import { ActivityPhotosCarousel } from "./activity-photos-carousel";
 import { ActivityStats } from "./activity-stats";
+import { createActivityDescription } from "./create-activity-description";
 
 type SelectedActivityDialogProps = {
   selectedActivity?: Activity;
@@ -24,21 +25,34 @@ export const SelectedActivityDialog: Component<SelectedActivityDialogProps> = (
     >
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content w="xl" p={6}>
+        <Dialog.Content p={6} w="xl">
           <Dialog.CloseX />
           <Show when={props.selectedActivity}>
             {(activity) => (
-              <>
-                <Dialog.Title>{activity().name}</Dialog.Title>
-                <VStack gap={6} py={4}>
-                  <ActivityStats activity={activity()} />
-                  <ActivityPhotosCarousel activityId={activity().id} />
-                </VStack>
-              </>
+              <DialogContent activity={activity()} />
             )}
           </Show>
         </Dialog.Content>
       </Dialog.Positioner>
     </Dialog.Root>
+  );
+};
+
+type DialogContentProps = {
+  activity: Activity;
+};
+
+const DialogContent: Component<DialogContentProps> = (props) => {
+  const description = createActivityDescription(() => props.activity);
+
+  return (
+    <>
+      <Dialog.Title>{props.activity.name}</Dialog.Title>
+      <Dialog.Description>{description()}</Dialog.Description>
+      <VStack gap={6} py={4}>
+        <ActivityStats activity={props.activity} isExtended />
+        <ActivityPhotosCarousel activityId={props.activity.id} />
+      </VStack>
+    </>
   );
 };

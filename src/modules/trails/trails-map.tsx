@@ -35,12 +35,13 @@ export const TrailsMap: Component = () => {
         <TrailsTopContainer
           activities={query.data ?? []}
           onSelect={setSelectedActivityId}
+          selectedActivity={selectedActivity()}
         />
       </main>
       <ActivitySelectionListener onSelected={setSelectedActivityId} />
       <SelectedActivityDialog
         onClose={onSelectedActivityClose}
-        selectedActivity={selectedActivity()}
+        selectedActivity={undefined}
       />
     </OpenLayerProvider>
   );
