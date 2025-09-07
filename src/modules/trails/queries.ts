@@ -56,11 +56,18 @@ type GetActivityPhotosQueryOptionsArgs = {
   size: number;
 };
 
-export const getActivityPhotosQueryOptions = (args: GetActivityPhotosQueryOptionsArgs) => {
+export const getActivityPhotosQueryOptions = (
+  args: GetActivityPhotosQueryOptionsArgs,
+) => {
   return queryOptions({
     gcTime: Number.POSITIVE_INFINITY,
-    queryFn: (queryArgs) =>
-      getActivityPhotosServerQuery(queryArgs.queryKey[1]),
+    queryFn: async (queryArgs) => {
+        const response = await getActivityPhotosServerQuery(queryArgs.queryKey[1]);
+        if (!response.success) {
+            throw response.error;
+        }
+        return response.data;
+    },
     queryKey: ["getActivityPhotos", args] as const,
     staleTime: Number.POSITIVE_INFINITY,
   });

@@ -33,15 +33,18 @@ type GetActivityPhotosArgs = {
   size: number;
 };
 
-export const getActivityPhotosServerQuery = query(async (args: GetActivityPhotosArgs) => {
-  "use server";
+export const getActivityPhotosServerQuery = query(
+  async (args: GetActivityPhotosArgs) => {
+    "use server";
 
-  const { auth } = getAuthorizedRequestEventOrThrow();
+    const { auth } = getAuthorizedRequestEventOrThrow();
 
-  return fetchAuthorizedStrava<Photo[]>({
-    accessToken: auth.accessToken,
-    init: { method: "GET" },
-    path: `activities/${args.activityId}/photos`,
-    query: { size: args.size }
-  });
-}, "getActivityPhotos");
+    return fetchAuthorizedStrava<Photo[]>({
+      accessToken: auth.accessToken,
+      init: { method: "GET" },
+      path: `activities/${args.activityId}/photos`,
+      query: { size: args.size },
+    });
+  },
+  "getActivityPhotos",
+);
