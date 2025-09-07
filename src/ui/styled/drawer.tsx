@@ -1,7 +1,10 @@
-import { type Assign, ark, Dialog, type PolymorphicProps } from "@ark-ui/solid";
+import { type Assign, Dialog, type PolymorphicProps, ark } from "@ark-ui/solid";
+import { XIcon } from "lucide-solid";
 import type { ComponentProps } from "solid-js";
 import { type DrawerVariantProps, drawer } from "~/styled-system/recipes";
 import type { HTMLStyledProps } from "~/styled-system/types";
+import { useI18n } from "~/utils/i18n";
+import { IconButton } from "./icon-button";
 import { createStyleContext } from "./utils/create-style-context";
 
 const { withRootProvider, withContext } = createStyleContext(drawer);
@@ -62,6 +65,25 @@ export const Body = withContext<
 export const Footer = withContext<
   Assign<HTMLStyledProps<"div">, PolymorphicProps<"div">>
 >(ark.div, "footer");
+
+export const CloseX = () => {
+  const { t } = useI18n();
+
+  return (
+    <CloseTrigger
+      asChild={(closeProps) => (
+        <IconButton
+          {...closeProps()}
+          aria-label={t("common.closeDialog")}
+          style={{ position: "absolute", right: "4", top: "3" }}
+          variant="ghost"
+        >
+          <XIcon />
+        </IconButton>
+      )}
+    />
+  );
+};
 
 export {
   DialogContext as Context,

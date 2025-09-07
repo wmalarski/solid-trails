@@ -6,7 +6,6 @@ import {
 import { AthleteProvider } from "~/auth/athlete-context";
 import { getAthleteServerQuery } from "~/modules/auth/actions";
 import { PageContent, PageLayout } from "~/modules/common/layout";
-import { TopNavbar } from "~/modules/common/top-navbar";
 
 export const route = {
   load: async () => {
@@ -20,7 +19,6 @@ export default function ProtectedLayout(props: RouteSectionProps) {
   return (
     <AthleteProvider athlete={athlete()}>
       <PageLayout>
-        <TopNavbar />
         <PageContent>{props.children}</PageContent>
       </PageLayout>
     </AthleteProvider>
