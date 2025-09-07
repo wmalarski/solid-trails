@@ -1,10 +1,10 @@
 import {
-    queryOptions,
-    experimental_streamedQuery as streamedQuery,
+  queryOptions,
+  experimental_streamedQuery as streamedQuery,
 } from "@tanstack/solid-query";
 import {
-    getActivityPhotosServerQuery,
-    listAthleteActivitiesServerQuery,
+  getActivityPhotosServerQuery,
+  listAthleteActivitiesServerQuery,
 } from "./actions";
 import type { Activity } from "./types";
 
@@ -62,11 +62,13 @@ export const getActivityPhotosQueryOptions = (
   return queryOptions({
     gcTime: Number.POSITIVE_INFINITY,
     queryFn: async (queryArgs) => {
-        const response = await getActivityPhotosServerQuery(queryArgs.queryKey[1]);
-        if (!response.success) {
-            throw response.error;
-        }
-        return response.data;
+      const response = await getActivityPhotosServerQuery(
+        queryArgs.queryKey[1],
+      );
+      if (!response.success) {
+        throw response.error;
+      }
+      return response.data;
     },
     queryKey: ["getActivityPhotos", args] as const,
     staleTime: Number.POSITIVE_INFINITY,

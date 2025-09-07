@@ -1,8 +1,9 @@
 import { type Component, Show } from "solid-js";
+import { VStack } from "~/styled-system/jsx";
 import { Dialog } from "~/ui/dialog";
 import type { Activity } from "../trails/types";
-import { ActivityCard } from "./activity-card";
 import { ActivityPhotosCarousel } from "./activity-photos-carousel";
+import { ActivityStats } from "./activity-stats";
 
 type SelectedActivityDialogProps = {
   selectedActivity?: Activity;
@@ -23,14 +24,16 @@ export const SelectedActivityDialog: Component<SelectedActivityDialogProps> = (
     >
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content maxH="96" overflowY="scroll">
+        <Dialog.Content p={6}>
+          <Dialog.CloseX />
           <Show when={props.selectedActivity}>
             {(activity) => (
               <>
                 <Dialog.Title>{activity().name}</Dialog.Title>
-                <Dialog.CloseX />
-                <ActivityPhotosCarousel activityId={activity().id} />
-                <ActivityCard activity={activity()} />
+                <VStack gap={6} py={4}>
+                  <ActivityStats activity={activity()} />
+                  <ActivityPhotosCarousel activityId={activity().id} />
+                </VStack>
               </>
             )}
           </Show>
@@ -39,4 +42,3 @@ export const SelectedActivityDialog: Component<SelectedActivityDialogProps> = (
     </Dialog.Root>
   );
 };
-
