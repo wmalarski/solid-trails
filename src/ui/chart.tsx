@@ -93,8 +93,11 @@ const BaseChart: Component<ChartProps> = (rawProps) => {
     on(
       () => props.data,
       () => {
-        chart()!.data = props.data;
-        chart()!.update();
+        const resolvedChart = chart();
+        if (resolvedChart) {
+          resolvedChart.data = props.data;
+          resolvedChart.update();
+        }
       },
       { defer: true },
     ),
@@ -104,8 +107,11 @@ const BaseChart: Component<ChartProps> = (rawProps) => {
     on(
       () => props.options,
       () => {
-        chart()!.options = props.options;
-        chart()!.update();
+        const resolvedChart = chart();
+        if (resolvedChart) {
+          resolvedChart.options = props.options;
+          resolvedChart.update();
+        }
       },
       { defer: true },
     ),
@@ -115,7 +121,7 @@ const BaseChart: Component<ChartProps> = (rawProps) => {
     on(
       [() => props.width, () => props.height],
       () => {
-        chart()!.resize(props.width, props.height);
+        chart()?.resize(props.width, props.height);
       },
       { defer: true },
     ),
@@ -125,10 +131,10 @@ const BaseChart: Component<ChartProps> = (rawProps) => {
     on(
       () => props.type,
       () => {
-        const dimensions = [chart()!.width, chart()!.height];
-        chart()!.destroy();
+        const dimensions = [chart()?.width, chart()?.height];
+        chart()?.destroy();
         init();
-        chart()!.resize(...dimensions);
+        chart()?.resize(...dimensions);
       },
       { defer: true },
     ),

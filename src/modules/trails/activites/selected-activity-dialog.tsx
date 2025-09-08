@@ -1,11 +1,10 @@
 import { ImageIcon } from "lucide-solid";
-import { type Component, Suspense } from "solid-js";
+import { type Component } from "solid-js";
 import { VStack } from "~/styled-system/jsx";
 import { Dialog } from "~/ui/dialog";
 import { IconButton } from "~/ui/icon-button";
 import { useI18n } from "~/utils/i18n";
 import type { Activity } from "../types";
-import { ActivityCharts } from "./activity-charts";
 import { ActivityPhotosCarousel } from "./activity-photos-carousel";
 import { ActivityStats } from "./activity-stats";
 import { createActivityDescription } from "./create-activity-description";
@@ -61,9 +60,9 @@ const DialogContent: Component<DialogContentProps> = (props) => {
         <VStack bgColor="bg.canvas" position="relative">
           <ActivityPhotosCarousel activityId={props.activity.id} />
         </VStack>
-        <Suspense>
+        {/* <Suspense>
           <ActivityCharts activity={props.activity} />
-        </Suspense>
+        </Suspense> */}
       </VStack>
     </>
   );

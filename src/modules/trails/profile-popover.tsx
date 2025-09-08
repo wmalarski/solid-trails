@@ -45,9 +45,9 @@ export const ProfilePopover: Component<ProfilePopoverProps> = (props) => {
             <Popover.ArrowTip />
           </Popover.Arrow>
           <VStack gap="4">
-            <VStack alignItems="flex-start" w="full" gap="1">
-            <Popover.Title>{t("activity.profile.title")}</Popover.Title>
-            <Popover.Description>{name()}</Popover.Description>
+            <VStack alignItems="flex-start" gap="1" w="full">
+              <Popover.Title>{t("activity.profile.title")}</Popover.Title>
+              <Popover.Description>{name()}</Popover.Description>
             </VStack>
             <ProfileStats activities={props.activities} />
             <SignOutButton />
@@ -80,7 +80,7 @@ const ProfileStats: Component<ProfileStatsProps> = (props) => {
   const { t } = useI18n();
 
   const durationFormatter = createDurationFormatter();
-  const distanceFormatter = createDistanceFormatter()
+  const distanceFormatter = createDistanceFormatter();
 
   const athlete = useRequiredAthleteContext();
 
@@ -121,10 +121,10 @@ const ProfileStats: Component<ProfileStatsProps> = (props) => {
         label={t("activity.profile.totalDistance")}
         value={distanceFormatter(summary().totalDistance)}
       />
-        <Stats.Item
-          label={t("activity.profile.totalElevation")}
-          value={distanceFormatter(summary().totalElevation)}
-        />
+      <Stats.Item
+        label={t("activity.profile.totalElevation")}
+        value={distanceFormatter(summary().totalElevation)}
+      />
       <Stats.Item
         label={t("activity.profile.totalElapsedTime")}
         value={durationFormatter(summary().totalElapsedTime)}

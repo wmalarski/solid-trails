@@ -18,7 +18,7 @@ export const ActivityStats: Component<ActivityStatsProps> = (props) => {
   const durationFormatter = createDurationFormatter();
   const timeFormatter = createTimeFormatter();
   const speedFormatter = createSpeedFormatter();
-    const distanceFormatter = createDistanceFormatter()
+  const distanceFormatter = createDistanceFormatter();
 
   const endDate = () => {
     const startDate = new Date(props.activity.start_date);
