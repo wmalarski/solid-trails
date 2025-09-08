@@ -33,7 +33,7 @@ export const SelectedActivityDialog: Component<SelectedActivityDialogProps> = (
       />
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content p={6} w="2xl">
+        <Dialog.Content p={6} w="2xl" maxH="100svh" overflowY="auto">
           <Dialog.CloseX />
           <DialogContent activity={props.activity} />
         </Dialog.Content>
@@ -55,7 +55,7 @@ const DialogContent: Component<DialogContentProps> = (props) => {
       <Dialog.Description pb={2}>
         {description(props.activity)}
       </Dialog.Description>
-      <VStack gap={6} maxH="calc(100vh - 200px)" overflowY="auto" py={4}>
+      <VStack gap={6} py={4}>
         <ActivityStats activity={props.activity} isExtended />
         <VStack bgColor="bg.canvas" position="relative">
           <ActivityPhotosCarousel activityId={props.activity.id} />
