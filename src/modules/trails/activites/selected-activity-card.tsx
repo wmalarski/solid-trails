@@ -17,8 +17,8 @@ export const SelectedActivityCard: Component<SelectedActivityCardProps> = (
   const description = createActivityDescription();
 
   return (
-    <VStack gap={2} alignItems="flex-start" w="full">
-      <HStack justifyContent="space-between" w="full" alignItems="flex-start">
+    <VStack alignItems="flex-start" gap={2} w="full">
+      <HStack alignItems="flex-start" justifyContent="space-between" w="full">
         <VStack alignItems="flex-start" gap={0}>
           <Heading fontSize="lg">{props.selectedActivity.name}</Heading>
           <Heading as="h3" color="fg.muted" fontSize="sm">
@@ -26,8 +26,8 @@ export const SelectedActivityCard: Component<SelectedActivityCardProps> = (
           </Heading>
         </VStack>
         <HStack>
-        <CenterOnActivityButton activityId={props.selectedActivity.id} />
-        <SelectedActivityDialog activity={props.selectedActivity} />
+          <CenterOnActivityButton activityId={props.selectedActivity.id} />
+          <SelectedActivityDialog activity={props.selectedActivity} />
         </HStack>
       </HStack>
       <ActivityStats activity={props.selectedActivity} />

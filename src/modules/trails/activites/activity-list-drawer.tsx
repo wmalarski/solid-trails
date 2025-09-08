@@ -42,7 +42,10 @@ export const ActivityListDrawer: Component<ActivityListDrawerProps> = (
             <Drawer.CloseX />
           </Drawer.Header>
           <Drawer.Body>
-            <ActivityList activities={props.activities} onCenterClick={onCenterClick} />
+            <ActivityList
+              activities={props.activities}
+              onCenterClick={onCenterClick}
+            />
           </Drawer.Body>
         </Drawer.Content>
       </Drawer.Positioner>

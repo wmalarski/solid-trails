@@ -54,6 +54,8 @@ export type Activity = {
   elev_high: number;
 };
 
+export type ExtendedActivity = Activity;
+
 type ActivityAthlete = {
   id: number;
   resource_state: number;

@@ -22,10 +22,10 @@ const enDict = {
     locate: "Locate",
     maxSpeed: "Maximum Speed",
     movingTime: "Moving Time",
+    showDetails: "Show details",
     startDate: "Start time",
     title: "Activities",
     totalElevationGain: "Total Elevation Gain",
-    showDetails: "Show details" 
   },
   auth: {
     signIn: "Sign In",

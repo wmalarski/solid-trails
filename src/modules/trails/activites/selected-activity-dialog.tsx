@@ -1,9 +1,12 @@
+import { useQuery } from "@tanstack/solid-query";
 import { ImageIcon } from "lucide-solid";
-import { Show, type Component } from "solid-js";
+import { type Component, Show, Suspense } from "solid-js";
+import { css } from "~/styled-system/css";
 import { VStack } from "~/styled-system/jsx";
 import { Dialog } from "~/ui/dialog";
 import { IconButton } from "~/ui/icon-button";
 import { useI18n } from "~/utils/i18n";
+import { getActivityQueryOptions } from "../queries";
 import type { Activity } from "../types";
 import { ActivityPhotosCarousel } from "./activity-photos-carousel";
 import { ActivityStats } from "./activity-stats";
@@ -22,7 +25,11 @@ export const SelectedActivityDialog: Component<SelectedActivityDialogProps> = (
     <Dialog.Root>
       <Dialog.Trigger
         asChild={(triggerProps) => (
-          <IconButton {...triggerProps()} variant="subtle" aria-label={t("activity.showDetails")}>
+          <IconButton
+            {...triggerProps()}
+            aria-label={t("activity.showDetails")}
+            variant="subtle"
+          >
             <ImageIcon />
           </IconButton>
         )}
@@ -52,9 +59,28 @@ const DialogContent: Component<DialogContentProps> = (props) => {
       <VStack gap={6} py={4}>
         <ActivityStats activity={props.activity} isExtended />
         <Show when={props.activity.photo_count > 0}>
-        <ActivityPhotosCarousel activityId={props.activity.id} />
+          <ActivityPhotosCarousel activityId={props.activity.id} />
         </Show>
+        <Suspense>
+        <ActivityDetails activity={props.activity} />
+        </Suspense>
       </VStack>
     </>
+  );
+};
+
+type ActivityDetailsProps = {
+  activity: Activity;
+};
+
+const ActivityDetails: Component<ActivityDetailsProps> = (props) => {
+  const activityQuery = useQuery(() =>
+    getActivityQueryOptions({ activityId: props.activity.id }),
+  );
+
+  return (
+    <pre class={css({ maxW: "96", overflow: "scroll", maxH: "96" })}>
+      {JSON.stringify(activityQuery.data, null, 2)}
+    </pre>
   );
 };

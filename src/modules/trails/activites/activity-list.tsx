@@ -13,7 +13,10 @@ export const ActivityList: Component<ActivityListProps> = (props) => {
     <ul class={css({ display: "flex", flexDirection: "column", gap: 6 })}>
       <For each={props.activities}>
         {(activity) => (
-          <ActivityCard activity={activity} onCenterClick={props.onCenterClick} />
+          <ActivityCard
+            activity={activity}
+            onCenterClick={props.onCenterClick}
+          />
         )}
       </For>
     </ul>

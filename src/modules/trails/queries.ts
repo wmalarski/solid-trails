@@ -2,13 +2,20 @@ import {
   queryOptions,
   experimental_streamedQuery as streamedQuery,
 } from "@tanstack/solid-query";
+import { throwOnRpcError } from "~/utils/throw-on-rpc-error";
 import {
   getActivityPhotosServerQuery,
+  getActivityServerQuery,
   listAthleteActivitiesServerQuery,
 } from "./actions";
 import type { Activity } from "./types";
 
 const LIST_ATHLETE_PER_PAGE = 30;
+
+const NOT_MUTABLE_OPTIONS = {
+  gcTime: Number.POSITIVE_INFINITY,
+  staleTime: Number.POSITIVE_INFINITY,
+};
 
 const fetchDataInChunks = () => {
   return {
@@ -44,13 +51,12 @@ const fetchDataInChunks = () => {
 
 export const listAthleteActivitiesQueryOptions = () => {
   return queryOptions({
-    gcTime: Number.POSITIVE_INFINITY,
+    ...NOT_MUTABLE_OPTIONS,
     queryFn: streamedQuery({
       streamFn: fetchDataInChunks,
     }),
     queryKey: ["listAthleteActivities"],
     select: (data: Activity[][]) => data.flat(),
-    staleTime: Number.POSITIVE_INFINITY,
   });
 };
 
@@ -63,17 +69,26 @@ export const getActivityPhotosQueryOptions = (
   args: GetActivityPhotosQueryOptionsArgs,
 ) => {
   return queryOptions({
-    gcTime: Number.POSITIVE_INFINITY,
-    queryFn: async (queryArgs) => {
-      const response = await getActivityPhotosServerQuery(
-        queryArgs.queryKey[1],
-      );
-      if (!response.success) {
-        throw response.error;
-      }
-      return response.data;
+    ...NOT_MUTABLE_OPTIONS,
+    queryFn: async (context) => {
+      const response = await getActivityPhotosServerQuery(context.queryKey[1]);
+      return throwOnRpcError(response);
     },
     queryKey: ["getActivityPhotos", args] as const,
-    staleTime: Number.POSITIVE_INFINITY,
+  });
+};
+
+type GetActivityQueryOptionsArgs = {
+  activityId: number;
+};
+
+export const getActivityQueryOptions = (args: GetActivityQueryOptionsArgs) => {
+  return queryOptions({
+    ...NOT_MUTABLE_OPTIONS,
+    queryFn: async (context) => {
+      const response = await getActivityServerQuery(context.queryKey[1]);
+      return throwOnRpcError(response);
+    },
+    queryKey: ["getActivity", args] as const,
   });
 };
