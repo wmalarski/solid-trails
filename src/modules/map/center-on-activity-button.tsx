@@ -6,6 +6,7 @@ import { useOpenLayer } from "./open-layer-context";
 
 type CenterOnActivityButtonProps = {
   activityId: number;
+  onClick?: (activityId: number) => void;
 };
 
 export const CenterOnActivityButton: Component<CenterOnActivityButtonProps> = (
@@ -24,6 +25,8 @@ export const CenterOnActivityButton: Component<CenterOnActivityButtonProps> = (
     if (geometry) {
       view.fit(geometry);
     }
+
+    props.onClick?.(props.activityId);
   };
 
   return (

@@ -25,8 +25,10 @@ export const SelectedActivityCard: Component<SelectedActivityCardProps> = (
             {description()}
           </Heading>
         </VStack>
+        <HStack>
         <CenterOnActivityButton activityId={props.selectedActivity.id} />
         <SelectedActivityDialog activity={props.selectedActivity} />
+        </HStack>
       </HStack>
       <ActivityStats activity={props.selectedActivity} />
     </VStack>

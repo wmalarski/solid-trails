@@ -17,7 +17,7 @@ export const ActivityListDrawer: Component<ActivityListDrawerProps> = (
 
   const [isOpen, setIsOpen] = createSignal(false);
 
-  const onSelect = (activityId: number) => {
+  const onCenterClick = (activityId: number) => {
     setIsOpen(false);
     props.onSelect(activityId);
   };
@@ -42,7 +42,7 @@ export const ActivityListDrawer: Component<ActivityListDrawerProps> = (
             <Drawer.CloseX />
           </Drawer.Header>
           <Drawer.Body>
-            <ActivityList activities={props.activities} onSelect={onSelect} />
+            <ActivityList activities={props.activities} onCenterClick={onCenterClick} />
           </Drawer.Body>
         </Drawer.Content>
       </Drawer.Positioner>

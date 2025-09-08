@@ -5,7 +5,7 @@ import { ActivityCard } from "./activity-card";
 
 type ActivityListProps = {
   activities: Activity[];
-  onSelect: (activityId: number) => void;
+  onCenterClick: (activityId: number) => void;
 };
 
 export const ActivityList: Component<ActivityListProps> = (props) => {
@@ -13,7 +13,7 @@ export const ActivityList: Component<ActivityListProps> = (props) => {
     <ul class={css({ display: "flex", flexDirection: "column", gap: 6 })}>
       <For each={props.activities}>
         {(activity) => (
-          <ActivityCard activity={activity} onSelect={props.onSelect} />
+          <ActivityCard activity={activity} onCenterClick={props.onCenterClick} />
         )}
       </For>
     </ul>
