@@ -17,8 +17,17 @@ type ExchangeCodeArgs = {
 
 const getStravaClientSecret = () => {
   const event = getRequestEventOrThrow();
+
+  console.log(
+    "[event.nativeEvent?.context]",
+    event.nativeEvent?.context,
+    "process" in globalThis,
+  );
+
   return (event.nativeEvent?.context?.cloudflare?.env?.STRAVA_CLIENT_SECRET ||
-    process?.env?.STRAVA_CLIENT_SECRET) as string;
+    ("process" in globalThis
+      ? process?.env?.STRAVA_CLIENT_SECRET
+      : undefined)) as string;
 };
 
 export const exchangeCode = ({ code }: ExchangeCodeArgs) => {
