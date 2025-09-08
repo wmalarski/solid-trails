@@ -30,10 +30,12 @@ export const TrailsTopContainer: Component<TrailsTopContainerProps> = (
       backgroundColor="bg.default"
       borderRadius="l2"
       gap={2}
-      padding={2}
+      padding={3}
       position="absolute"
       right={2}
       top={2}
+      alignItems="flex-start"
+      width="min(calc(100vw - 45px), 400px)"
     >
       <HStack w="full">
         <Heading
@@ -43,7 +45,7 @@ export const TrailsTopContainer: Component<TrailsTopContainerProps> = (
           flexGrow={1}
           gap="2"
         >
-          <Logo class={css({ h: 8, w: 8 })} />
+          <Logo class={css({ h: 8, w: 8, minH: 8, minW: 8 })} />
           {t("info.title")}
         </Heading>
         <ActivityListDrawer

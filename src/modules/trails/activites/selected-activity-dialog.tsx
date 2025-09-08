@@ -3,6 +3,7 @@ import type { Component } from "solid-js";
 import { VStack } from "~/styled-system/jsx";
 import { Dialog } from "~/ui/dialog";
 import { IconButton } from "~/ui/icon-button";
+import { useI18n } from "~/utils/i18n";
 import type { Activity } from "../types";
 import { ActivityPhotosCarousel } from "./activity-photos-carousel";
 import { ActivityStats } from "./activity-stats";
@@ -15,11 +16,13 @@ type SelectedActivityDialogProps = {
 export const SelectedActivityDialog: Component<SelectedActivityDialogProps> = (
   props,
 ) => {
+  const { t } = useI18n();
+
   return (
     <Dialog.Root>
       <Dialog.Trigger
         asChild={(triggerProps) => (
-          <IconButton variant="subtle" {...triggerProps()}>
+          <IconButton {...triggerProps()} variant="subtle" aria-label={t("activity.showDetails")}>
             <ImageIcon />
           </IconButton>
         )}

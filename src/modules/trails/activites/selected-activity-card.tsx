@@ -17,10 +17,10 @@ export const SelectedActivityCard: Component<SelectedActivityCardProps> = (
   const description = createActivityDescription(() => props.selectedActivity);
 
   return (
-    <VStack gap={1}>
-      <HStack justifyContent="space-between" w="full">
-        <VStack alignItems="flex-start" gap={1}>
-          <Heading>{props.selectedActivity.name}</Heading>
+    <VStack gap={2} alignItems="flex-start" w="full">
+      <HStack justifyContent="space-between" w="full" alignItems="flex-start">
+        <VStack alignItems="flex-start" gap={0}>
+          <Heading fontSize="lg">{props.selectedActivity.name}</Heading>
           <Heading as="h3" color="fg.muted" fontSize="sm">
             {description()}
           </Heading>
