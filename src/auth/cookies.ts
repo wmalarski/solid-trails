@@ -1,3 +1,4 @@
+import type { RequestEvent } from "solid-js/web";
 import {
   type CookieSerializeOptions,
   deleteCookie,
@@ -5,12 +6,11 @@ import {
   type HTTPEvent,
   setCookie,
 } from "vinxi/http";
-import { getRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
 import { type AuthTokenResponse, refreshTokens } from "./services";
 import type { Athlete } from "./types";
 
-const REFRESH_TOKEN_COOKIE_NAME = "strava-refresh-token";
-const AUTH_SESSION_COOKIE_NAME = "strava-auth-session";
+const REFRESH_TOKEN_COOKIE_NAME = "st-refresh-token";
+const AUTH_SESSION_COOKIE_NAME = "st-auth-session";
 const REFRESH_TOKEN_MAX_AGE = 24 * 60 * 60 * 90;
 
 const COMMON_COOKIE_OPTIONS: CookieSerializeOptions = {
@@ -41,15 +41,14 @@ export const getAuthStateFromTokens = (
 };
 
 type SetAuthCookiesArgs = {
+  event: RequestEvent;
   authState: AuthState;
   tokens: AuthTokenResponse;
 };
 
 export const setAuthCookies = (args: SetAuthCookiesArgs) => {
-  const event = getRequestEventOrThrow();
-
   setCookie(
-    event.nativeEvent,
+    args.event.nativeEvent,
     REFRESH_TOKEN_COOKIE_NAME,
     args.tokens.refresh_token,
     {
@@ -59,7 +58,7 @@ export const setAuthCookies = (args: SetAuthCookiesArgs) => {
   );
 
   setCookie(
-    event.nativeEvent,
+    args.event.nativeEvent,
     AUTH_SESSION_COOKIE_NAME,
     JSON.stringify(args.authState),
     {
@@ -70,8 +69,10 @@ export const setAuthCookies = (args: SetAuthCookiesArgs) => {
   );
 };
 
-const getAuthCookies = () => {
-  const event = getRequestEventOrThrow();
+const getAuthCookies = (event: RequestEvent) => {
+  console.log("[getAuthCookies-1]");
+  // const event = getRequestEventOrThrow();
+  console.log("[getAuthCookies-2]");
 
   const refreshToken = getCookie(event.nativeEvent, REFRESH_TOKEN_COOKIE_NAME);
   const serializedAuth = getCookie(event.nativeEvent, AUTH_SESSION_COOKIE_NAME);
@@ -86,15 +87,17 @@ const getAuthCookies = () => {
   }
 };
 
-export const getRequestAuth = async (): Promise<AuthState> => {
-  const event = getRequestEventOrThrow();
+export const getRequestAuth = async (
+  event: RequestEvent,
+): Promise<AuthState> => {
+  // const event = getRequestEventOrThrow();
   const localsAuth = event.locals.auth;
 
   if (localsAuth) {
     return localsAuth;
   }
 
-  const { authState, refreshToken } = getAuthCookies();
+  const { authState, refreshToken } = getAuthCookies(event);
 
   if (authState) {
     return authState;
@@ -116,7 +119,11 @@ export const getRequestAuth = async (): Promise<AuthState> => {
 
   console.log("[getRequestAuth]", { updatedAuthState });
 
-  setAuthCookies({ authState: updatedAuthState, tokens: tokensResponse.data });
+  setAuthCookies({
+    authState: updatedAuthState,
+    event,
+    tokens: tokensResponse.data,
+  });
 
   return updatedAuthState;
 };
