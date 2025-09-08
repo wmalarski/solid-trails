@@ -1,5 +1,5 @@
 import { ImageIcon } from "lucide-solid";
-import type { Component } from "solid-js";
+import { Show, type Component } from "solid-js";
 import { VStack } from "~/styled-system/jsx";
 import { Dialog } from "~/ui/dialog";
 import { IconButton } from "~/ui/icon-button";
@@ -43,15 +43,17 @@ type DialogContentProps = {
 };
 
 const DialogContent: Component<DialogContentProps> = (props) => {
-  const description = createActivityDescription(() => props.activity);
+  const description = createActivityDescription();
 
   return (
     <>
       <Dialog.Title>{props.activity.name}</Dialog.Title>
-      <Dialog.Description>{description()}</Dialog.Description>
+      <Dialog.Description>{description(props.activity)}</Dialog.Description>
       <VStack gap={6} py={4}>
         <ActivityStats activity={props.activity} isExtended />
+        <Show when={props.activity.photo_count > 0}>
         <ActivityPhotosCarousel activityId={props.activity.id} />
+        </Show>
       </VStack>
     </>
   );

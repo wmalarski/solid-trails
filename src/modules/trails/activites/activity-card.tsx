@@ -12,14 +12,14 @@ type ActivityCardProps = {
 };
 
 export const ActivityCard: Component<ActivityCardProps> = (props) => {
-  const description = createActivityDescription(() => props.activity);
+  const description = createActivityDescription();
 
   return (
     <Card.Root asChild={(props) => <li {...props()} />}>
       <Card.Header w="full" justifyContent="space-between" flexDirection="row">
       <VStack alignItems="flex-start" gap={1}>
         <Card.Title>{props.activity.name}</Card.Title>
-        <Card.Description>{description()}</Card.Description>
+        <Card.Description>{description(props.activity)}</Card.Description>
       </VStack>
         <CenterOnActivityButton onClick={props.onCenterClick} activityId={props.activity.id} />
       </Card.Header>
