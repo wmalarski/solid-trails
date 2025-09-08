@@ -1,3 +1,4 @@
+import { getRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
 import { fetchStrava } from "~/utils/strava";
 import type { Athlete } from "./types";
 
@@ -15,7 +16,9 @@ type ExchangeCodeArgs = {
 };
 
 const getStravaClientSecret = () => {
-  return process.env.STRAVA_CLIENT_SECRET as string;
+  const event = getRequestEventOrThrow();
+  return (event.nativeEvent?.context?.cloudflare?.env?.STRAVA_CLIENT_SECRET ||
+    process?.env?.STRAVA_CLIENT_SECRET) as string;
 };
 
 export const exchangeCode = ({ code }: ExchangeCodeArgs) => {
