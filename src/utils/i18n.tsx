@@ -37,7 +37,7 @@ const enDict = {
     showDetails: "Show details",
     startDate: "Start time",
     title: "Activities",
-    totalElevationGain: "Total Elevation Gain",
+    totalElevationGain: "Elevation Gain",
   },
   auth: {
     signIn: "Sign In",

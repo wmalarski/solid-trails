@@ -35,7 +35,7 @@ export const TrailsTopContainer: Component<TrailsTopContainerProps> = (
       position="absolute"
       right={2}
       top={2}
-      width="min(calc(100vw - 45px), 400px)"
+      width="min(calc(100vw - 15px), 400px)"
     >
       <HStack w="full">
         <Heading

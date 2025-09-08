@@ -30,6 +30,7 @@ const createOpenLayer = () => {
     layers: [raster, vector],
     target: "map",
     view,
+    controls: [],
   });
 
   return { map, raster, source, vector };
