@@ -28,7 +28,7 @@ export const ActivityPolyline: Component<ActivityPolylineProps> = (props) => {
     feature.setId(props.activity.id);
     feature.setProperties({ activity: props.activity });
 
-    const stroke = new Stroke({ color: "#4d160b", width: 3 });
+    const stroke = new Stroke({ color: "#4d160b", width: 5 });
     const style = new Style({ stroke, zIndex: 1 });
     feature.setStyle(style);
 
