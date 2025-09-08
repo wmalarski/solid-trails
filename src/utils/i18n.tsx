@@ -41,6 +41,7 @@ const enDict = {
   },
   auth: {
     signIn: "Sign In",
+    signInWithStrava: "Sign In With Strava",
     signOut: "Sign Out",
   },
   common: {

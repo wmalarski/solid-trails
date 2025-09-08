@@ -17,7 +17,7 @@ export const SignInForm: Component = () => {
         asChild={(bodyProps) => (
           <div {...bodyProps({ class: css({ gap: 4 }) })}>
             <LinkButton color="primary" href={getLoginLink()}>
-              {t("auth.signIn")}
+              {t("auth.signInWithStrava")}
             </LinkButton>
           </div>
         )}

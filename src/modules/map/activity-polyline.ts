@@ -2,6 +2,7 @@ import Feature from "ol/Feature";
 import Stroke from "ol/style/Stroke";
 import Style from "ol/style/Style";
 import { type Component, createEffect, onCleanup, onMount } from "solid-js";
+import { randomHexColor } from "~/utils/colors";
 import { getPolylineGeometry } from "~/utils/geoline";
 import type { Activity } from "../trails/types";
 import { useOpenLayer } from "./open-layer-context";
@@ -28,7 +29,7 @@ export const ActivityPolyline: Component<ActivityPolylineProps> = (props) => {
     feature.setId(props.activity.id);
     feature.setProperties({ activity: props.activity });
 
-    const stroke = new Stroke({ color: "#4d160b", width: 5 });
+    const stroke = new Stroke({ color: randomHexColor(), width: 4 });
     const style = new Style({ stroke, zIndex: 1 });
     feature.setStyle(style);
 
