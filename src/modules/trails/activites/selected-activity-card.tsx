@@ -1,4 +1,5 @@
 import type { Component } from "solid-js";
+import { CenterOnActivityButton } from "~/modules/map/center-on-activity-button";
 import { HStack, VStack } from "~/styled-system/jsx";
 import { Heading } from "~/ui/heading";
 import type { Activity } from "../types";
@@ -24,6 +25,7 @@ export const SelectedActivityCard: Component<SelectedActivityCardProps> = (
             {description()}
           </Heading>
         </VStack>
+        <CenterOnActivityButton activityId={props.selectedActivity.id} />
         <SelectedActivityDialog activity={props.selectedActivity} />
       </HStack>
       <ActivityStats activity={props.selectedActivity} />

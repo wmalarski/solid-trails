@@ -19,6 +19,7 @@ const enDict = {
     elevHigh: "Maximum Elevation",
     elevLow: "Minimum Elevation",
     endDate: "End time",
+    locate: "Locate",
     maxSpeed: "Maximum Speed",
     movingTime: "Moving Time",
     select: "Select",

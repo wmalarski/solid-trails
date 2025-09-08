@@ -1,4 +1,5 @@
 import type { Component } from "solid-js";
+import { CenterOnActivityButton } from "~/modules/map/center-on-activity-button";
 import { Button } from "~/ui/button";
 import { Card } from "~/ui/card";
 import { useI18n } from "~/utils/i18n";
@@ -25,6 +26,7 @@ export const ActivityCard: Component<ActivityCardProps> = (props) => {
       <Card.Header>
         <Card.Title>{props.activity.name}</Card.Title>
         <Card.Description>{description()}</Card.Description>
+        <CenterOnActivityButton activityId={props.activity.id} />
       </Card.Header>
       <Card.Body>
         <ActivityStats activity={props.activity} isExtended />
