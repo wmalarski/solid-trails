@@ -19,6 +19,7 @@ export const CenterOnActivityButton: Component<CenterOnActivityButtonProps> = (
   const onClick = () => {
     const { map, source } = openLayer();
     const view = map.getView();
+
     const feature = source.getFeatureById(props.activityId);
     const geometry = feature?.getGeometry()?.getExtent();
 

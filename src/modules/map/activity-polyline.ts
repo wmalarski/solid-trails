@@ -25,9 +25,12 @@ export const ActivityPolyline: Component<ActivityPolylineProps> = (props) => {
     }
 
     const feature = new Feature({ geometry: getPolylineGeometry(polyline) });
-
     feature.setId(props.activity.id);
     feature.setProperties({ activity: props.activity });
+    
+    const stroke = new Stroke({ color: "#4d160b", width: 3 });
+    const style = new Style({ stroke, zIndex: 1 });
+    feature.setStyle(style);
 
     source.addFeature(feature);
     onCleanup(() => {
@@ -36,15 +39,21 @@ export const ActivityPolyline: Component<ActivityPolylineProps> = (props) => {
   });
 
   createEffect(() => {
-    const { source } = openLayer();
-    const feature = source.getFeatureById(props.activity.id);
-
-    if (feature) {
-      const color = props.isSelected ? "#e54d2e" : "black";
-      const stroke = new Stroke({ color, width: 4 });
-      const style = new Style({ stroke });
-      feature.setStyle(style);
+    if (!props.isSelected) {
+      return;
     }
+
+    const { source } = openLayer();
+    const geometry = source.getFeatureById(props.activity.id)?.getGeometry()?.clone();
+    const feature = new Feature({ geometry });
+      const stroke = new Stroke({ color: "#e54d2e88", width: 10 });
+      const style = new Style({ stroke, zIndex: 0 });
+      feature.setStyle(style);
+
+    source.addFeature(feature);
+    onCleanup(() => {
+      source.removeFeature(feature);
+    });
   });
 
   return null;

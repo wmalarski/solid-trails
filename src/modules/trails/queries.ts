@@ -26,10 +26,13 @@ const fetchDataInChunks = () => {
           return;
         }
 
-        const activities = response.data;
+        const activities = response.data.filter((activity) =>
+          Boolean(activity.map),
+        );
+
         yield activities;
 
-        if (activities.length < LIST_ATHLETE_PER_PAGE) {
+        if (response.data.length < LIST_ATHLETE_PER_PAGE) {
           isFinished = true;
         }
 
