@@ -15,7 +15,7 @@ const REFRESH_TOKEN_MAX_AGE = 24 * 60 * 60 * 90;
 
 const COMMON_COOKIE_OPTIONS: CookieSerializeOptions = {
   httpOnly: true,
-  sameSite: "strict",
+  sameSite: "lax",
 };
 
 export type AuthState =
@@ -42,7 +42,6 @@ export const getAuthStateFromTokens = (
 
 type SetAuthCookiesArgs = {
   event: RequestEvent;
-  authState: AuthState;
   tokens: AuthTokenResponse;
 };
 
@@ -50,7 +49,7 @@ export const setAuthCookies = (args: SetAuthCookiesArgs) => {
   setCookie(
     args.event.nativeEvent,
     REFRESH_TOKEN_COOKIE_NAME,
-    args.tokens.refresh_token,
+    JSON.stringify(args.tokens),
     {
       ...COMMON_COOKIE_OPTIONS,
       maxAge: REFRESH_TOKEN_MAX_AGE,
@@ -60,7 +59,7 @@ export const setAuthCookies = (args: SetAuthCookiesArgs) => {
   setCookie(
     args.event.nativeEvent,
     AUTH_SESSION_COOKIE_NAME,
-    JSON.stringify(args.authState),
+    args.tokens.access_token,
     {
       ...COMMON_COOKIE_OPTIONS,
       expires: new Date(args.tokens.expires_at),
@@ -70,20 +69,30 @@ export const setAuthCookies = (args: SetAuthCookiesArgs) => {
 };
 
 const getAuthCookies = (event: RequestEvent) => {
-  console.log("[getAuthCookies-1]");
-  // const event = getRequestEventOrThrow();
-  console.log("[getAuthCookies-2]");
-
-  const refreshToken = getCookie(event.nativeEvent, REFRESH_TOKEN_COOKIE_NAME);
-  const serializedAuth = getCookie(event.nativeEvent, AUTH_SESSION_COOKIE_NAME);
+  const serializedTokens = getCookie(
+    event.nativeEvent,
+    REFRESH_TOKEN_COOKIE_NAME,
+  );
+  const accessToken = getCookie(event.nativeEvent, AUTH_SESSION_COOKIE_NAME);
 
   try {
-    const authState = serializedAuth
-      ? (JSON.parse(serializedAuth) as AuthState)
+    const tokens = serializedTokens
+      ? (JSON.parse(serializedTokens) as AuthTokenResponse)
       : null;
-    return { authState, refreshToken };
+
+    const athlete = tokens?.athlete;
+    const refreshToken = tokens?.refresh_token;
+
+    if (!accessToken || !athlete || !refreshToken) {
+      return { authState: UNAUTHORIZED_STATE, refreshToken: null };
+    }
+
+    return {
+      authState: { accessToken, athlete, authorized: true },
+      refreshToken,
+    };
   } catch {
-    return { authState: null, refreshToken };
+    return { authState: UNAUTHORIZED_STATE, refreshToken: null };
   }
 };
 
@@ -113,17 +122,9 @@ export const getRequestAuth = async (
     return UNAUTHORIZED_STATE;
   }
 
-  console.log("[getRequestAuth]", { tokensResponse });
-
   const updatedAuthState = getAuthStateFromTokens(tokensResponse.data);
 
-  console.log("[getRequestAuth]", { updatedAuthState });
-
-  setAuthCookies({
-    authState: updatedAuthState,
-    event,
-    tokens: tokensResponse.data,
-  });
+  setAuthCookies({ event, tokens: tokensResponse.data });
 
   return updatedAuthState;
 };

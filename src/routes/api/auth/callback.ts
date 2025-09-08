@@ -4,7 +4,7 @@ import * as v from "valibot";
 import { STRAVA_SCOPE } from "~/auth/constants";
 import { getAuthStateFromTokens, setAuthCookies } from "~/auth/cookies";
 import { exchangeCode } from "~/auth/services";
-import { getRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
+import { getAthleteServerQuery } from "~/modules/auth/actions";
 import { paths } from "~/utils/paths";
 
 export async function GET(event: APIEvent) {
@@ -26,8 +26,9 @@ export async function GET(event: APIEvent) {
   }
 
   const authState = getAuthStateFromTokens(tokensResponse.data);
-  setAuthCookies({ authState, tokens: tokensResponse.data });
-  getRequestEventOrThrow().locals.auth = authState;
+  setAuthCookies({ event, tokens: tokensResponse.data });
 
-  return redirect(paths.home);
+  event.locals.auth = authState;
+
+  return redirect(paths.home, { revalidate: getAthleteServerQuery.key });
 }

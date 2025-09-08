@@ -1,20 +1,15 @@
 import { action, query, redirect } from "@solidjs/router";
 import { removeSessionCookies, UNAUTHORIZED_STATE } from "~/auth/cookies";
-import { getRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
+import {
+  getAuthorizedRequestEventOrThrow,
+  getRequestEventOrThrow,
+} from "~/utils/get-request-event-or-throw";
 import { paths } from "~/utils/paths";
 
 export const getAthleteServerQuery = query(async () => {
   "use server";
 
-  const event = getRequestEventOrThrow();
-
-  const auth = event.locals.auth;
-
-  console.log("[getAthleteServerQuery]", { auth });
-
-  if (!auth?.authorized || !auth.athlete) {
-    throw redirect(paths.signIn);
-  }
+  const { auth } = getAuthorizedRequestEventOrThrow();
 
   return auth.athlete;
 }, "getAthlete");

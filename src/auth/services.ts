@@ -18,12 +18,6 @@ type ExchangeCodeArgs = {
 const getStravaClientSecret = () => {
   const event = getRequestEventOrThrow();
 
-  console.log(
-    "[event.nativeEvent?.context]",
-    event.nativeEvent?.context,
-    "process" in globalThis,
-  );
-
   return (event.nativeEvent?.context?.cloudflare?.env?.STRAVA_CLIENT_SECRET ||
     ("process" in globalThis
       ? process?.env?.STRAVA_CLIENT_SECRET

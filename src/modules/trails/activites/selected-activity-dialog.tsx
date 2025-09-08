@@ -1,5 +1,5 @@
 import { ImageIcon } from "lucide-solid";
-import { type Component } from "solid-js";
+import type { Component } from "solid-js";
 import { VStack } from "~/styled-system/jsx";
 import { Dialog } from "~/ui/dialog";
 import { IconButton } from "~/ui/icon-button";
