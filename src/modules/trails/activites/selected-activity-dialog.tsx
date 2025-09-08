@@ -62,7 +62,7 @@ const DialogContent: Component<DialogContentProps> = (props) => {
           <ActivityPhotosCarousel activityId={props.activity.id} />
         </VStack>
         <Suspense>
-          <ActivityCharts activity={props.activity}/>
+          <ActivityCharts activity={props.activity} />
         </Suspense>
       </VStack>
     </>

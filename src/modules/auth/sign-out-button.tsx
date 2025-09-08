@@ -20,7 +20,7 @@ export const SignOutButton: Component = () => {
       <Button
         disabled={submission.pending}
         isLoading={submission.pending}
-        variant="outline"
+        variant="subtle"
       >
         <LogOut class={css({ h: 4, w: 4 })} />
         {t("auth.signOut")}

@@ -1,10 +1,9 @@
 import { type Component, Show } from "solid-js";
-import { css } from "~/styled-system/css";
-import { Flex, VStack } from "~/styled-system/jsx";
+import { Stats } from "~/ui/stats";
+import { createDistanceFormatter } from "~/utils/formatters/create-distance-formatter";
 import { createDurationFormatter } from "~/utils/formatters/create-duration-formatter";
 import { createSpeedFormatter } from "~/utils/formatters/create-speed-formatter";
 import { createTimeFormatter } from "~/utils/formatters/create-time-formatter";
-import { formatElevation } from "~/utils/formatters/format-elevation";
 import { useI18n } from "~/utils/i18n";
 import type { Activity } from "../types";
 
@@ -19,6 +18,7 @@ export const ActivityStats: Component<ActivityStatsProps> = (props) => {
   const durationFormatter = createDurationFormatter();
   const timeFormatter = createTimeFormatter();
   const speedFormatter = createSpeedFormatter();
+    const distanceFormatter = createDistanceFormatter()
 
   const endDate = () => {
     const startDate = new Date(props.activity.start_date);
@@ -28,71 +28,53 @@ export const ActivityStats: Component<ActivityStatsProps> = (props) => {
   };
 
   return (
-    <Flex columnGap={6} flexWrap="wrap" rowGap={3}>
+    <Stats.Container>
       <Show when={props.isExtended}>
-        <DataPair
+        <Stats.Item
           label={t("activity.startDate")}
           value={timeFormatter(props.activity.start_date)}
         />
-        <DataPair
+        <Stats.Item
           label={t("activity.endDate")}
           value={timeFormatter(endDate())}
         />
       </Show>
-      <DataPair
+      <Stats.Item
         label={t("activity.distance")}
-        value={formatElevation(props.activity.distance)}
+        value={distanceFormatter(props.activity.distance)}
       />
-      <DataPair
+      <Stats.Item
         label={t("activity.movingTime")}
         value={durationFormatter(props.activity.moving_time)}
       />
       <Show when={props.isExtended}>
-        <DataPair
+        <Stats.Item
           label={t("activity.elapsedTime")}
           value={durationFormatter(props.activity.elapsed_time)}
         />
       </Show>
-      <DataPair
+      <Stats.Item
         label={t("activity.totalElevationGain")}
-        value={formatElevation(props.activity.total_elevation_gain)}
+        value={distanceFormatter(props.activity.total_elevation_gain)}
       />
       <Show when={props.isExtended}>
-        <DataPair
+        <Stats.Item
           label={t("activity.averageSpeed")}
           value={speedFormatter(props.activity.average_speed)}
         />
-        <DataPair
+        <Stats.Item
           label={t("activity.maxSpeed")}
           value={speedFormatter(props.activity.max_speed)}
         />
-        <DataPair
+        <Stats.Item
           label={t("activity.elevHigh")}
-          value={formatElevation(props.activity.elev_high)}
+          value={distanceFormatter(props.activity.elev_high)}
         />
-        <DataPair
+        <Stats.Item
           label={t("activity.elevLow")}
-          value={formatElevation(props.activity.elev_low)}
+          value={distanceFormatter(props.activity.elev_low)}
         />
       </Show>
-    </Flex>
-  );
-};
-
-type DataPairProps = {
-  label: string;
-  value: string;
-};
-
-const DataPair: Component<DataPairProps> = (props) => {
-  return (
-    <VStack alignItems="flex-start" gap={1}>
-      <span class={css({ color: "fg.muted", fontSize: "sm" })}>
-        {props.label}
-      </span>
-      <span class={css({ fontSize: "md", fontWeight: "semibold" })}>
-        {props.value}
-      </span>
-    </VStack>
+    </Stats.Container>
   );
 };

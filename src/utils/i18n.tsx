@@ -11,6 +11,7 @@ import {
 
 const enDict = {
   activity: {
+    altitude: "Altitude",
     averageSpeed: "Average Speed",
     date: "Date",
     description: "List of your activities",
@@ -22,11 +23,21 @@ const enDict = {
     locate: "Locate",
     maxSpeed: "Maximum Speed",
     movingTime: "Moving Time",
+    profile: {
+      activitesCount: "Activites Count",
+      country: "Country",
+      maximumAltitude: "Maximum Altitude",
+      open: "Open profile popover",
+      title: "Athlete",
+      totalDistance: "Total Distance",
+      totalElapsedTime: "Total Elapsed Time",
+      totalElevation: "Total Elevation",
+      totalMovingTime: "Total Elapsed Time",
+    },
     showDetails: "Show details",
     startDate: "Start time",
     title: "Activities",
     totalElevationGain: "Total Elevation Gain",
-    altitude: "Altitude"
   },
   auth: {
     signIn: "Sign In",
@@ -55,12 +66,7 @@ const enDict = {
     madeBy: "Made by wmalarski",
     title: "Solid Trails",
   },
-  layout: {
-    profile: {
-      open: "Open profile popover",
-      title: "Athlete",
-    },
-  },
+  layout: {},
   notFound: {
     title: "Not Found",
   },

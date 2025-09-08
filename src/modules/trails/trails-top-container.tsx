@@ -52,7 +52,7 @@ export const TrailsTopContainer: Component<TrailsTopContainerProps> = (
           activities={props.activities}
           onSelect={props.onSelect}
         />
-        <ProfilePopover />
+        <ProfilePopover activities={props.activities} />
       </HStack>
       <Show when={selectedActivity()}>
         {(selectedActivity) => (

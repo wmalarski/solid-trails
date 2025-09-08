@@ -1,15 +1,22 @@
 import { XIcon } from "lucide-solid";
 import { type Component, createMemo } from "solid-js";
 import { useRequiredAthleteContext } from "~/auth/athlete-context";
-import { css } from "~/styled-system/css";
 import { Box, VStack } from "~/styled-system/jsx";
 import { Avatar } from "~/ui/avatar";
 import { IconButton } from "~/ui/icon-button";
 import { Popover } from "~/ui/popover";
+import { Stats } from "~/ui/stats";
+import { createDistanceFormatter } from "~/utils/formatters/create-distance-formatter";
+import { createDurationFormatter } from "~/utils/formatters/create-duration-formatter";
 import { useI18n } from "~/utils/i18n";
 import { SignOutButton } from "../auth/sign-out-button";
+import type { Activity } from "./types";
 
-export const ProfilePopover: Component = () => {
+type ProfilePopoverProps = {
+  activities: Activity[];
+};
+
+export const ProfilePopover: Component<ProfilePopoverProps> = (props) => {
   const { t } = useI18n();
 
   const athlete = useRequiredAthleteContext();
@@ -24,7 +31,7 @@ export const ProfilePopover: Component = () => {
       <Popover.Trigger
         asChild={(triggerProps) => (
           <IconButton
-            aria-label={t("layout.profile.open")}
+            aria-label={t("activity.profile.open")}
             variant="ghost"
             {...triggerProps()}
           >
@@ -37,12 +44,12 @@ export const ProfilePopover: Component = () => {
           <Popover.Arrow>
             <Popover.ArrowTip />
           </Popover.Arrow>
-          <VStack alignItems="stretch" gap="1">
-            <Popover.Title>{t("layout.profile.title")}</Popover.Title>
+          <VStack gap="4">
+            <VStack alignItems="flex-start" w="full" gap="1">
+            <Popover.Title>{t("activity.profile.title")}</Popover.Title>
             <Popover.Description>{name()}</Popover.Description>
-            <pre class={css({ overflowX: "hidden", w: "80" })}>
-              {JSON.stringify(athlete(), null, 2)}
-            </pre>
+            </VStack>
+            <ProfileStats activities={props.activities} />
             <SignOutButton />
           </VStack>
           <Box position="absolute" right="1" top="1">
@@ -62,5 +69,70 @@ export const ProfilePopover: Component = () => {
         </Popover.Content>
       </Popover.Positioner>
     </Popover.Root>
+  );
+};
+
+type ProfileStatsProps = {
+  activities: Activity[];
+};
+
+const ProfileStats: Component<ProfileStatsProps> = (props) => {
+  const { t } = useI18n();
+
+  const durationFormatter = createDurationFormatter();
+  const distanceFormatter = createDistanceFormatter()
+
+  const athlete = useRequiredAthleteContext();
+
+  const summary = createMemo(() => {
+    return props.activities.reduce(
+      (previous, current) => ({
+        maximumAltitude: Math.max(previous.maximumAltitude, current.elev_high),
+        totalDistance: previous.totalDistance + current.distance,
+        totalElapsedTime: previous.totalElapsedTime + current.elapsed_time,
+        totalElevation: previous.totalElevation + current.total_elevation_gain,
+        totalMovingTime: previous.totalMovingTime + current.moving_time,
+      }),
+      {
+        maximumAltitude: 0,
+        totalDistance: 0,
+        totalElapsedTime: 0,
+        totalElevation: 0,
+        totalMovingTime: 0,
+      },
+    );
+  });
+
+  return (
+    <Stats.Container>
+      <Stats.Item
+        label={t("activity.profile.country")}
+        value={athlete().country}
+      />
+      <Stats.Item
+        label={t("activity.profile.activitesCount")}
+        value={String(props.activities.length)}
+      />
+      <Stats.Item
+        label={t("activity.profile.maximumAltitude")}
+        value={distanceFormatter(summary().maximumAltitude)}
+      />
+      <Stats.Item
+        label={t("activity.profile.totalDistance")}
+        value={distanceFormatter(summary().totalDistance)}
+      />
+        <Stats.Item
+          label={t("activity.profile.totalElevation")}
+          value={distanceFormatter(summary().totalElevation)}
+        />
+      <Stats.Item
+        label={t("activity.profile.totalElapsedTime")}
+        value={durationFormatter(summary().totalElapsedTime)}
+      />
+      <Stats.Item
+        label={t("activity.profile.totalMovingTime")}
+        value={durationFormatter(summary().totalMovingTime)}
+      />
+    </Stats.Container>
   );
 };
