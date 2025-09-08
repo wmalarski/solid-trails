@@ -86,11 +86,11 @@ export type Photo = {
   cursor: any;
 };
 
-export type Urls = {
+type Urls = {
   [size: string]: string;
 };
 
-export type Sizes = {
+type Sizes = {
   [size: string]: number[];
 };
 

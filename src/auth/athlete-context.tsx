@@ -26,10 +26,6 @@ export const AthleteProvider: Component<AthleteProviderProps> = (props) => {
   );
 };
 
-export const useAthleteContext = () => {
-  return useContext(AthleteContext);
-};
-
 export const useRequiredAthleteContext = () => {
   const context = useContext(AthleteContext);
 
