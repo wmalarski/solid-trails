@@ -3,7 +3,7 @@ import type { Component } from "solid-js";
 import { VStack } from "~/styled-system/jsx";
 import { Dialog } from "~/ui/dialog";
 import { IconButton } from "~/ui/icon-button";
-import type { Activity } from "../trails/types";
+import type { Activity } from "../types";
 import { ActivityPhotosCarousel } from "./activity-photos-carousel";
 import { ActivityStats } from "./activity-stats";
 import { createActivityDescription } from "./create-activity-description";

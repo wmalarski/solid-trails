@@ -6,7 +6,7 @@ import { createSpeedFormatter } from "~/utils/formatters/create-speed-formatter"
 import { createTimeFormatter } from "~/utils/formatters/create-time-formatter";
 import { formatElevation } from "~/utils/formatters/format-elevation";
 import { useI18n } from "~/utils/i18n";
-import type { Activity } from "../trails/types";
+import type { Activity } from "../types";
 
 type ActivityStatsProps = {
   activity: Activity;

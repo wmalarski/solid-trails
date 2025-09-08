@@ -2,7 +2,7 @@ import { type Component, createSignal } from "solid-js";
 import { Button } from "~/ui/button";
 import { Drawer } from "~/ui/drawer";
 import { useI18n } from "~/utils/i18n";
-import type { Activity } from "../trails/types";
+import type { Activity } from "../types";
 import { ActivityList } from "./activity-list";
 
 type ActivityListDrawerProps = {

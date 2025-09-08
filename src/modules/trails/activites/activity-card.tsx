@@ -2,7 +2,7 @@ import type { Component } from "solid-js";
 import { Button } from "~/ui/button";
 import { Card } from "~/ui/card";
 import { useI18n } from "~/utils/i18n";
-import type { Activity } from "../trails/types";
+import type { Activity } from "../types";
 import { ActivityStats } from "./activity-stats";
 import { createActivityDescription } from "./create-activity-description";
 

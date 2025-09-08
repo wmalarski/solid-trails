@@ -1,7 +1,7 @@
 import { type Accessor, createMemo } from "solid-js";
 import { createDateFormatter } from "~/utils/formatters/create-date-formatter";
 import { createTimeFormatter } from "~/utils/formatters/create-time-formatter";
-import type { Activity } from "../trails/types";
+import type { Activity } from "../types";
 
 export const createActivityDescription = (args: Accessor<Activity>) => {
   const dateFormatter = createDateFormatter();

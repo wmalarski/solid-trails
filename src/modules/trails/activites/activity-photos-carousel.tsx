@@ -5,8 +5,8 @@ import { css } from "~/styled-system/css";
 import { Carousel } from "~/ui/carousel";
 import { IconButton } from "~/ui/icon-button";
 import { useI18n } from "~/utils/i18n";
-import { getActivityPhotosQueryOptions } from "../trails/queries";
-import type { Photo } from "../trails/types";
+import { getActivityPhotosQueryOptions } from "../queries";
+import type { Photo } from "../types";
 
 const PHOTOS_SIZE = 1000;
 
