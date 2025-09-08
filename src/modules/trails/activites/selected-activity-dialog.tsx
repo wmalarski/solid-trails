@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/solid-query";
 import { ImageIcon } from "lucide-solid";
-import { type Component, Show, Suspense } from "solid-js";
+import { type Component, Suspense } from "solid-js";
 import { css } from "~/styled-system/css";
 import { VStack } from "~/styled-system/jsx";
 import { Dialog } from "~/ui/dialog";
 import { IconButton } from "~/ui/icon-button";
 import { useI18n } from "~/utils/i18n";
-import { getActivityQueryOptions } from "../queries";
+import { getActivityStreamsQueryOptions } from "../queries";
 import type { Activity } from "../types";
 import { ActivityPhotosCarousel } from "./activity-photos-carousel";
 import { ActivityStats } from "./activity-stats";
@@ -55,15 +55,17 @@ const DialogContent: Component<DialogContentProps> = (props) => {
   return (
     <>
       <Dialog.Title>{props.activity.name}</Dialog.Title>
-      <Dialog.Description>{description(props.activity)}</Dialog.Description>
-      <VStack gap={6} py={4}>
+      <Dialog.Description pb={2}>
+        {description(props.activity)}
+      </Dialog.Description>
+      <VStack gap={6} maxH="calc(100vh - 200px)" overflowY="auto" py={4}>
         <ActivityStats activity={props.activity} isExtended />
-        <Show when={props.activity.photo_count > 0}>
-          <ActivityPhotosCarousel activityId={props.activity.id} />
-        </Show>
         <Suspense>
-        <ActivityDetails activity={props.activity} />
+          <ActivityDetails activity={props.activity} />
         </Suspense>
+        <VStack bgColor="bg.canvas" position="relative">
+          <ActivityPhotosCarousel activityId={props.activity.id} />
+        </VStack>
       </VStack>
     </>
   );
@@ -75,11 +77,11 @@ type ActivityDetailsProps = {
 
 const ActivityDetails: Component<ActivityDetailsProps> = (props) => {
   const activityQuery = useQuery(() =>
-    getActivityQueryOptions({ activityId: props.activity.id }),
+    getActivityStreamsQueryOptions({ activityId: props.activity.id }),
   );
 
   return (
-    <pre class={css({ maxW: "96", overflow: "scroll", maxH: "96" })}>
+    <pre class={css({ maxH: "96", maxW: "96", overflow: "scroll", minH: 96, h: 96 })}>
       {JSON.stringify(activityQuery.data, null, 2)}
     </pre>
   );

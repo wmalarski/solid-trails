@@ -54,8 +54,6 @@ export type Activity = {
   elev_high: number;
 };
 
-export type ExtendedActivity = Activity;
-
 type ActivityAthlete = {
   id: number;
   resource_state: number;
@@ -94,4 +92,17 @@ export type Urls = {
 
 export type Sizes = {
   [size: string]: number[];
+};
+
+export type ActivityStreams = {
+  distance: ActivityStream;
+  altitude: ActivityStream;
+  velocity_smooth: ActivityStream;
+};
+
+export type ActivityStream = {
+  data: number[];
+  series_type: string;
+  original_size: number;
+  resolution: string;
 };
