@@ -14,7 +14,7 @@ export const ActivitySelectionListener: Component<
   onMount(() => {
     const { map } = openLayer();
 
-    const select = new Select();
+    const select = new Select({ style: null });
 
     select.on("select", (event) => {
       const selectedFeature = event.selected.at(0);
@@ -29,15 +29,3 @@ export const ActivitySelectionListener: Component<
 
   return null;
 };
-
-// export const createActivitySelect = () => {
-
-//   const select = new Select();
-
-//     select.on("select", (event) => {
-//       const selectedFeature = event.selected.at(0);
-//       const activity = selectedFeature?.getProperties()?.activity;
-//       props.onSelected(activity);
-//     });
-
-// }

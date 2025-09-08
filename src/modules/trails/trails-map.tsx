@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/solid-query";
-import { type Component, createMemo, createSignal, For } from "solid-js";
+import { type Component, createSignal, For } from "solid-js";
 import { grid } from "~/styled-system/patterns";
-import { SelectedActivityDialog } from "../activites/selected-activity-dialog";
 import { ActivityPolyline } from "../map/activity-polyline";
 import { ActivitySelectionListener } from "../map/activity-selection-listener";
 import { OpenLayerProvider } from "../map/open-layer-context";
@@ -16,33 +15,26 @@ export const TrailsMap: Component = () => {
     number | undefined
   >();
 
-  const selectedActivity = createMemo(() => {
-    const activityId = selectedActivityId();
-    return query.data?.find((activity) => activity.id === activityId);
-  });
-
-  const onSelectedActivityClose = () => {
-    setSelectedActivityId(undefined);
-  };
-
   return (
     <OpenLayerProvider>
       <For each={query.data}>
-        {(activity) => <ActivityPolyline activity={activity} />}
+        {(activity) => (
+          <ActivityPolyline
+            activity={activity}
+            isSelected={activity.id === selectedActivityId()}
+            selectedActivityId={selectedActivityId()}
+          />
+        )}
       </For>
       <main class={grid({ h: "screen", position: "relative", w: "screen" })}>
         <OpenLayerView />
         <TrailsTopContainer
           activities={query.data ?? []}
           onSelect={setSelectedActivityId}
-          selectedActivity={selectedActivity()}
+          selectedActivityId={selectedActivityId()}
         />
       </main>
       <ActivitySelectionListener onSelected={setSelectedActivityId} />
-      <SelectedActivityDialog
-        onClose={onSelectedActivityClose}
-        selectedActivity={undefined}
-      />
     </OpenLayerProvider>
   );
 };

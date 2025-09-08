@@ -1,37 +1,34 @@
-import { type Component, Show } from "solid-js";
+import { ImageIcon } from "lucide-solid";
+import type { Component } from "solid-js";
 import { VStack } from "~/styled-system/jsx";
 import { Dialog } from "~/ui/dialog";
+import { IconButton } from "~/ui/icon-button";
 import type { Activity } from "../trails/types";
 import { ActivityPhotosCarousel } from "./activity-photos-carousel";
 import { ActivityStats } from "./activity-stats";
 import { createActivityDescription } from "./create-activity-description";
 
 type SelectedActivityDialogProps = {
-  selectedActivity?: Activity;
-  onClose: () => void;
+  activity: Activity;
 };
 
 export const SelectedActivityDialog: Component<SelectedActivityDialogProps> = (
   props,
 ) => {
-  const opOpenChange: Dialog.RootProps["onOpenChange"] = () => {
-    props.onClose();
-  };
-
   return (
-    <Dialog.Root
-      onOpenChange={opOpenChange}
-      open={Boolean(props.selectedActivity)}
-    >
+    <Dialog.Root>
+      <Dialog.Trigger
+        asChild={(triggerProps) => (
+          <IconButton variant="subtle" {...triggerProps()}>
+            <ImageIcon />
+          </IconButton>
+        )}
+      />
       <Dialog.Backdrop />
       <Dialog.Positioner>
         <Dialog.Content p={6} w="xl">
           <Dialog.CloseX />
-          <Show when={props.selectedActivity}>
-            {(activity) => (
-              <DialogContent activity={activity()} />
-            )}
-          </Show>
+          <DialogContent activity={props.activity} />
         </Dialog.Content>
       </Dialog.Positioner>
     </Dialog.Root>
