@@ -34,7 +34,7 @@
     "lint": "biome check .",
     "lint:fix": "biome check . --write",
     "prepare": "panda codegen",
-    "start": "vinxi start",
+    "start": "pnpm build && pnpm dlx wrangler pages dev dist --compatibility-flag=nodejs_compat",
     "tsc": "tsc --noEmit",
     "version": "vinxi version"
   },
