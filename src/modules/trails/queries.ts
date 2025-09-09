@@ -5,7 +5,6 @@ import {
 import { throwOnRpcError } from "~/utils/throw-on-rpc-error";
 import {
   getActivityPhotosServerQuery,
-  getActivityStreamsServerQuery,
   listAthleteActivitiesServerQuery,
 } from "./actions";
 import type { Activity } from "./types";
@@ -75,22 +74,5 @@ export const getActivityPhotosQueryOptions = (
       return throwOnRpcError(response);
     },
     queryKey: ["getActivityPhotos", args] as const,
-  });
-};
-
-type GetActivityStreamsQueryOptionsArgs = {
-  activityId: number;
-};
-
-export const getActivityStreamsQueryOptions = (
-  args: GetActivityStreamsQueryOptionsArgs,
-) => {
-  return queryOptions({
-    ...NOT_MUTABLE_OPTIONS,
-    queryFn: async (context) => {
-      const response = await getActivityStreamsServerQuery(context.queryKey[1]);
-      return throwOnRpcError(response);
-    },
-    queryKey: ["getStreamsActivity", args] as const,
   });
 };

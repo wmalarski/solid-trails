@@ -60,9 +60,6 @@ const DialogContent: Component<DialogContentProps> = (props) => {
         <VStack bgColor="bg.canvas" position="relative">
           <ActivityPhotosCarousel activityId={props.activity.id} />
         </VStack>
-        {/* <Suspense>
-          <ActivityCharts activity={props.activity} />
-        </Suspense> */}
       </VStack>
     </>
   );

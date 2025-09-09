@@ -93,16 +93,3 @@ type Urls = {
 type Sizes = {
   [size: string]: number[];
 };
-
-export type ActivityStreams = {
-  distance: ActivityStream;
-  altitude: ActivityStream;
-  velocity_smooth: ActivityStream;
-};
-
-export type ActivityStream = {
-  data: number[];
-  series_type: string;
-  original_size: number;
-  resolution: string;
-};

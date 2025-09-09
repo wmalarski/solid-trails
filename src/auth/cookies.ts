@@ -1,4 +1,5 @@
 import type { RequestEvent } from "solid-js/web";
+import * as v from "valibot";
 import {
   type CookieSerializeOptions,
   deleteCookie,
@@ -76,14 +77,20 @@ const getAuthCookies = (event: RequestEvent) => {
   const serializedTokens = getCookie(nativeEvent, REFRESH_TOKEN_COOKIE_NAME);
   const accessToken = getCookie(nativeEvent, AUTH_SESSION_COOKIE_NAME);
 
-  try {
-    const tokens = serializedTokens
-      ? (JSON.parse(serializedTokens) as StoredTokens)
-      : null;
-    return { accessToken, tokens };
-  } catch {
+  const parsed = v.safeParse(
+    v.pipe(
+      v.string(),
+      v.parseJson(),
+      v.object({ athlete: v.unknown(), refereshToken: v.string() }),
+    ),
+    serializedTokens,
+  );
+
+  if (!parsed.success) {
     return { accessToken, tokens: null };
   }
+
+  return { accessToken, data: parsed.output as StoredTokens };
 };
 
 export const getRequestAuth = async (
@@ -95,17 +102,17 @@ export const getRequestAuth = async (
     return localsAuth;
   }
 
-  const { accessToken, tokens } = getAuthCookies(event);
+  const { accessToken, data } = getAuthCookies(event);
 
-  if (accessToken && tokens) {
-    return { accessToken, athlete: tokens.athlete, authorized: true };
+  if (accessToken && data) {
+    return { accessToken, athlete: data.athlete, authorized: true };
   }
 
-  if (!tokens?.refereshToken) {
+  if (!data?.refereshToken) {
     return UNAUTHORIZED_STATE;
   }
 
-  const refreshToken = tokens.refereshToken;
+  const refreshToken = data.refereshToken;
   const refreshResponse = await refreshTokens({ refreshToken });
 
   if (!refreshResponse.success) {
@@ -114,7 +121,7 @@ export const getRequestAuth = async (
 
   const refreshResponseWithAthete = {
     ...refreshResponse.data,
-    athlete: tokens.athlete,
+    athlete: data.athlete,
   };
 
   const updatedAuthState = getAuthStateFromTokens(refreshResponseWithAthete);
