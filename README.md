@@ -1,32 +1,36 @@
-# SolidStart
+# Solid Trails
 
-Everything you need to build a Solid project, powered by [`solid-start`](https://start.solidjs.com);
+Solid Trials app is a non-trivial demo application built using Solid Start and Strava API.
 
-## Creating a project
+![application screenshot](./docs/screenshot.png)
 
-```bash
-# create a new project in the current directory
-npm init solid@latest
+## Tech stack
 
-# create a new project in my-app
-npm init solid@latest my-app
-```
+- [Solid](https://docs.solidjs.com) + [SolidStart](https://docs.solidjs.com/solid-start/)
+- [OpenLayers](https://openlayers.org)
+- [Maps freemap.sk](https://www.freemap.sk)
+- [Biome](https://biomejs.dev)
+- [Strava API](https://developers.strava.com)
+- [Park UI](https://park-ui.com)
+- [Panda CSS](https://panda-css.com)
+- [Tanstack Query](https://tanstack.com/query/latest)
 
-## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## TODO List
 
-```bash
-npm run dev
+- [x] Strava authorization and session management
+- [x] Fetching athlete and activites from Strava API
+- [x] Display activities in the form of the list
+- [x] Displaying OSM map with trails
+- [x] Displaying activites on the map using polylines
+- [x] Add polyline selection and display selection details
+- [x] Add user details and summary
+- [x] Add dialog with activity details and photos
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+## How to run?
 
-## Building
+1. `pnpm i`
+2. create `.env` file based on `.env.example`
+3. `pnpm dev`
+3. `pnpm start` to run using local cloudflare
 
-Solid apps are built with _presets_, which optimise your project for deployment to different environments.
-
-By default, `npm run build` will generate a Node app that you can run with `npm start`. To use a different preset, add it to the `devDependencies` in `package.json` and specify in your `app.config.js`.
-
-## This project was created with the [Solid CLI](https://github.com/solidjs-community/solid-cli)

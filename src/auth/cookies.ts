@@ -40,91 +40,76 @@ export const getAuthStateFromTokens = (
   };
 };
 
-type SetAuthCookiesArgs = {
-  event: RequestEvent;
-  tokens: AuthTokenResponse;
-};
-
-export const setAuthCookies = (args: SetAuthCookiesArgs) => {
+export const setAuthCookies = (
+  event: RequestEvent,
+  tokens: AuthTokenResponse,
+) => {
   setCookie(
-    args.event.nativeEvent,
+    event.nativeEvent,
     REFRESH_TOKEN_COOKIE_NAME,
-    JSON.stringify(args.tokens),
+    JSON.stringify(tokens),
     {
       ...COMMON_COOKIE_OPTIONS,
       maxAge: REFRESH_TOKEN_MAX_AGE,
     },
   );
 
-  setCookie(
-    args.event.nativeEvent,
-    AUTH_SESSION_COOKIE_NAME,
-    args.tokens.access_token,
-    {
-      ...COMMON_COOKIE_OPTIONS,
-      expires: new Date(args.tokens.expires_at),
-      maxAge: args.tokens.expires_in,
-    },
-  );
+  setCookie(event.nativeEvent, AUTH_SESSION_COOKIE_NAME, tokens.access_token, {
+    ...COMMON_COOKIE_OPTIONS,
+    expires: new Date(tokens.expires_at),
+    maxAge: tokens.expires_in,
+  });
 };
 
 const getAuthCookies = (event: RequestEvent) => {
-  const serializedTokens = getCookie(
-    event.nativeEvent,
-    REFRESH_TOKEN_COOKIE_NAME,
-  );
-  const accessToken = getCookie(event.nativeEvent, AUTH_SESSION_COOKIE_NAME);
+  const nativeEvent = event.nativeEvent;
+  const serializedTokens = getCookie(nativeEvent, REFRESH_TOKEN_COOKIE_NAME);
+  const accessToken = getCookie(nativeEvent, AUTH_SESSION_COOKIE_NAME);
 
   try {
     const tokens = serializedTokens
       ? (JSON.parse(serializedTokens) as AuthTokenResponse)
       : null;
-
-    const athlete = tokens?.athlete;
-    const refreshToken = tokens?.refresh_token;
-
-    if (!accessToken || !athlete || !refreshToken) {
-      return { authState: UNAUTHORIZED_STATE, refreshToken: null };
-    }
-
-    return {
-      authState: { accessToken, athlete, authorized: true },
-      refreshToken,
-    };
+    return { accessToken, tokens };
   } catch {
-    return { authState: UNAUTHORIZED_STATE, refreshToken: null };
+    return { accessToken, tokens: null };
   }
 };
 
 export const getRequestAuth = async (
   event: RequestEvent,
 ): Promise<AuthState> => {
-  // const event = getRequestEventOrThrow();
   const localsAuth = event.locals.auth;
 
   if (localsAuth) {
     return localsAuth;
   }
 
-  const { authState, refreshToken } = getAuthCookies(event);
+  const { accessToken, tokens } = getAuthCookies(event);
 
-  if (authState) {
-    return authState;
+  if (accessToken && tokens) {
+    return getAuthStateFromTokens(tokens);
   }
 
-  if (!refreshToken) {
+  if (!tokens?.refresh_token) {
     return UNAUTHORIZED_STATE;
   }
 
-  const tokensResponse = await refreshTokens({ refreshToken });
+  const refreshToken = tokens.refresh_token;
+  const refreshResponse = await refreshTokens({ refreshToken });
 
-  if (!tokensResponse.success) {
+  if (!refreshResponse.success) {
     return UNAUTHORIZED_STATE;
   }
 
-  const updatedAuthState = getAuthStateFromTokens(tokensResponse.data);
+  const refreshResponseWithAthete = {
+    ...refreshResponse.data,
+    athlete: tokens.athlete,
+  };
 
-  setAuthCookies({ event, tokens: tokensResponse.data });
+  const updatedAuthState = getAuthStateFromTokens(refreshResponseWithAthete);
+
+  setAuthCookies(event, refreshResponseWithAthete);
 
   return updatedAuthState;
 };

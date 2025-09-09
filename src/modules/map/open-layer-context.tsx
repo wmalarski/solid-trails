@@ -15,10 +15,11 @@ import { createPeristedView } from "./create-persisted-view";
 import "./open-layers.css";
 
 const OSM_SOURCE = "https://outdoor.tiles.freemap.sk/{z}/{x}/{y}@{s}";
+const OSM_ATTRIBUTIONS = `<a href="https://www.freemap.sk">© Freemap Slovakia</a>`;
 
 const createOpenLayer = () => {
   const raster = new TileLayer({
-    source: new OSM({ url: OSM_SOURCE }),
+    source: new OSM({ attributions: [OSM_ATTRIBUTIONS], url: OSM_SOURCE }),
   });
 
   const source = new VectorSource({ wrapX: false });
@@ -27,10 +28,10 @@ const createOpenLayer = () => {
   const view = createPeristedView();
 
   const map = new OlMap({
+    controls: [],
     layers: [raster, vector],
     target: "map",
     view,
-    controls: [],
   });
 
   return { map, raster, source, vector };

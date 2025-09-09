@@ -33,7 +33,7 @@ export const SelectedActivityDialog: Component<SelectedActivityDialogProps> = (
       />
       <Dialog.Backdrop />
       <Dialog.Positioner>
-        <Dialog.Content p={6} w="2xl" maxH="100svh" overflowY="auto">
+        <Dialog.Content maxH="100svh" overflowY="auto" p={6} w="2xl">
           <Dialog.CloseX />
           <DialogContent activity={props.activity} />
         </Dialog.Content>

@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@ark-ui/solid':
-        specifier: ^5.22.0
-        version: 5.22.0(solid-js@1.9.9)
+        specifier: ^5.23.0
+        version: 5.23.0(solid-js@1.9.9)
       '@solid-primitives/i18n':
         specifier: ^2.2.1
         version: 2.2.1(solid-js@1.9.9)
@@ -33,8 +33,8 @@ importers:
         specifier: ^4.5.0
         version: 4.5.0
       lucide-solid:
-        specifier: ^0.542.0
-        version: 0.542.0(solid-js@1.9.9)
+        specifier: ^0.543.0
+        version: 0.543.0(solid-js@1.9.9)
       ol:
         specifier: ^10.6.1
         version: 10.6.1
@@ -77,8 +77,8 @@ packages:
     resolution: {integrity: sha512-KoROLVVT23BvFHcye/GYhG8NJ2CH0C+CaoJhXrkEjvk8pbEx80Xk5NIUy5gL7xmX+LDD7kY5t3NotBqCu+2L2w==}
     deprecated: This package is deprecated. Please import directly from @ark-ui/<framework>
 
-  '@ark-ui/solid@5.22.0':
-    resolution: {integrity: sha512-1l22lifIWpuT7BsQut1GFnTCJ8504JJEsKaKIHAQvXCkVezMl3pIfAwb8JQ55TmW9r1KNIBW4JDz7KRnp1Rg/A==}
+  '@ark-ui/solid@5.23.0':
+    resolution: {integrity: sha512-+8wLF0tFHQBFuuftHXN3LOc1kM9ZOxDHuyZfPPz1/olCp99I3wEQE2Ndmnw++XU/vWFFllMLtEk7oLZS8gk5wA==}
     peerDependencies:
       solid-js: '>=1.6.0'
 
@@ -3098,8 +3098,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lucide-solid@0.542.0:
-    resolution: {integrity: sha512-cMy0fZu9TEEm1IIP3BIXBJd07xJGeAYNebIE1Zti+7cnv1hJcHoNZx4+D2tHZIYKILoSB/Rhs5M0vdKzQTU33g==}
+  lucide-solid@0.543.0:
+    resolution: {integrity: sha512-0SlQUNj2idRjN1hBXFqwYRzMxsRt8FaNlCXC1ArOHtAhXIoyJllYMwAoId5R7oQa3Mc3izSpOEWruUcXjA4Wag==}
     peerDependencies:
       solid-js: ^1.4.7
 
@@ -4514,7 +4514,7 @@ snapshots:
     transitivePeerDependencies:
       - '@internationalized/date'
 
-  '@ark-ui/solid@5.22.0(solid-js@1.9.9)':
+  '@ark-ui/solid@5.23.0(solid-js@1.9.9)':
     dependencies:
       '@internationalized/date': 3.8.2
       '@zag-js/accordion': 1.22.1
@@ -8264,7 +8264,7 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-solid@0.542.0(solid-js@1.9.9):
+  lucide-solid@0.543.0(solid-js@1.9.9):
     dependencies:
       solid-js: 1.9.9
 

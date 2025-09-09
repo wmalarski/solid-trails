@@ -14,7 +14,7 @@ export const ActivitySelectionListener: Component<
   onMount(() => {
     const { map } = openLayer();
 
-    const select = new Select({ style: null, hitTolerance: 10 });
+    const select = new Select({ hitTolerance: 10, style: null });
 
     select.on("select", (event) => {
       const selectedFeature = event.selected.at(0);

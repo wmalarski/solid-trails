@@ -48,7 +48,7 @@ export const refreshTokens = async ({ refreshToken }: RefreshTokensArgs) => {
   formData.set("grant_type", "refresh_token");
   formData.set("refresh_token", refreshToken);
 
-  return fetchStrava<AuthTokenResponse>({
+  return fetchStrava<Omit<AuthTokenResponse, "athlete">>({
     init: { body: formData, method: "POST" },
     path: "oauth/token",
   });
