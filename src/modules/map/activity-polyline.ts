@@ -45,10 +45,12 @@ export const ActivityPolyline: Component<ActivityPolylineProps> = (props) => {
     }
 
     const { source } = openLayer();
+
     const geometry = source
       .getFeatureById(props.activity.id)
       ?.getGeometry()
       ?.clone();
+
     const feature = new Feature({ geometry });
     const stroke = new Stroke({ color: "#e54d2e88", width: 10 });
     const style = new Style({ stroke, zIndex: 0 });

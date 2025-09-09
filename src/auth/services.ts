@@ -1,15 +1,6 @@
 import { getRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
 import { fetchStrava } from "~/utils/strava";
-import type { Athlete } from "./types";
-
-export type AuthTokenResponse = {
-  token_type: string;
-  expires_at: number;
-  expires_in: number;
-  refresh_token: string;
-  access_token: string;
-  athlete: Athlete;
-};
+import type { AuthTokenResponse } from "./types";
 
 type ExchangeCodeArgs = {
   code: string;

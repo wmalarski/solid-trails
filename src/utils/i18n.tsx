@@ -67,7 +67,6 @@ const enDict = {
     madeBy: "Made by wmalarski",
     title: "Solid Trails",
   },
-  layout: {},
   notFound: {
     title: "Not Found",
   },

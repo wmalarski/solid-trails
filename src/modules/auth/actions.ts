@@ -20,6 +20,7 @@ export const signOutServerAction = action(async () => {
   const event = getRequestEventOrThrow();
 
   removeSessionCookies(event.nativeEvent);
+
   event.locals.auth = UNAUTHORIZED_STATE;
 
   throw redirect(paths.signIn, { revalidate: getAthleteServerQuery.key });
