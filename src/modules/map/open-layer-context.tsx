@@ -15,7 +15,7 @@ import { createPeristedView } from "./create-persisted-view";
 import "./open-layers.css";
 
 const createOpenLayer = () => {
-  const osm = new TileLayer({ source: new OSM({}) });
+  const osm = new TileLayer({ source: new OSM() });
 
   const trails = new TileLayer({
     source: new OSM({
@@ -26,7 +26,7 @@ const createOpenLayer = () => {
   const source = new VectorSource({ wrapX: false });
   const vector = new VectorLayer({ source });
 
-  const view = createPeristedView();
+  const { view, isFirstVisit } = createPeristedView();
 
   const map = new OlMap({
     controls: [],
@@ -35,7 +35,7 @@ const createOpenLayer = () => {
     view,
   });
 
-  return { map, source };
+  return { isFirstVisit, map, source };
 };
 
 const OpenLayerContext = createContext<

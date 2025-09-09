@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/solid-query";
-import { type Component, createSignal, For } from "solid-js";
+import { type Component, createSignal, For, Show } from "solid-js";
 import { grid } from "~/styled-system/patterns";
 import { ActivityPolyline } from "../map/activity-polyline";
 import { ActivitySelectionListener } from "../map/activity-selection-listener";
+import { InitialFocusEffect } from "../map/initial-focus-effect";
 import { OpenLayerProvider } from "../map/open-layer-context";
 import { OpenLayerView } from "../map/open-layer-view";
 import { listAthleteActivitiesQueryOptions } from "./queries";
@@ -26,6 +27,9 @@ export const TrailsMap: Component = () => {
           />
         )}
       </For>
+      <Show when={query.data?.at(0)}>
+        {(activity) => <InitialFocusEffect activity={activity()} />}
+      </Show>
       <main class={grid({ h: "screen", position: "relative", w: "screen" })}>
         <OpenLayerView />
         <TrailsTopContainer

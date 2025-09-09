@@ -22,7 +22,7 @@ export const ActivityCard: Component<ActivityCardProps> = (props) => {
           <Card.Description>{description(props.activity)}</Card.Description>
         </VStack>
         <CenterOnActivityButton
-          activityId={props.activity.id}
+          activity={props.activity}
           onClick={props.onCenterClick}
         />
       </Card.Header>

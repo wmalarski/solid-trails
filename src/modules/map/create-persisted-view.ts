@@ -20,11 +20,13 @@ const getLocalOrDefaultView = () => {
   const fromStorage = localStorage.getItem(PERSISTED_VIEW_KEY);
   const withJsonParse = v.pipe(v.string(), v.parseJson(), persistedViewSchema);
   const parsed = v.safeParse(withJsonParse, fromStorage);
-  return parsed.success ? parsed.output : DEFAULT_VIEW;
+  return parsed.success
+    ? { isFirstVisit: false, options: parsed.output }
+    : { isFirstVisit: true, options: DEFAULT_VIEW };
 };
 
 export const createPeristedView = () => {
-  const options = getLocalOrDefaultView();
+  const { options, isFirstVisit } = getLocalOrDefaultView();
   const view = new View(options);
 
   const type = "change";
@@ -36,5 +38,5 @@ export const createPeristedView = () => {
 
   onCleanup(() => view.un(type, subscription.listener));
 
-  return view;
+  return { isFirstVisit, view };
 };

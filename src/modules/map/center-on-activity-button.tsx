@@ -2,10 +2,11 @@ import { LocateIcon } from "lucide-solid";
 import type { Component } from "solid-js";
 import { IconButton } from "~/ui/icon-button";
 import { useI18n } from "~/utils/i18n";
-import { useOpenLayer } from "./open-layer-context";
+import type { Activity } from "../trails/types";
+import { useCenterOnActivity } from "./use-center-on-activity";
 
 type CenterOnActivityButtonProps = {
-  activityId: number;
+  activity: Activity;
   onClick?: (activityId: number) => void;
 };
 
@@ -14,20 +15,11 @@ export const CenterOnActivityButton: Component<CenterOnActivityButtonProps> = (
 ) => {
   const { t } = useI18n();
 
-  const openLayer = useOpenLayer();
+  const centerOnActivity = useCenterOnActivity();
 
   const onClick = () => {
-    const { map, source } = openLayer();
-    const view = map.getView();
-
-    const feature = source.getFeatureById(props.activityId);
-    const geometry = feature?.getGeometry()?.getExtent();
-
-    if (geometry) {
-      view.fit(geometry);
-    }
-
-    props.onClick?.(props.activityId);
+    centerOnActivity(props.activity);
+    props.onClick?.(props.activity.id);
   };
 
   return (
