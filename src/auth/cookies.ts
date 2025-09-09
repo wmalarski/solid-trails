@@ -40,14 +40,24 @@ export const getAuthStateFromTokens = (
   };
 };
 
+type StoredTokens = {
+  athlete: Athlete;
+  refereshToken: string;
+};
+
 export const setAuthCookies = (
   event: RequestEvent,
   tokens: AuthTokenResponse,
 ) => {
+  const storedTokens: StoredTokens = {
+    athlete: tokens.athlete,
+    refereshToken: tokens.refresh_token,
+  };
+
   setCookie(
     event.nativeEvent,
     REFRESH_TOKEN_COOKIE_NAME,
-    JSON.stringify(tokens),
+    JSON.stringify(storedTokens),
     {
       ...COMMON_COOKIE_OPTIONS,
       maxAge: REFRESH_TOKEN_MAX_AGE,
@@ -68,7 +78,7 @@ const getAuthCookies = (event: RequestEvent) => {
 
   try {
     const tokens = serializedTokens
-      ? (JSON.parse(serializedTokens) as AuthTokenResponse)
+      ? (JSON.parse(serializedTokens) as StoredTokens)
       : null;
     return { accessToken, tokens };
   } catch {
@@ -88,14 +98,14 @@ export const getRequestAuth = async (
   const { accessToken, tokens } = getAuthCookies(event);
 
   if (accessToken && tokens) {
-    return getAuthStateFromTokens(tokens);
+    return { accessToken, athlete: tokens.athlete, authorized: true };
   }
 
-  if (!tokens?.refresh_token) {
+  if (!tokens?.refereshToken) {
     return UNAUTHORIZED_STATE;
   }
 
-  const refreshToken = tokens.refresh_token;
+  const refreshToken = tokens.refereshToken;
   const refreshResponse = await refreshTokens({ refreshToken });
 
   if (!refreshResponse.success) {

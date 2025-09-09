@@ -26,7 +26,7 @@ export async function GET(event: APIEvent) {
   }
 
   const authState = getAuthStateFromTokens(tokensResponse.data);
-  setAuthCookies({ event, tokens: tokensResponse.data });
+  setAuthCookies(event, tokensResponse.data);
 
   event.locals.auth = authState;
 
