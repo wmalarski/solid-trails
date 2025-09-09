@@ -14,12 +14,13 @@ import {
 import { createPeristedView } from "./create-persisted-view";
 import "./open-layers.css";
 
-const OSM_SOURCE = "https://outdoor.tiles.freemap.sk/{z}/{x}/{y}@{s}";
-const OSM_ATTRIBUTIONS = `<a href="https://www.freemap.sk">© Freemap Slovakia</a>`;
-
 const createOpenLayer = () => {
-  const raster = new TileLayer({
-    source: new OSM({ attributions: [OSM_ATTRIBUTIONS], url: OSM_SOURCE }),
+  const osm = new TileLayer({ source: new OSM({}) });
+
+  const trails = new TileLayer({
+    source: new OSM({
+      url: "https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png",
+    }),
   });
 
   const source = new VectorSource({ wrapX: false });
@@ -29,12 +30,12 @@ const createOpenLayer = () => {
 
   const map = new OlMap({
     controls: [],
-    layers: [raster, vector],
+    layers: [osm, trails, vector],
     target: "map",
     view,
   });
 
-  return { map, raster, source, vector };
+  return { map, source };
 };
 
 const OpenLayerContext = createContext<
