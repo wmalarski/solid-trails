@@ -1,9 +1,9 @@
 import { useSubmission } from "@solidjs/router";
 import { LogOut } from "lucide-solid";
 import type { Component } from "solid-js";
+import { useI18n } from "~/integrations/i18n";
 import { css } from "~/styled-system/css";
 import { Button } from "~/ui/button";
-import { useI18n } from "~/utils/i18n";
 import { signOutServerAction } from "./actions";
 
 export const SignOutButton: Component = () => {

@@ -1,6 +1,6 @@
 import { Title } from "@solidjs/meta";
 import { HttpStatusCode } from "@solidjs/start";
-import { useI18n } from "~/utils/i18n";
+import { useI18n } from "~/integrations/i18n";
 
 export default function ErrorPage() {
   const { t } = useI18n();

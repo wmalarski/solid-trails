@@ -1,7 +1,7 @@
 import { Meta, Title } from "@solidjs/meta";
 import { type Component, createMemo } from "solid-js";
 import { getRequestEvent } from "solid-js/web";
-import { useI18n } from "~/utils/i18n";
+import { useI18n } from "~/integrations/i18n";
 
 type HeadProps = {
   description?: string;

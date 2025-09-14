@@ -1,7 +1,7 @@
 import { type Component, createSignal } from "solid-js";
+import { useI18n } from "~/integrations/i18n";
 import { Button } from "~/ui/button";
 import { Drawer } from "~/ui/drawer";
-import { useI18n } from "~/utils/i18n";
 import type { Activity } from "../types";
 import { ActivityList } from "./activity-list";
 

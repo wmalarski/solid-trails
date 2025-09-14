@@ -1,9 +1,9 @@
 import { type Assign, Dialog } from "@ark-ui/solid";
 import { X } from "lucide-solid";
 import type { Component, ComponentProps } from "solid-js";
+import { useI18n } from "~/integrations/i18n";
 import { type DialogVariantProps, dialog } from "~/styled-system/recipes";
 import type { HTMLStyledProps } from "~/styled-system/types";
-import { useI18n } from "~/utils/i18n";
 import { IconButton } from "../icon-button";
 import { createStyleContext } from "./utils/create-style-context";
 

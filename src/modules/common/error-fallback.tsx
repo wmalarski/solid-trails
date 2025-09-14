@@ -1,11 +1,11 @@
 import { X } from "lucide-solid";
 import { onMount } from "solid-js";
+import { useI18n } from "~/integrations/i18n";
 import { css } from "~/styled-system/css";
 import { Button } from "~/ui/button";
 import { Card } from "~/ui/card";
 import { Icon } from "~/ui/icon";
 import { Link } from "~/ui/link";
-import { useI18n } from "~/utils/i18n";
 import { paths } from "~/utils/paths";
 
 export const ErrorFallback = (err: unknown, reset: VoidFunction) => {

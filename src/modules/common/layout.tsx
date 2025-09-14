@@ -1,7 +1,7 @@
 import type { Component, ParentProps } from "solid-js";
+import { useI18n } from "~/integrations/i18n";
 import { css } from "~/styled-system/css";
 import { Link } from "~/ui/link";
-import { useI18n } from "~/utils/i18n";
 import { paths } from "~/utils/paths";
 import { Logo } from "./logo";
 

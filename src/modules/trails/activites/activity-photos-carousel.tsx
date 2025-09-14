@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/solid-query";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-solid";
 import { type Component, For, Show, Suspense } from "solid-js";
+import { useI18n } from "~/integrations/i18n";
 import { css } from "~/styled-system/css";
 import { Carousel } from "~/ui/carousel";
 import { IconButton } from "~/ui/icon-button";
-import { useI18n } from "~/utils/i18n";
 import { getActivityPhotosQueryOptions } from "../queries";
 import type { Photo } from "../types";
 

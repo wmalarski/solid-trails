@@ -1,9 +1,9 @@
 import type { Component } from "solid-js";
 import { getLoginLink } from "~/auth/get-login-link";
+import { useI18n } from "~/integrations/i18n";
 import { css } from "~/styled-system/css";
 import { Card } from "~/ui/card";
 import { LinkButton } from "~/ui/link-button";
-import { useI18n } from "~/utils/i18n";
 
 export const SignInForm: Component = () => {
   const { t } = useI18n();

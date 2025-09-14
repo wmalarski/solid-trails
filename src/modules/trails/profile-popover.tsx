@@ -1,6 +1,7 @@
 import { XIcon } from "lucide-solid";
 import { type Component, createMemo } from "solid-js";
 import { useRequiredAthleteContext } from "~/auth/athlete-context";
+import { useI18n } from "~/integrations/i18n";
 import { Box, VStack } from "~/styled-system/jsx";
 import { Avatar } from "~/ui/avatar";
 import { IconButton } from "~/ui/icon-button";
@@ -8,7 +9,6 @@ import { Popover } from "~/ui/popover";
 import { Stats } from "~/ui/stats";
 import { createDistanceFormatter } from "~/utils/formatters/create-distance-formatter";
 import { createDurationFormatter } from "~/utils/formatters/create-duration-formatter";
-import { useI18n } from "~/utils/i18n";
 import { SignOutButton } from "../auth/sign-out-button";
 import type { Activity } from "./types";
 

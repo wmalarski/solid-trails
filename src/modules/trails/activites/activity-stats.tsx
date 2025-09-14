@@ -1,10 +1,10 @@
 import { type Component, Show } from "solid-js";
+import { useI18n } from "~/integrations/i18n";
 import { Stats } from "~/ui/stats";
 import { createDistanceFormatter } from "~/utils/formatters/create-distance-formatter";
 import { createDurationFormatter } from "~/utils/formatters/create-duration-formatter";
 import { createSpeedFormatter } from "~/utils/formatters/create-speed-formatter";
 import { createTimeFormatter } from "~/utils/formatters/create-time-formatter";
-import { useI18n } from "~/utils/i18n";
 import type { Activity } from "../types";
 
 type ActivityStatsProps = {

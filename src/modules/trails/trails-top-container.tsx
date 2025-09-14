@@ -1,8 +1,8 @@
 import { type Component, createMemo, Show } from "solid-js";
+import { useI18n } from "~/integrations/i18n";
 import { css } from "~/styled-system/css";
 import { HStack, VStack } from "~/styled-system/jsx";
 import { Heading } from "~/ui/heading";
-import { useI18n } from "~/utils/i18n";
 import { Logo } from "../common/logo";
 import { ActivityListDrawer } from "./activites/activity-list-drawer";
 import { SelectedActivityCard } from "./activites/selected-activity-card";

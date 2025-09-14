@@ -1,10 +1,10 @@
 import { type Assign, ark, Dialog, type PolymorphicProps } from "@ark-ui/solid";
 import { XIcon } from "lucide-solid";
 import type { ComponentProps } from "solid-js";
+import { useI18n } from "~/integrations/i18n";
 import { css } from "~/styled-system/css";
 import { type DrawerVariantProps, drawer } from "~/styled-system/recipes";
 import type { HTMLStyledProps } from "~/styled-system/types";
-import { useI18n } from "~/utils/i18n";
 import { IconButton } from "./icon-button";
 import { createStyleContext } from "./utils/create-style-context";
 
