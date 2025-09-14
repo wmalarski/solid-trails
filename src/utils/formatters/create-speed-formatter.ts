@@ -1,5 +1,5 @@
 import { createMemo } from "solid-js";
-import { useI18n } from "../i18n";
+import { useI18n } from "~/integrations/i18n";
 
 export const createSpeedFormatter = () => {
   const { locale } = useI18n();
