@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/solid-query";
 import { XIcon } from "lucide-solid";
 import { type Component, createMemo, Show, Suspense } from "solid-js";
 import { useI18n } from "~/integrations/i18n";
-import type { Athlete } from "~/integrations/strava/types";
+import type { Activity, Athlete } from "~/integrations/strava/types";
 import { Box, VStack } from "~/styled-system/jsx";
 import { Avatar } from "~/ui/avatar";
 import { IconButton } from "~/ui/icon-button";
@@ -12,7 +12,6 @@ import { createDistanceFormatter } from "~/utils/formatters/create-distance-form
 import { createDurationFormatter } from "~/utils/formatters/create-duration-formatter";
 import { SignOutButton } from "../auth/sign-out-button";
 import { getAthleteQueryOptions } from "./queries";
-import type { Activity } from "./types";
 
 type ProfilePopoverProps = {
   activities: Activity[];

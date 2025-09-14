@@ -1,8 +1,8 @@
 import { LocateIcon } from "lucide-solid";
 import type { Component } from "solid-js";
 import { useI18n } from "~/integrations/i18n";
+import type { Activity } from "~/integrations/strava/types";
 import { IconButton } from "~/ui/icon-button";
-import type { Activity } from "../trails/types";
 import { useCenterOnActivity } from "./use-center-on-activity";
 
 type CenterOnActivityButtonProps = {

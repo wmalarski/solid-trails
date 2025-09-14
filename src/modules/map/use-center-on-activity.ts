@@ -1,5 +1,5 @@
+import type { Activity } from "~/integrations/strava/types";
 import { getPolylineGeometry } from "~/utils/geoline";
-import type { Activity } from "../trails/types";
 import { useOpenLayer } from "./open-layer-context";
 
 export const useCenterOnActivity = () => {

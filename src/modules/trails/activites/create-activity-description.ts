@@ -1,6 +1,6 @@
+import type { Activity } from "~/integrations/strava/types";
 import { createDateFormatter } from "~/utils/formatters/create-date-formatter";
 import { createTimeFormatter } from "~/utils/formatters/create-time-formatter";
-import type { Activity } from "../types";
 
 export const createActivityDescription = () => {
   const dateFormatter = createDateFormatter();

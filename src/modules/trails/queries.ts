@@ -3,12 +3,12 @@ import {
   experimental_streamedQuery as streamedQuery,
 } from "@tanstack/solid-query";
 import { throwOnRpcError } from "~/integrations/strava/throw-on-rpc-error";
+import type { Activity } from "~/integrations/strava/types";
 import {
   getActivityPhotosServerQuery,
   getAthleteServerQuery,
   listAthleteActivitiesServerQuery,
 } from "./actions";
-import type { Activity } from "./types";
 
 const LIST_ATHLETE_PER_PAGE = 30;
 

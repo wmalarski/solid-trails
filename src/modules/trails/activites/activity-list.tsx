@@ -1,6 +1,6 @@
 import { type Component, For } from "solid-js";
+import type { Activity } from "~/integrations/strava/types";
 import { css } from "~/styled-system/css";
-import type { Activity } from "../types";
 import { ActivityCard } from "./activity-card";
 
 type ActivityListProps = {

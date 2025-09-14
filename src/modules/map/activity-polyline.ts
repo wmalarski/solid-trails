@@ -2,9 +2,9 @@ import Feature from "ol/Feature";
 import Stroke from "ol/style/Stroke";
 import Style from "ol/style/Style";
 import { type Component, createEffect, onCleanup, onMount } from "solid-js";
+import type { Activity } from "~/integrations/strava/types";
 import { randomHexColor } from "~/utils/colors";
 import { getPolylineGeometry } from "~/utils/geoline";
-import type { Activity } from "../trails/types";
 import { useOpenLayer } from "./open-layer-context";
 
 type ActivityPolylineProps = {

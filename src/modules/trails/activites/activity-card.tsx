@@ -1,8 +1,8 @@
 import type { Component } from "solid-js";
+import type { Activity } from "~/integrations/strava/types";
 import { CenterOnActivityButton } from "~/modules/map/center-on-activity-button";
 import { VStack } from "~/styled-system/jsx";
 import { Card } from "~/ui/card";
-import type { Activity } from "../types";
 import { ActivityStats } from "./activity-stats";
 import { createActivityDescription } from "./create-activity-description";
 

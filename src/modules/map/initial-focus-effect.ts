@@ -1,5 +1,5 @@
 import { type Component, onMount } from "solid-js";
-import type { Activity } from "../trails/types";
+import type { Activity } from "~/integrations/strava/types";
 import { useOpenLayer } from "./open-layer-context";
 import { useCenterOnActivity } from "./use-center-on-activity";
 

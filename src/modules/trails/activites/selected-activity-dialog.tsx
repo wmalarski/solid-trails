@@ -1,10 +1,10 @@
 import { ImageIcon } from "lucide-solid";
 import type { Component } from "solid-js";
 import { useI18n } from "~/integrations/i18n";
+import type { Activity } from "~/integrations/strava/types";
 import { VStack } from "~/styled-system/jsx";
 import { Dialog } from "~/ui/dialog";
 import { IconButton } from "~/ui/icon-button";
-import type { Activity } from "../types";
 import { ActivityPhotosCarousel } from "./activity-photos-carousel";
 import { ActivityStats } from "./activity-stats";
 import { createActivityDescription } from "./create-activity-description";

@@ -1,8 +1,8 @@
 import { type Component, createSignal } from "solid-js";
 import { useI18n } from "~/integrations/i18n";
+import type { Activity } from "~/integrations/strava/types";
 import { Button } from "~/ui/button";
 import { Drawer } from "~/ui/drawer";
-import type { Activity } from "../types";
 import { ActivityList } from "./activity-list";
 
 type ActivityListDrawerProps = {
