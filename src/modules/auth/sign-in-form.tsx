@@ -1,5 +1,5 @@
 import type { Component } from "solid-js";
-import { getLoginLink } from "~/auth/get-login-link";
+import { getLoginLink } from "~/integrations/auth/get-login-link";
 import { useI18n } from "~/integrations/i18n";
 import { css } from "~/styled-system/css";
 import { Card } from "~/ui/card";

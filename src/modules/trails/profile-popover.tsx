@@ -1,6 +1,6 @@
 import { XIcon } from "lucide-solid";
 import { type Component, createMemo } from "solid-js";
-import { useRequiredAthleteContext } from "~/auth/athlete-context";
+import { useRequiredAthleteContext } from "~/integrations/auth/athlete-context";
 import { useI18n } from "~/integrations/i18n";
 import { Box, VStack } from "~/styled-system/jsx";
 import { Avatar } from "~/ui/avatar";

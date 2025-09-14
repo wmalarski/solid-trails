@@ -3,7 +3,7 @@ import {
   type RouteDefinition,
   type RouteSectionProps,
 } from "@solidjs/router";
-import { AthleteProvider } from "~/auth/athlete-context";
+import { AthleteProvider } from "~/integrations/auth/athlete-context";
 import { getAthleteServerQuery } from "~/modules/auth/actions";
 
 export const route = {

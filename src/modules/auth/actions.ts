@@ -1,5 +1,8 @@
 import { action, query, redirect } from "@solidjs/router";
-import { removeSessionCookies, UNAUTHORIZED_STATE } from "~/auth/cookies";
+import {
+  removeSessionCookies,
+  UNAUTHORIZED_STATE,
+} from "~/integrations/auth/cookies";
 import {
   getAuthorizedRequestEventOrThrow,
   getRequestEventOrThrow,

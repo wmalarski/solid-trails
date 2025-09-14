@@ -1,9 +1,12 @@
 import { redirect } from "@solidjs/router";
 import type { APIEvent } from "@solidjs/start/server";
 import * as v from "valibot";
-import { STRAVA_SCOPE } from "~/auth/constants";
-import { getAuthStateFromTokens, setAuthCookies } from "~/auth/cookies";
-import { exchangeCode } from "~/auth/services";
+import { STRAVA_SCOPE } from "~/integrations/auth/constants";
+import {
+  getAuthStateFromTokens,
+  setAuthCookies,
+} from "~/integrations/auth/cookies";
+import { exchangeCode } from "~/integrations/auth/services";
 import { getAthleteServerQuery } from "~/modules/auth/actions";
 import { paths } from "~/utils/paths";
 
