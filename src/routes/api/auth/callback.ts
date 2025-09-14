@@ -28,10 +28,9 @@ export async function GET(event: APIEvent) {
     return redirect(paths.error, { status: 400 });
   }
 
-  const authState = getAuthStateFromTokens(tokensResponse.data);
   setAuthCookies(event, tokensResponse.data);
 
-  event.locals.auth = authState;
+  event.locals.auth = getAuthStateFromTokens(tokensResponse.data);
 
   return redirect(paths.home, { revalidate: getIsAuthorizedServerQuery.key });
 }

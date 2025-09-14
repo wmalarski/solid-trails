@@ -1,5 +1,4 @@
 import type { RequestEvent } from "solid-js/web";
-import * as v from "valibot";
 import {
   type CookieSerializeOptions,
   deleteCookie,
@@ -7,11 +6,11 @@ import {
   type HTTPEvent,
   setCookie,
 } from "vinxi/http";
-import type { Athlete, AuthTokenResponse } from "../strava/types";
+import type { AuthTokenResponseWithoutAthlete } from "~/integrations/strava/types";
 import { refreshTokens } from "./services";
 
-const REFRESH_TOKEN_COOKIE_NAME = "st-refresh-token";
-const AUTH_SESSION_COOKIE_NAME = "st-auth-session";
+const REFRESH_TOKEN_COOKIE_NAME = "strava-refresh-token";
+const AUTH_SESSION_COOKIE_NAME = "strava-auth-session";
 const REFRESH_TOKEN_MAX_AGE = 24 * 60 * 60 * 90;
 
 const COMMON_COOKIE_OPTIONS: CookieSerializeOptions = {
@@ -20,49 +19,29 @@ const COMMON_COOKIE_OPTIONS: CookieSerializeOptions = {
 };
 
 export type AuthState =
-  | {
-      authorized: false;
-    }
-  | {
-      authorized: true;
-      accessToken: string;
-      athlete: Athlete;
-    };
+  | { authorized: false }
+  | { authorized: true; accessToken: string };
 
 export const UNAUTHORIZED_STATE: AuthState = { authorized: false };
 
 export const getAuthStateFromTokens = (
-  tokens: AuthTokenResponse,
+  tokens: AuthTokenResponseWithoutAthlete,
 ): AuthState => {
   return {
     accessToken: tokens.access_token,
-    athlete: tokens.athlete,
     authorized: true,
   };
 };
 
-type StoredTokens = {
-  athlete: Athlete;
-  refereshToken: string;
-};
-
 export const setAuthCookies = (
   event: RequestEvent,
-  tokens: AuthTokenResponse,
+  tokens: AuthTokenResponseWithoutAthlete,
 ) => {
-  const storedTokens: StoredTokens = {
-    athlete: tokens.athlete,
-    refereshToken: tokens.refresh_token,
-  };
-
   setCookie(
     event.nativeEvent,
     REFRESH_TOKEN_COOKIE_NAME,
-    JSON.stringify(storedTokens),
-    {
-      ...COMMON_COOKIE_OPTIONS,
-      maxAge: REFRESH_TOKEN_MAX_AGE,
-    },
+    tokens.refresh_token,
+    { ...COMMON_COOKIE_OPTIONS, maxAge: REFRESH_TOKEN_MAX_AGE },
   );
 
   setCookie(event.nativeEvent, AUTH_SESSION_COOKIE_NAME, tokens.access_token, {
@@ -74,23 +53,11 @@ export const setAuthCookies = (
 
 const getAuthCookies = (event: RequestEvent) => {
   const nativeEvent = event.nativeEvent;
-  const serializedTokens = getCookie(nativeEvent, REFRESH_TOKEN_COOKIE_NAME);
-  const accessToken = getCookie(nativeEvent, AUTH_SESSION_COOKIE_NAME);
 
-  const parsed = v.safeParse(
-    v.pipe(
-      v.string(),
-      v.parseJson(),
-      v.object({ athlete: v.unknown(), refereshToken: v.string() }),
-    ),
-    serializedTokens,
-  );
-
-  if (!parsed.success) {
-    return { accessToken, tokens: null };
-  }
-
-  return { accessToken, data: parsed.output as StoredTokens };
+  return {
+    accessToken: getCookie(nativeEvent, AUTH_SESSION_COOKIE_NAME),
+    refreshToken: getCookie(nativeEvent, REFRESH_TOKEN_COOKIE_NAME),
+  };
 };
 
 export const getRequestAuth = async (
@@ -102,33 +69,25 @@ export const getRequestAuth = async (
     return localsAuth;
   }
 
-  const { accessToken, data } = getAuthCookies(event);
+  const { accessToken, refreshToken } = getAuthCookies(event);
 
-  if (accessToken && data) {
-    return { accessToken, athlete: data.athlete, authorized: true };
+  if (accessToken) {
+    return { accessToken, authorized: true };
   }
 
-  if (!data?.refereshToken) {
+  if (!refreshToken) {
     return UNAUTHORIZED_STATE;
   }
 
-  const refreshToken = data.refereshToken;
   const refreshResponse = await refreshTokens({ refreshToken });
 
   if (!refreshResponse.success) {
     return UNAUTHORIZED_STATE;
   }
 
-  const refreshResponseWithAthete = {
-    ...refreshResponse.data,
-    athlete: data.athlete,
-  };
+  setAuthCookies(event, refreshResponse.data);
 
-  const updatedAuthState = getAuthStateFromTokens(refreshResponseWithAthete);
-
-  setAuthCookies(event, refreshResponseWithAthete);
-
-  return updatedAuthState;
+  return getAuthStateFromTokens(refreshResponse.data);
 };
 
 export const removeSessionCookies = (event: HTTPEvent) => {

@@ -1,6 +1,9 @@
 import { fetchStrava } from "~/integrations/strava/api";
+import type {
+  AuthTokenResponse,
+  AuthTokenResponseWithoutAthlete,
+} from "~/integrations/strava/types";
 import { getRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
-import type { AuthTokenResponse } from "../strava/types";
 
 type ExchangeCodeArgs = {
   code: string;
@@ -39,7 +42,7 @@ export const refreshTokens = async ({ refreshToken }: RefreshTokensArgs) => {
   formData.set("grant_type", "refresh_token");
   formData.set("refresh_token", refreshToken);
 
-  return fetchStrava<Omit<AuthTokenResponse, "athlete">>({
+  return fetchStrava<AuthTokenResponseWithoutAthlete>({
     init: { body: formData, method: "POST" },
     path: "oauth/token",
   });

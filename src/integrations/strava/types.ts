@@ -32,6 +32,11 @@ export type AuthTokenResponse = {
   athlete: Athlete;
 };
 
+export type AuthTokenResponseWithoutAthlete = Omit<
+  AuthTokenResponse,
+  "athlete"
+>;
+
 export type Activity = {
   resource_state: number;
   athlete: ActivityAthlete;
