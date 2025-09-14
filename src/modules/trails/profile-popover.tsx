@@ -1,6 +1,8 @@
+import { useQuery } from "@tanstack/solid-query";
 import { XIcon } from "lucide-solid";
-import { type Component, createMemo } from "solid-js";
+import { type Component, createMemo, Show, Suspense } from "solid-js";
 import { useRequiredAthleteContext } from "~/integrations/auth/athlete-context";
+import type { Athlete } from "~/integrations/auth/types";
 import { useI18n } from "~/integrations/i18n";
 import { Box, VStack } from "~/styled-system/jsx";
 import { Avatar } from "~/ui/avatar";
@@ -10,6 +12,7 @@ import { Stats } from "~/ui/stats";
 import { createDistanceFormatter } from "~/utils/formatters/create-distance-formatter";
 import { createDurationFormatter } from "~/utils/formatters/create-duration-formatter";
 import { SignOutButton } from "../auth/sign-out-button";
+import { getAthleteQueryOptions } from "./queries";
 import type { Activity } from "./types";
 
 type ProfilePopoverProps = {
@@ -17,12 +20,34 @@ type ProfilePopoverProps = {
 };
 
 export const ProfilePopover: Component<ProfilePopoverProps> = (props) => {
+  const athlete = useQuery(() => getAthleteQueryOptions());
+
+  return (
+    <Suspense>
+      <Show when={athlete.data}>
+        {(athlete) => (
+          <ProfilePopoverContent
+            activities={props.activities}
+            athlete={athlete()}
+          />
+        )}
+      </Show>
+    </Suspense>
+  );
+};
+
+type ProfilePopoverContentProps = {
+  activities: Activity[];
+  athlete: Athlete;
+};
+
+const ProfilePopoverContent: Component<ProfilePopoverContentProps> = (
+  props,
+) => {
   const { t } = useI18n();
 
-  const athlete = useRequiredAthleteContext();
-
   const name = createMemo(() => {
-    const resolved = athlete();
+    const resolved = props.athlete;
     return `${resolved.firstname || ""} ${resolved.lastname || ""}`.trim();
   });
 
@@ -35,7 +60,7 @@ export const ProfilePopover: Component<ProfilePopoverProps> = (props) => {
             variant="ghost"
             {...triggerProps()}
           >
-            <Avatar name={name()} src={athlete().profile_medium} />
+            <Avatar name={name()} src={props.athlete.profile_medium} />
           </IconButton>
         )}
       />

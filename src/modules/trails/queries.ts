@@ -5,6 +5,7 @@ import {
 import { throwOnRpcError } from "~/integrations/strava/throw-on-rpc-error";
 import {
   getActivityPhotosServerQuery,
+  getAthleteServerQuery,
   listAthleteActivitiesServerQuery,
 } from "./actions";
 import type { Activity } from "./types";
@@ -74,5 +75,16 @@ export const getActivityPhotosQueryOptions = (
       return throwOnRpcError(response);
     },
     queryKey: ["getActivityPhotos", args] as const,
+  });
+};
+
+export const getAthleteQueryOptions = () => {
+  return queryOptions({
+    ...NOT_MUTABLE_OPTIONS,
+    queryFn: async () => {
+      const response = await getAthleteServerQuery();
+      return throwOnRpcError(response);
+    },
+    queryKey: ["getAthlete"],
   });
 };
