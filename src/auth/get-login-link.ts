@@ -1,4 +1,4 @@
-import { getStravaApiPath } from "~/utils/strava";
+import { getStravaApiPath } from "~/integrations/strava/api";
 import { STRAVA_SCOPE } from "./constants";
 
 export const getLoginLink = () => {

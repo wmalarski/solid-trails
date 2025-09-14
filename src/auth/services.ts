@@ -1,5 +1,5 @@
+import { fetchStrava } from "~/integrations/strava/api";
 import { getRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
-import { fetchStrava } from "~/utils/strava";
 import type { AuthTokenResponse } from "./types";
 
 type ExchangeCodeArgs = {

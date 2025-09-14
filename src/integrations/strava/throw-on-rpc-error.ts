@@ -1,4 +1,4 @@
-import type { FetchStravaResult } from "./strava";
+import type { FetchStravaResult } from "./api";
 
 export const throwOnRpcError = <T>(result: FetchStravaResult<T>): T => {
   if (!result.success) {

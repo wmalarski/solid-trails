@@ -2,7 +2,7 @@ import {
   queryOptions,
   experimental_streamedQuery as streamedQuery,
 } from "@tanstack/solid-query";
-import { throwOnRpcError } from "~/utils/throw-on-rpc-error";
+import { throwOnRpcError } from "~/integrations/strava/throw-on-rpc-error";
 import {
   getActivityPhotosServerQuery,
   listAthleteActivitiesServerQuery,
