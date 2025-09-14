@@ -7,7 +7,7 @@ import {
   setAuthCookies,
 } from "~/integrations/auth/cookies";
 import { exchangeCode } from "~/integrations/auth/services";
-import { getAthleteServerQuery } from "~/modules/auth/actions";
+import { getIsAuthorizedServerQuery } from "~/modules/auth/actions";
 import { paths } from "~/utils/paths";
 
 export async function GET(event: APIEvent) {
@@ -33,5 +33,5 @@ export async function GET(event: APIEvent) {
 
   event.locals.auth = authState;
 
-  return redirect(paths.home, { revalidate: getAthleteServerQuery.key });
+  return redirect(paths.home, { revalidate: getIsAuthorizedServerQuery.key });
 }

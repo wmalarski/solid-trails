@@ -9,13 +9,13 @@ import {
 } from "~/utils/get-request-event-or-throw";
 import { paths } from "~/utils/paths";
 
-export const getAthleteServerQuery = query(async () => {
+export const getIsAuthorizedServerQuery = query(async () => {
   "use server";
 
   const { auth } = getAuthorizedRequestEventOrThrow();
 
-  return auth.athlete;
-}, "getAthlete");
+  return auth.authorized;
+}, "getIsAuthorized");
 
 export const signOutServerAction = action(async () => {
   "use server";
@@ -26,5 +26,5 @@ export const signOutServerAction = action(async () => {
 
   event.locals.auth = UNAUTHORIZED_STATE;
 
-  throw redirect(paths.signIn, { revalidate: getAthleteServerQuery.key });
+  throw redirect(paths.signIn, { revalidate: getIsAuthorizedServerQuery.key });
 });

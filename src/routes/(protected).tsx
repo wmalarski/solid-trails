@@ -1,9 +1,9 @@
 import type { RouteDefinition, RouteSectionProps } from "@solidjs/router";
-import { getAthleteServerQuery } from "~/modules/auth/actions";
+import { getIsAuthorizedServerQuery } from "~/modules/auth/actions";
 
 export const route = {
   load: async () => {
-    await getAthleteServerQuery();
+    await getIsAuthorizedServerQuery();
   },
 } satisfies RouteDefinition;
 
