@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/solid-query";
 import { XIcon } from "lucide-solid";
 import { type Component, createMemo, Show, Suspense } from "solid-js";
-import { useRequiredAthleteContext } from "~/integrations/auth/athlete-context";
-import type { Athlete } from "~/integrations/auth/types";
 import { useI18n } from "~/integrations/i18n";
+import type { Athlete } from "~/integrations/strava/types";
 import { Box, VStack } from "~/styled-system/jsx";
 import { Avatar } from "~/ui/avatar";
 import { IconButton } from "~/ui/icon-button";
@@ -74,7 +73,10 @@ const ProfilePopoverContent: Component<ProfilePopoverContentProps> = (
               <Popover.Title>{t("activity.profile.title")}</Popover.Title>
               <Popover.Description>{name()}</Popover.Description>
             </VStack>
-            <ProfileStats activities={props.activities} />
+            <ProfileStats
+              activities={props.activities}
+              athlete={props.athlete}
+            />
             <SignOutButton />
           </VStack>
           <Box position="absolute" right="1" top="1">
@@ -99,6 +101,7 @@ const ProfilePopoverContent: Component<ProfilePopoverContentProps> = (
 
 type ProfileStatsProps = {
   activities: Activity[];
+  athlete: Athlete;
 };
 
 const ProfileStats: Component<ProfileStatsProps> = (props) => {
@@ -106,8 +109,6 @@ const ProfileStats: Component<ProfileStatsProps> = (props) => {
 
   const durationFormatter = createDurationFormatter();
   const distanceFormatter = createDistanceFormatter();
-
-  const athlete = useRequiredAthleteContext();
 
   const summary = createMemo(() => {
     return props.activities.reduce(
@@ -132,7 +133,7 @@ const ProfileStats: Component<ProfileStatsProps> = (props) => {
     <Stats.Container>
       <Stats.Item
         label={t("activity.profile.country")}
-        value={athlete().country}
+        value={props.athlete.country}
       />
       <Stats.Item
         label={t("activity.profile.activitesCount")}

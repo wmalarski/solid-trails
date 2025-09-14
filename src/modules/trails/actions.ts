@@ -1,6 +1,6 @@
 import { query } from "@solidjs/router";
-import type { Athlete } from "~/integrations/auth/types";
 import { fetchAuthorizedStrava } from "~/integrations/strava/api";
+import type { Athlete } from "~/integrations/strava/types";
 import { getAuthorizedRequestEventOrThrow } from "~/utils/get-request-event-or-throw";
 import type { Activity, Photo } from "./types";
 

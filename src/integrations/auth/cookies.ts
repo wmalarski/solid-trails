@@ -7,8 +7,8 @@ import {
   type HTTPEvent,
   setCookie,
 } from "vinxi/http";
+import type { Athlete, AuthTokenResponse } from "../strava/types";
 import { refreshTokens } from "./services";
-import type { Athlete, AuthTokenResponse } from "./types";
 
 const REFRESH_TOKEN_COOKIE_NAME = "st-refresh-token";
 const AUTH_SESSION_COOKIE_NAME = "st-auth-session";

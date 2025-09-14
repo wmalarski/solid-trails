@@ -1,9 +1,4 @@
-import {
-  createAsync,
-  type RouteDefinition,
-  type RouteSectionProps,
-} from "@solidjs/router";
-import { AthleteProvider } from "~/integrations/auth/athlete-context";
+import type { RouteDefinition, RouteSectionProps } from "@solidjs/router";
 import { getAthleteServerQuery } from "~/modules/auth/actions";
 
 export const route = {
@@ -13,9 +8,5 @@ export const route = {
 } satisfies RouteDefinition;
 
 export default function ProtectedLayout(props: RouteSectionProps) {
-  const athlete = createAsync(() => getAthleteServerQuery());
-
-  return (
-    <AthleteProvider athlete={athlete()}>{props.children}</AthleteProvider>
-  );
+  return <>{props.children}</>;
 }
